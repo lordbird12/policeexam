@@ -1,0 +1,287 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img class="w-full h-full object-cover" *ngIf="user.image" [src]="user.image">
+                        <mat-icon class="w-full h-full object-cover" *ngIf="!user.image" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container *transloco="let t">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
+                                {{t('welcome-back')}}, {{user.fname}} {{user.lname}}</div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">คุณได้รับแจ้งจดหมาย 3 ฉบับ กรุณาตรวจสอบ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button class="fuse-mat-button-rounded bg-accent-700" mat-flat-button [color]="'accent'">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        <span class="ml-2">กล่องข้อความ</span>
+                    </button>
+                    <button class="fuse-mat-button-rounded" mat-flat-button [color]="'primary'">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                        <span class="ml-2">การตั้งค่า</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Project selector -->
+            <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default" matRipple [matMenuTriggerFor]="projectsMenu">
+                <div class="flex items-center">
+                    <div class="overflow-hidden">
+                        <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
+                    </div>
+                    <div class="flex items-center justify-center pl-2">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                    </div>
+                </div>
+                <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
+                    <button mat-menu-item (click)="selectedProject='รายการสอบครั้งที่ 1 2565'">รายการสอบครั้งที่ 1 2565
+                    </button>
+                    <button mat-menu-item (click)="selectedProject='รายการสอบครั้งที่ 2 2565'">รายการสอบครั้งที่ 2 2565
+                    </button>
+                    <button mat-menu-item (click)="selectedProject='รายการสอบครั้งที่ 1 2564'">รายการสอบครั้งที่ 1 2564
+                    </button>
+                    <button mat-menu-item (click)="selectedProject='รายการสอบครั้งที่ 2 2564'">รายการสอบครั้งที่ 2 2564
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0 sm:px-4">
+                <!-- Summary -->
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">
+                            5</div>
+                        <div class="text-lg font-medium text-amber-600 dark:text-amber-500">ไม่ส่งคำตอบ</div>
+                        <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">จำนวนข้อ:</div>
+                            <div class="ml-1.5 text-lg font-semibold">5/100</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Overdue -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
+                            12</div>
+                        <div class="text-lg font-medium text-red-600 dark:text-red-500">ตอบผิด</div>
+                        <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">จำนวนข้อ:</div>
+                            <div class="ml-1.5 text-lg font-semibold">12/100</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Issues -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+                            5</div>
+                        <div class="text-lg font-medium text-blue-600 dark:text-blue-500">ส่งคำตอบทั้งหมด</div>
+                        <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">จำนวนข้อ:</div>
+                            <div class="ml-1.5 text-lg font-semibold">83/100</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Features -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">
+                            38</div>
+                        <div class="text-lg font-medium text-green-600 dark:text-green-500">ตอบถูกทั้งหมด </div>
+                        <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">จำนวนข้อ:</div>
+                            <div class="ml-1.5 text-lg font-semibold">76/100</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Github issues summary -->
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                        <!-- New vs. Closed -->
+                        <div class="flex flex-col flex-auto">
+                            <div class="font-medium text-secondary">ตารางเวลา</div>
+                            <div class="flex flex-row items-center justify-between py-4 px-0.5 border-b">
+                                <div class="flex flex-col">
+                                    <div class="font-medium">วิชาจราจร</div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    08:30 น.</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
+                                                </mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    สนามสอบโรงเรียนลาดกระบัง
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <button mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                </button>
+                            </div>
+                            <div class="flex flex-row items-center justify-between py-4 px-0.5 border-b">
+                                <div class="flex flex-col">
+                                    <div class="font-medium">วิชาสืบสวนสอบสวน</div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    09:30 น.</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
+                                                </mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    สนามสอบโรงเรียนลาดกระบัง
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <button mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                </button>
+                            </div>
+                            <div class="flex flex-row items-center justify-between py-4 px-0.5 border-b">
+                                <div class="flex flex-col">
+                                    <div class="font-medium">วิชาธุรการ</div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    10:30 น.</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
+                                                </mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    สนามสอบโรงเรียนลาดกระบัง
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <button mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                </button>
+                            </div>
+                            <div class="flex flex-row items-center justify-between py-4 px-0.5 border-b">
+                                <div class="flex flex-col">
+                                    <div class="font-medium">สอบวิชาดำน้ำลึก</div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    11:30 น.</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="flex items-center">
+                                                <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
+                                                </mat-icon>
+                                                <div class="ml-1.5 text-md text-secondary">
+                                                    สนามสอบโรงเรียนลาดกระบัง
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <button mat-icon-button>
+                                    <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Overview -->
+                        <div class="flex flex-col">
+                            <div class="font-medium text-secondary">ภาพรวมคะแนน</div>
+                            <div class="flex-auto grid grid-cols-4 gap-4 mt-6">
+                                <!-- New issues -->
+                                <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-red-50 text-red-800 dark:bg-white dark:bg-opacity-5 dark:text-red-400">
+                                    <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                        24
+                                    </div>
+                                    <div class="mt-1 text-sm sm:text-lg font-medium">ไม่ได้คะแนน</div>
+                                </div>
+                                <!-- Closed -->
+                                <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
+                                    <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                        76
+                                    </div>
+                                    <div class="mt-1 text-sm sm:text-lg font-medium">ได้คะแนน</div>
+                                </div>
+                                <!-- Fixed -->
+                                <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        22
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">วิชาจราจร</div>
+                                </div>
+                                <!-- Won't fix -->
+                                <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        14
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">วิชาสืบสวนสอบสวน</div>
+                                </div>
+                                <!-- Re-opened -->
+                                <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        25
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">วิชาธุรการ</div>
+                                </div>
+                                <!-- Needs triage -->
+                                <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        15
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">วิชาดำน้ำ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
