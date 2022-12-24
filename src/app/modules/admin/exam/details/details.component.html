@@ -1,33 +1,103 @@
 <div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
 
     <!-- Header & Cards -->
-    <div class="relative pt-6 pb-6 px-10 overflow-auto">
+    <div class="relative pt-6 pb-6 px-12 overflow-auto">
+
+        
+        <ol class="relative border-l border-blue-400 dark:border-gray-700">                  
+            <li class="mb-6 ml-8">            
+                <span class="flex absolute -left-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                    <svg aria-hidden="true" class="w-3 h-3 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                </span>
+                <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Application UI v2.0.0 <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Latest</span></h3>
+                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on January 13th, 2022</time>
+                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
+                </div>
+            </li>
+            <li class="mb-6 ml-10">
+                <span class="flex absolute -left-4 justify-center items-center w-8 h-8 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                    10
+                </span>
+                <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Application UI v2.0.0 <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Latest</span></h3>
+                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on January 13th, 2022</time>
+                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
+                </div>
+            </li>
+        </ol>
+
 
         <!-- Cards -->
         <div class="flex justify-center w-full">
-            <div class="max-w-sm md:max-w-7xl">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 lg:gap-y-0 md:gap-x-6">
+            <!-- Github issues summary -->
+            <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
 
-                    <!-- Card 1 -->
-                    <fuse-card class="flex-row max-w-sm md:max-w-none p-6 sm:py-12 sm:px-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                    
+                    <!-- New vs. Closed -->
+                    <div class="flex flex-col flex-auto">
+                        <div class="font-medium text-secondary">ตารางเวลา</div>
+                        <div class="mt-2">
+                            <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
+                                <li class="mb-10 ml-6">            
+                                    <span class="flex absolute -left-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                                        <svg aria-hidden="true" class="w-3 h-3 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </span>
+                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Application UI v2.0.0 <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Latest</span></h3>
+                                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on January 13th, 2022</time>
+                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
+                                    <a href="#" class="inline-flex items-center py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"><svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path></svg> Download ZIP</a>
+                                </li>
+                            </ol>
+                        </div>
 
-                    </fuse-card>
-                 
+                        
+                        <!-- <div class="flex flex-row items-center justify-between py-4 px-0.5 border-b">
+                            <div class="flex flex-col">
+                                <div class="font-medium">วิชาจราจร</div>
+                                <div
+                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                    <ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 text-hint"
+                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                            <div class="ml-1.5 text-md text-secondary">
+                                                08:30 น.</div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 text-hint"
+                                                [svgIcon]="'heroicons_solid:location-marker'">
+                                            </mat-icon>
+                                            <div class="ml-1.5 text-md text-secondary">
+                                                สนามสอบโรงเรียนลาดกระบัง
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <button mat-icon-button>
+                                <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                            </button>
+                        </div> -->
+           
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
 
     <!-- CTA -->
-    <div class="px-6 py-10 sm:py-12 sm:px-16 bg-primary-600 text-on-primary-600">
-        <div class="flex flex-col items-center w-full max-w-7xl mx-auto text-center">
-            <div class="text-3xl sm:text-4xl sm:text-5xl font-extrabold leading-6 sm:leading-10">Boost your productivity</div>
-            <div class="mt-2 text-3xl sm:text-4xl sm:text-5xl font-extrabold leading-6 sm:leading-10 text-black text-opacity-70">Start using Fuse today.</div>
-            <button
-                mat-flat-button
-                class="fuse-mat-button-large mt-8 px-12 bg-white text-primary-800">
-                <span class="text-lg">Sign up for free</span>
+    <div class="px-3 py-5 sm:py-6 sm:px-8 bg-primary-600 text-on-primary-600">
+        <div class="flex flex-col items-center w-full max-w-4xl mx-auto text-center">
+            <button mat-flat-button class="fuse-mat-button-large mt-4 px-10 bg-white text-primary-800">
+                <span class="text-lg">ส่งคำตอบ</span>
             </button>
         </div>
     </div>
