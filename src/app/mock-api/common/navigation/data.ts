@@ -7,7 +7,41 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title   : 'ภาพรวมผลการสอบ',
         type    : 'aside',
         icon    : 'heroicons_outline:home',
+        children: [
+            {
+                id   : 'dashboards.member',
+                title: 'รวมผลการสอบ',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-check',
+                link : '/dashboards/member'
+            },
+        ]
     },
+
+    {
+        id      : 'exam',
+        title   : 'ข้อมูลรายการสอบ',
+        type    : 'aside',
+        icon    : 'heroicons_outline:home',
+        children: [
+            {
+                id   : 'exam.list',
+                title: 'ลงทะเบียนการสอบ',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-check',
+                link : '/exam/list'
+            },
+            {
+                id   : 'exam.exam-todo',
+                title: 'รายการที่ต้องสอบ',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-check',
+                link : '/exam/exam-todo'
+            },
+
+        ]
+    },
+
     {
         id      : 'apps',
         title   : 'Applications',
@@ -1197,9 +1231,17 @@ export const futuristicNavigation: FuseNavigationItem[] = [
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
+        id      : 'dashboards',
         title   : 'ภาพรวมผลการสอบ',
         type    : 'group',
         icon    : 'heroicons_outline:document-search',
+        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    },
+    {
+        id      : 'exam',
+        title   : 'รายการสอบ',
+        type    : 'group',
+        icon    : 'heroicons_outline:academic-cap',
         children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
     },
     {

@@ -1,0 +1,87 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <div class="mt-8 mx-8 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">รายที่ต้องสอบ</div>
+
+    <!-- Main -->
+    <div class="flex flex-row space-x-1 p-1 sm:p-8 overscroll-auto">
+        <div class="basis-full">
+            <!-- Course -->
+            <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
+                <div class="flex flex-col divide-y border-t border-b">
+
+                    <ng-container *ngFor="let list of dataExam.data">
+                        <div class="flex flex-row sm:items-center py-6">
+                            <div class="basis-full flex items-center">
+                                <!-- <div class="p-4">
+                                    <ng-container *ngIf="list.status">
+                                    <div  class="py-1 px-4 rounded-full font-semibold"
+                                            [ngClass]="{'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': list.status === 'Pass',
+                                                        'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': list.status !== 'Pass'}">
+                                            <span *ngIf="list.status == 'Pass'"> สอบผ่าน</span>
+                                            <span *ngIf="list.status != 'Pass'"> ไม่สอบผ่าน</span>
+                                    </div>
+                                    </ng-container>
+                                </div> -->
+
+                                <div class="ml-4">
+                                    <div class="mt-1 font-semibold text-blue-800 dark:text-blue-50 dark:bg-blue-500">
+                                        {{ list.exam_round.exam.name }} {{ list.exam_round.exam.year }} : รอบที่ {{
+                                        list.exam_round.exam.round }}
+                                        จำนวน {{ list.exam_round.exam.question_qty }} ข้อ</div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
+                                        <div class="ml-2">สายงาน : {{ list.exam_round.exam.line_work.name }}</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md text-secondar">
+                                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                        <div class="ml-2">ระยะเวลาสอบ : {{ list.exam_round.exam.exam_time }} นาที</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:location-marker"></mat-icon>
+                                        <div class="ml-2">สนามสอบ : {{ list.exam_field.name }}</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:clipboard-check"></mat-icon>
+                                        <div class="ml-2">วันที่สอบ : {{ this.helper.reverseDateSplitKed(list.exam_round.exam_date) }}</div>
+                                    </div>
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                        <div class="ml-2">เริ่มสอบเวลา : {{ list.exam_round.start_time }} &nbsp;&nbsp; สิ้นสุดสอบเวลา : {{ list.exam_round.end_time }} </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col w-full mt-auto">
+                                <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
+                                    <button mat-stroked-button type="button" *ngIf="list.exam_round.exam.status != 'End'"
+                                        (click)="doExample(list.exam_round)"
+                                        class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-100">
+                                        <span class="inline-flex items-center">
+                                            <span> เริ่มทำข้อสอบ</span>
+                                        </span>
+                                    </button>
+
+                                    <button *ngIf="list.exam_round.exam.status == 'End'"  mat-stroked-button
+                                        class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100"
+                                        disabled>
+                                        <span class="inline-flex items-center">
+                                            <span> สิ้นสุดการสอบ</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

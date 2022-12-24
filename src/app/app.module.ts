@@ -12,6 +12,8 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { MaterialComponentsModule } from './modules/admin/ui/material-components/material-components.module';
+import { CommonModule } from '@angular/common';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -20,10 +22,11 @@ const routerConfig: ExtraOptions = {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports     : [
         BrowserModule,
+        CommonModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),
 
@@ -40,6 +43,7 @@ const routerConfig: ExtraOptions = {
 
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({})
+
     ],
     bootstrap   : [
         AppComponent
