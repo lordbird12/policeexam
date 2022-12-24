@@ -175,7 +175,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.dataExamRound = [];
     this._examServ.getExamRound({ exam_id: examId }).subscribe((response) => {
       this.dataExamRound = response.data;
-      console.log("ExamRound",  this.dataExamRound);
+      // console.log("ExamRound",  this.dataExamRound);
     });
   }
 
@@ -184,7 +184,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this._examServ.getExamFieldMember({ exam_id: examId }).subscribe((response) => {
 
       this.dataFieldMember = response.data;
-      console.log("FieldMember",  this.dataFieldMember);
+      // console.log("FieldMember",  this.dataFieldMember);
     });
   }
 
@@ -217,7 +217,7 @@ export class ListComponent implements OnInit, OnDestroy {
       }).then((result) => {
         if (result.isConfirmed) {
           this._examServ.RegisterExam(this.regitExamForm.value).subscribe((response) => {
-            console.log("RegisterExam",  response.data);
+            // console.log("RegisterExam",  response.data);
 
             Swal.fire({
               title: 'ลงทะเบียนสำเร็จ',

@@ -41,7 +41,7 @@ export class ExamTodoComponent implements OnInit {
     }
 
     doExample(ArrData): void {
-      console.log("ArrData", ArrData);
+      // console.log("ArrData", ArrData);
        this.rou.navigate(['/exam/do-exams' , ArrData.exam_id])
     }
 
@@ -50,7 +50,7 @@ export class ExamTodoComponent implements OnInit {
       this._examServ.getMyExam().subscribe((resp : any) => {
         console.clear();
         this.dataExam = resp;
-        console.log("dataExam", this.dataExam);
+        // console.log("dataExam", this.dataExam);
 
         setTimeout(() => {
           Swal.close();
