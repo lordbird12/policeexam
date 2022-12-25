@@ -3,7 +3,7 @@
     <div class="mt-8 mx-8 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">รายที่ต้องสอบ</div>
 
     <!-- Main -->
-    <div class="flex flex-row space-x-1 p-1 sm:p-8 overscroll-auto">
+    <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
         <div class="basis-full">
             <!-- Course -->
             <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
@@ -57,8 +57,8 @@
                             </div>
 
                             <div class="flex flex-col w-full mt-auto">
-                                <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
-                                    <button mat-stroked-button type="button" *ngIf="list.exam_round.exam.status != 'End'"
+                                <div class="px-6 py-4 text-right">  <!-- *ngIf="list.exam_round.exam.status != 'End'" -->
+                                     <button mat-stroked-button type="button" *ngIf="list.exam_round.exam.status == 'Start'"
                                         (click)="doExample(list.exam_round)"
                                         class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-100">
                                         <span class="inline-flex items-center">

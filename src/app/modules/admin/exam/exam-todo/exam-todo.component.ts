@@ -65,7 +65,7 @@ export class ExamTodoComponent implements OnInit {
         allowOutsideClick: false,
         showCancelButton: false,
         showConfirmButton: false,
-        didOpen: () => {
+        didRender: () => {
           Swal.showLoading(Swal.getDenyButton())
         },
       });

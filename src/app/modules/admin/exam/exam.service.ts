@@ -77,6 +77,14 @@ export class ExamService {
           )
           .pipe(catchError(this.handlerError));
     }
+
+    SendAnswerExam(dataBody: any): Observable<any> {
+      return this._httpClient
+          .post<any>(
+              `${environment.API_URL}/api/exam_member_answer`, dataBody, this.httpOptionsFormdata
+          )
+          .pipe(catchError(this.handlerError));
+    }
     
     
     handlerError(error): Observable<never> {

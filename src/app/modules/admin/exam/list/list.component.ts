@@ -247,7 +247,7 @@ export class ListComponent implements OnInit, OnDestroy {
       allowOutsideClick: false,
       showCancelButton: false,
       showConfirmButton: false,
-      didOpen: () => {
+      didRender: () => {
         Swal.showLoading(Swal.getDenyButton())
       },
     });
