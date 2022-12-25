@@ -54,12 +54,11 @@
                                             </div>
 
                                             <ng-container>
-                                                <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{
-                                                    answ.main_answer.answer }}</p>
+                                                <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{ answ.main_answer.answer }}</p>
                                                 <img *ngIf="answ.main_answer.type=='Image'"
-                                                    [src]="answ.main_answer.answer" class="mt-1 ml-2 w-60">
+                                                    src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mt-2 ml-2 w-50">
                                             </ng-container>
-
+                                            <!-- {{imageSrc}} -->
                                         </div>
                                     </ng-container>
 
@@ -72,17 +71,17 @@
 
                 <!-- Send -->
                 <div class="px-3 py-5 sm:py-6 sm:px-8 bg-primary-600 text-on-primary-600">
-                    <div class="flex flex-col items-center w-full max-w-4xl mx-auto text-center">
-                        <button *ngIf="dat.exam_group.exam.status == 'Start'" mat-flat-button class="fuse-mat-button-large mt-4 px-10 bg-white text-primary-800" (click)="AnswerSend()">
+                    <div class="flex flex-col items-center w-full max-w-4xl mx-auto text-center"> <!--  *ngIf="dat.exam_group.exam.status == 'Start'" -->
+                        <button  mat-flat-button class="fuse-mat-button-large mt-4 px-10 bg-white text-primary-800" (click)="AnswerSend()">
                             <span class="inline-flex items-center"> ส่งคำตอบ</span>
                         </button>
-
-                        <button *ngIf="dat.exam_group.exam.status == 'End'" mat-stroked-button
+                        
+                         <!-- <button *ngIf="dat.exam_group.exam.status == 'End'" mat-stroked-button
                             class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-400 text-white" (click)="DotSend()">
                             <span class="inline-flex items-center">
                                 <span> สิ้นสุดการสอบ</span>
                             </span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 

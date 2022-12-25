@@ -63,7 +63,7 @@ export class ListComponent implements OnInit, OnDestroy {
   };
 
 
-  constructor(private _authService: AuthService, private _examServ: ExamService, private helper: HelperFunctionService,
+  constructor(private _authService: AuthService, private _examServ: ExamService, public helper: HelperFunctionService,
     private rou: Router, private _formBuilder: FormBuilder) {
 
     this.regitExamForm = this._formBuilder.group({
