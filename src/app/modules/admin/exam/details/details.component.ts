@@ -121,6 +121,7 @@ export class DetailsComponent implements OnInit {
                         await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
                           if(resp.status == true) {
 
+                            //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
                             await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data[0].exam_round_member_id }).
                                 subscribe((countResp: any) => {
                                     
