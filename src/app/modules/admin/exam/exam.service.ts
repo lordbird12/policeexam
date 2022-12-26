@@ -85,8 +85,16 @@ export class ExamService {
           )
           .pipe(catchError(this.handlerError));
     }
+
+    getExamHistoryFinish(): Observable<any> {
+      return this._httpClient
+          .get<any>(
+              `${environment.API_URL}/api/my_exam?exam_finish=Finish`, this.httpOptionsFormdata
+          )
+          .pipe(catchError(this.handlerError));
+    }
     
-    
+
     handlerError(error): Observable<never> {
       let errorMessage = 'Error unknown';
       if (error) {

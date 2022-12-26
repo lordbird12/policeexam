@@ -54,7 +54,7 @@ export class ExamTodoComponent implements OnInit {
 
         setTimeout(() => {
           Swal.close();
-        }, 500);
+        }, 1000);
       });
     }
 

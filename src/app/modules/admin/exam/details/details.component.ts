@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit {
 
                 setTimeout(() => {
                     Swal.close();
-                }, 500);
+                }, 1000);
             });
     }
 
