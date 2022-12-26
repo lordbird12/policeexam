@@ -94,7 +94,8 @@ export class DetailsComponent implements OnInit {
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#2196f3',
                 });
-            } else {
+            } 
+            else {
                 Swal.fire({
                     title: 'คำตอบครบถ้วน',
                     text: 'คุณต้องการส่งคำตอบ ใช่หรือไม่?',
@@ -177,6 +178,7 @@ export class DetailsComponent implements OnInit {
                         });
 
                     } else {
+                        Swal.close();
                         return;
                     }
 
