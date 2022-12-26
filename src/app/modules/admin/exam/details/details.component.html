@@ -8,16 +8,12 @@
             <!-- Header -->
             <div class="flex justify-center w-full">
                 <ng-container *ngFor="let head of dataExams.data;">
-                    <div
-                        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
+                    <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
                         <div class="flex flex-row justify-between w-full">
                             <div class="font-semibold text-blue-800 dark:text-blue-50 dark:bg-blue-500">
-                                [ {{ head.exam_group.name }} ] {{ head.exam_group.exam.name }} {{
-                                head.exam_group.exam.year }} : รอบที่ {{ head.exam_group.exam.round }} จำนวน {{
-                                head.exam_group.exam.question_qty }} ข้อ
+                                [ {{ head.exam_group.name }} ] {{ head.exam_group.exam.name }} {{ head.exam_group.exam.year }} : รอบที่ {{ head.exam_group.exam.round }} จำนวน {{ head.exam_group.exam.question_qty }} ข้อ
                             </div>
-                            <div class="font-semibold text-blue-800 dark:text-blue-50 dark:bg-blue-500">เวลาที่เหลือ :
-                                {{ head.exam_group.exam.exam_time }} นาที</div>
+                            <div class="font-semibold text-blue-800 dark:text-blue-50 dark:bg-blue-500">เวลาที่เหลือ : {{ head.exam_group.exam.exam_time }} นาที</div>
                         </div>
                         <div class="flex flex-row w-full">
 
@@ -38,25 +34,20 @@
                                     
                                 </span> -->
                                 <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
-                                    <h3
-                                        class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                                        {{ subques.question }}</h3>
+                                    <h3 class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                                        ข้อที่ {{i+1}}. {{ subques.question }}</h3>
 
-                                    <ng-container
-                                        *ngFor="let answ of subques.exam_group_subject_answers; let i = index;">
+                                    <ng-container *ngFor="let answ of subques.exam_group_subject_answers; let i = index;">
                                         <div class="flex flex-row">
                                             <div class="form-check">
                                                 <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white 
                                                 checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top 
-                                                bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                                    type="radio" [name]="subques.main_question_id"
-                                                    [id]="subques.main_question_id" [value]="answ.main_answer.id">
+                                                bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" [name]="subques.main_question_id" [id]="subques.main_question_id" [value]="answ.main_answer.id">
                                             </div>
 
                                             <ng-container>
                                                 <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{ answ.main_answer.answer }}</p>
-                                                <img *ngIf="answ.main_answer.type=='Image'"
-                                                    src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mt-2 ml-2 w-50">
+                                                <img *ngIf="answ.main_answer.type=='Image'" src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mt-2 ml-2 w-50">
                                             </ng-container>
                                             <!-- {{imageSrc}} -->
                                         </div>
@@ -71,12 +62,13 @@
 
                 <!-- Send -->
                 <div class="px-3 py-5 sm:py-6 sm:px-8 bg-primary-600 text-on-primary-600">
-                    <div class="flex flex-col items-center w-full max-w-4xl mx-auto text-center"> <!--  *ngIf="dat.exam_group.exam.status == 'Start'" -->
-                        <button  mat-flat-button class="fuse-mat-button-large mt-4 px-10 bg-white text-primary-800" (click)="AnswerSend()">
+                    <div class="flex flex-col items-center w-full max-w-4xl mx-auto text-center">
+                        <!--  *ngIf="dat.exam_group.exam.status == 'Start'" -->
+                        <button mat-flat-button class="fuse-mat-button-large mt-4 px-10 bg-white text-primary-800" (click)="AnswerSend()">
                             <span class="inline-flex items-center"> ส่งคำตอบ</span>
                         </button>
-                        
-                         <!-- <button *ngIf="dat.exam_group.exam.status == 'End'" mat-stroked-button
+
+                        <!-- <button *ngIf="dat.exam_group.exam.status == 'End'" mat-stroked-button
                             class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-400 text-white" (click)="DotSend()">
                             <span class="inline-flex items-center">
                                 <span> สิ้นสุดการสอบ</span>

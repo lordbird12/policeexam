@@ -18,7 +18,7 @@ import { SharedModule } from 'app/shared/shared.module';
 // import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
 // import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { examRoutes } from './exam.routing'
 import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
@@ -27,13 +27,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExamTodoComponent } from './exam-todo/exam-todo.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ExamCalendarComponent } from './exam-calendar/exam-calendar.component';
 
 @NgModule({
   declarations: [
     ExamComponent,
     ListComponent,
     DetailsComponent,
-    ExamTodoComponent
+    ExamTodoComponent,
+    ExamCalendarComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FuseCardModule,
     FuseAlertModule,
     MatProgressSpinnerModule,
+    FullCalendarModule
   ]
 })
 export class ExamModule { }

@@ -1244,24 +1244,24 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         icon    : 'heroicons_outline:academic-cap',
         children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
     },
-    {
-        title   : 'สนามสอบ',
-        type    : 'group',
-        icon    : 'heroicons_outline:location-marker',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
-    {
-        title   : 'แนวข้อสอบ',
-        type    : 'group',
-        icon    : 'heroicons_outline:book-open',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
-    {
-        title   : 'เอกสารดาวน์โหลด',
-        type    : 'group',
-        icon    : 'heroicons_outline:document-duplicate',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
+    // {
+    //     title   : 'สนามสอบ',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:location-marker',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
+    // {
+    //     title   : 'แนวข้อสอบ',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:book-open',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
+    // {
+    //     title   : 'เอกสารดาวน์โหลด',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:document-duplicate',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
     // {
     //     id      : 'navigation-features',
     //     title   : 'Misc',
