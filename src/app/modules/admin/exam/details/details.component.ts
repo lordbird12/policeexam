@@ -104,7 +104,9 @@ export class DetailsComponent implements OnInit {
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'ใช่, ส่งคำตอบ',
-                    cancelButtonText: 'ไม่, ปิดหน้าต่าง',
+                    cancelButtonText: 'ไม่, ปิดหน้าต่าง',    
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
                 }).then(async (result) => {
 
                     if (result.isConfirmed) {
@@ -135,6 +137,8 @@ export class DetailsComponent implements OnInit {
                                             confirmButtonColor: '#3085d6',
                                             cancelButtonColor: '#16a34a',
                                             confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                            allowEscapeKey: false,
+                                            allowOutsideClick: false,
                                             // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
                                           }).then((result) => {
                                               if(result.isConfirmed) {
@@ -153,6 +157,8 @@ export class DetailsComponent implements OnInit {
                                             cancelButtonColor: '#16a34a',
                                             confirmButtonText: 'สอบใหม่อีกครั้ง',
                                             cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                            allowEscapeKey: false,
+                                            allowOutsideClick: false,
                                           }).then((result) => {
                                               if(result.isConfirmed) {
                                                   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
