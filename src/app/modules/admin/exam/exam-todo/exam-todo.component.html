@@ -1,6 +1,25 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-    <div class="mt-8 mx-8 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">รายที่ต้องสอบ</div>
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    รายการที่ต้องสอบ
+                </h2>
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <a mat-flat-button routerLink="../exam-calendar" rel="noreferrer" [color]="'primary'">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:external-link'"></mat-icon>
+                ปฏิทินการสอบ
+            </a>
+        </div>
+    </div>
 
     <!-- Main -->
     <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
@@ -52,15 +71,14 @@
                                         <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
                                         <div class="ml-2">เริ่มสอบเวลา : {{ list.exam_round.start_time }} &nbsp;&nbsp; สิ้นสุดสอบเวลา : {{ list.exam_round.end_time }} </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
                             <div class="flex flex-col w-full mt-auto">
-                                <div class="px-6 py-4 text-right">  <!-- *ngIf="list.exam_round.exam.status != 'End'" -->
-                                     <button mat-stroked-button type="button" 
-                                        (click)="doExample(list.exam_round)"
-                                        class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-100">
+                                <div class="px-6 py-4 text-right">
+                                    <!-- *ngIf="list.exam_round.exam.status != 'End'" -->
+                                    <button mat-stroked-button type="button" (click)="doExample(list.exam_round)" class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-100">
                                         <span class="inline-flex items-center">
                                             <span> เริ่มทำข้อสอบ</span>
                                         </span>
@@ -75,7 +93,7 @@
                                     </button> -->
                                 </div>
                             </div>
-                            
+
                         </div>
                     </ng-container>
 

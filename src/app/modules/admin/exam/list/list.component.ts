@@ -133,8 +133,9 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   detailExam(item): void  {
-    console.log("item", item);
+    // console.log("item", item);
     if(!item) {
+      this.clerData();
       Swal.fire({
         icon: 'error',
         title: 'พบข้อผิดพลาด!',
@@ -237,6 +238,22 @@ export class ListComponent implements OnInit, OnDestroy {
         }
       });
     }
+
+  }
+
+  async clerData() {
+    this.displayDialog = {
+      exam_id: "",
+      Name:  "",
+      year:  "",
+      register_end_date:  "",
+      register_start_date :  "",
+      question_qty:  "",
+      exam_time:  0,
+      line_work_id :  "",
+      line_work_name :  "",
+    };
+
 
   }
 

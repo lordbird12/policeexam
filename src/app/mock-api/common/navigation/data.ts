@@ -12,7 +12,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'dashboards.member',
                 title: 'รวมผลการสอบ',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:chart-square-bar',
                 link : '/dashboards/member'
             },
         ]
@@ -35,10 +35,16 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'exam.exam-todo',
                 title: 'รายการที่ต้องสอบ',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:light-bulb',
                 link : '/exam/exam-todo'
             },
-
+            {
+                id   : 'exam.exam-history',
+                title: 'รายการประวัติการสอบ',
+                type : 'basic',
+                icon : 'heroicons_outline:badge-check',
+                link : '/exam/exam-history'
+            },
         ]
     },
 
@@ -1244,24 +1250,24 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         icon    : 'heroicons_outline:academic-cap',
         children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
     },
-    {
-        title   : 'สนามสอบ',
-        type    : 'group',
-        icon    : 'heroicons_outline:location-marker',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
-    {
-        title   : 'แนวข้อสอบ',
-        type    : 'group',
-        icon    : 'heroicons_outline:book-open',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
-    {
-        title   : 'เอกสารดาวน์โหลด',
-        type    : 'group',
-        icon    : 'heroicons_outline:document-duplicate',
-        children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
-    },
+    // {
+    //     title   : 'สนามสอบ',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:location-marker',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
+    // {
+    //     title   : 'แนวข้อสอบ',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:book-open',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
+    // {
+    //     title   : 'เอกสารดาวน์โหลด',
+    //     type    : 'group',
+    //     icon    : 'heroicons_outline:document-duplicate',
+    //     children: [] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+    // },
     // {
     //     id      : 'navigation-features',
     //     title   : 'Misc',

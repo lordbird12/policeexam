@@ -58,8 +58,8 @@ export class DetailsComponent implements OnInit {
                 this.dataExams = resp;
                 // this.dataEx = this.dataExams.data;
                 this.dataExamGroup = this.dataExams.data[0].exam_group.exam_group_subjects;
-                console.log('dataExams', this.dataExams);
-                console.log('dataExamGroup', this.dataExamGroup);
+                // console.log('dataExams', this.dataExams);
+                // console.log('dataExamGroup', this.dataExamGroup);
 
                 setTimeout(() => {
                     Swal.close();
