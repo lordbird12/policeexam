@@ -3,53 +3,6 @@
         class="flex flex-col w-full sm:w-96 h-full transition-transform duration-400 ease-drawer bg-card"
         [ngClass]="{'-translate-x-full sm:-translate-x-96 lg:-translate-x-80 shadow': opened, 'translate-x-0': !opened}">
 
-        <!-- Header -->
-        <div
-            class="quick-chat-header flex flex-0 items-center justify-start cursor-pointer"
-            (click)="toggle()">
-
-            <!-- Toggle -->
-            <ng-container *ngIf="!opened || (opened && !selectedChat)">
-                <div class="flex flex-auto items-center justify-center">
-                    <div class="flex flex-0 items-center justify-center w-16">
-                        <mat-icon
-                            class="icon-size-6"
-                            [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
-                    </div>
-                    <div class="text-lg font-medium text-secondary">Team Chat</div>
-                    <button
-                        class="ml-auto mr-4"
-                        mat-icon-button>
-                        <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                    </button>
-                </div>
-            </ng-container>
-
-            <!-- Contact info -->
-            <ng-container *ngIf="opened && selectedChat">
-                <div class="flex flex-auto items-center ml-3">
-                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
-                        <ng-container *ngIf="chat.contact.avatar">
-                            <img
-                                class="w-full h-full rounded-full object-cover"
-                                [src]="chat.contact.avatar"
-                                alt="Contact avatar"/>
-                        </ng-container>
-                        <ng-container *ngIf="!chat.contact.avatar">
-                            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                {{chat.contact.name.charAt(0)}}
-                            </div>
-                        </ng-container>
-                    </div>
-                    <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div>
-                    <button
-                        class="ml-auto mr-4"
-                        mat-icon-button>
-                        <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                    </button>
-                </div>
-            </ng-container>
-        </div>
 
         <!-- Content -->
         <div class="flex flex-auto border-t overflow-hidden">

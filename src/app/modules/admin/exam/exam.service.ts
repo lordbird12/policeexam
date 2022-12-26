@@ -94,6 +94,15 @@ export class ExamService {
           .pipe(catchError(this.handlerError));
     }
     
+    getCountMemberAnswerResult(dataBody: any): Observable<any> {
+      return this._httpClient
+          .post<any>(
+              `${environment.API_URL}/api/get_count_exam_member_answer_result`, dataBody, this.httpOptionsFormdata
+          )
+          .pipe(catchError(this.handlerError));
+    }
+    
+
 
     handlerError(error): Observable<never> {
       let errorMessage = 'Error unknown';

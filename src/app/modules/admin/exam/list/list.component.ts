@@ -219,17 +219,21 @@ export class ListComponent implements OnInit, OnDestroy {
         if (result.isConfirmed) {
           this._examServ.RegisterExam(this.regitExamForm.value).subscribe((response) => {
             // console.log("RegisterExam",  response.data);
-
-            Swal.fire({
-              title: 'ลงทะเบียนสำเร็จ',
-              icon: 'success',
-              showCancelButton: false,
-              confirmButtonText: 'ตกลง',
-              confirmButtonColor: '#2196f3',
-            }).then((result) => {
-              this.actionClickDialog('Close');
-            });
-
+            if(response.status == true) {
+              Swal.fire({
+                title: 'ลงทะเบียนสำเร็จ',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#2196f3',
+              }).then((result) => {
+                this.actionClickDialog('Close');
+              });
+            }
+            else {
+              this.regitExamForm.enable();
+              Swal.fire('พบข้อผิดพลาด', response.message, 'error');
+            }
           });
         }
         else {
@@ -253,8 +257,6 @@ export class ListComponent implements OnInit, OnDestroy {
       line_work_id :  "",
       line_work_name :  "",
     };
-
-
   }
 
   async loading() {

@@ -40,10 +40,14 @@
                                         <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
                                         <div class="ml-2">สายงาน : {{ examlist.line_work.name }}</div>
                                     </div>
-
                                     <div class="mt-1 flex items-center leading-5 text-md text-secondar">
                                         <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
                                         <div class="ml-2" >ระยะเวลาสอบ : {{ examlist.exam_time }} นาที</div>
+                                    </div>
+                                    <div class="mt-1 flex items-center leading-5 text-md text-secondar">
+                                      <mat-icon svgIcon="heroicons_outline:calendar"></mat-icon>
+                                      <div class="ml-2" >เปิดรับลงทะเบียน : {{ this.helper.reverseDateSplitKed(examlist.register_start_date) }} 
+                                        ถึงวันที่ {{ this.helper.reverseDateSplitKed(examlist.register_end_date) }}</div>
                                     </div>
                                 </div>
                             </div>
