@@ -17,7 +17,9 @@ import { SharedModule } from 'app/shared/shared.module';
 import { LandingHomeComponent } from './home.component';
 import { landingHomeRoutes } from './home.routing';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { NgImageSliderModule } from 'ng-image-slider';
+// import { NgImageSliderModule } from 'ng-image-slider';
+import {IvyCarouselModule} from 'angular-responsive-carousel';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -40,7 +42,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
         TranslocoModule,
         SharedModule,
         FullCalendarModule,
-        NgImageSliderModule
+        IvyCarouselModule,
+        NgbModule
     ]
 })
 export class LandingHomeModule
