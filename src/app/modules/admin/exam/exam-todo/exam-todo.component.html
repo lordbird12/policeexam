@@ -78,19 +78,18 @@
                             <div class="flex flex-col w-full mt-auto">
                                 <div class="px-6 py-4 text-right">
                                     <!-- *ngIf="list.exam_round.exam.status != 'End'" -->
-                                    <button mat-stroked-button type="button" (click)="doExample(list.exam_round)" class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-600">
+                                    <button *ngIf="list.exam_agian_status==true" mat-stroked-button type="button" (click)="doExample(list.exam_round)" class="font-bold mdc-button bg-green-600 text-white mat-mdc-button-base mat-mdc-b bg-green-600">
                                         <span class="inline-flex items-center">
                                             <span> เริ่มทำข้อสอบ</span>
                                         </span>
                                     </button>
-
-                                    <!-- <button *ngIf="list.exam_round.exam.status == 'End'"  mat-stroked-button
-                                        class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100"
-                                        disabled>
+                                    
+                                    <button *ngIf="list.exam_agian_status==false"  mat-stroked-button
+                                        class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100" disabled>
                                         <span class="inline-flex items-center">
                                             <span> สิ้นสุดการสอบ</span>
                                         </span>
-                                    </button> -->
+                                    </button>
                                 </div>
                             </div>
 
