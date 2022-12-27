@@ -10,14 +10,14 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboards/member'
-    {path: '', pathMatch : 'full', redirectTo: 'dashboards/member'},
+    {path: '', pathMatch : 'full', redirectTo: 'home'},
 
     // Redirect signed in user to the '/dashboards/member'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboards/member'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'home'},
 
     // Auth routes for guests
     {
@@ -54,10 +54,12 @@ export const appRoutes: Route[] = [
 
     // Landing routes
     {
-        path: '',
+        path       : '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         component  : LayoutComponent,
-        data: {
-            layout: 'empty'
+        resolve    : {
+            initialData: InitialDataResolver,
         },
         children   : [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
@@ -78,27 +80,7 @@ export const appRoutes: Route[] = [
             // Dashboards
             {path: 'dashboards', children: [
                 {path: 'member', loadChildren: () => import('app/modules/admin/dashboards/member/page.module').then(m => m.Module)},
-                {path: 'analytics', loadChildren: () => import('app/modules/admin/dashboards/analytics/analytics.module').then(m => m.AnalyticsModule)},
-                {path: 'finance', loadChildren: () => import('app/modules/admin/dashboards/finance/finance.module').then(m => m.FinanceModule)},
-                {path: 'crypto', loadChildren: () => import('app/modules/admin/dashboards/crypto/crypto.module').then(m => m.CryptoModule)},
             ]},
-
-            // Apps
-            {path: 'apps', children: [
-                {path: 'academy', loadChildren: () => import('app/modules/admin/apps/academy/academy.module').then(m => m.AcademyModule)},
-                {path: 'chat', loadChildren: () => import('app/modules/admin/apps/chat/chat.module').then(m => m.ChatModule)},
-                {path: 'contacts', loadChildren: () => import('app/modules/admin/apps/contacts/contacts.module').then(m => m.ContactsModule)},
-                {path: 'ecommerce', loadChildren: () => import('app/modules/admin/apps/ecommerce/ecommerce.module').then(m => m.ECommerceModule)},
-                {path: 'file-manager', loadChildren: () => import('app/modules/admin/apps/file-manager/file-manager.module').then(m => m.FileManagerModule)},
-                {path: 'help-center', loadChildren: () => import('app/modules/admin/apps/help-center/help-center.module').then(m => m.HelpCenterModule)},
-                {path: 'mailbox', loadChildren: () => import('app/modules/admin/apps/mailbox/mailbox.module').then(m => m.MailboxModule)},
-                {path: 'notes', loadChildren: () => import('app/modules/admin/apps/notes/notes.module').then(m => m.NotesModule)},
-                {path: 'scrumboard', loadChildren: () => import('app/modules/admin/apps/scrumboard/scrumboard.module').then(m => m.ScrumboardModule)},
-                {path: 'tasks', loadChildren: () => import('app/modules/admin/apps/tasks/tasks.module').then(m => m.TasksModule)},
-
-                
-            ]},
-
             // Example
             {path: 'exam', loadChildren: () => import('app/modules/admin/exam/exam.module').then(m => m.ExamModule)},
 
