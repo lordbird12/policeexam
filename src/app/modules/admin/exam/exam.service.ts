@@ -102,8 +102,23 @@ export class ExamService {
           .pipe(catchError(this.handlerError));
     }
     
+    checkMemberAuthenkeyExams(dataBody: any): Observable<any> {
+      return this._httpClient
+          .post<any>(
+              `${environment.API_URL}/api/member_authen_key_exam`, dataBody, this.httpOptionsFormdata
+          )
+          .pipe(catchError(this.handlerError));
+    }
+        
+    getCorrectAnswer(paramUrl: any): Observable<any> {
+      return this._httpClient
+          .get<any>(
+              `${environment.API_URL}/api/exam_round_member/` + paramUrl, this.httpOptionsFormdata
+          )
+          .pipe(catchError(this.handlerError));
+    }
 
-
+    
     handlerError(error): Observable<never> {
       let errorMessage = 'Error unknown';
       if (error) {

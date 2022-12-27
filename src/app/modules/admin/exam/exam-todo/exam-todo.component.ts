@@ -38,6 +38,7 @@ export class ExamTodoComponent implements OnInit {
 
     ngOnInit(): void {
       this.getExamList();
+      
     }
 
     doExample(ArrData): void {
@@ -50,7 +51,7 @@ export class ExamTodoComponent implements OnInit {
       this._examServ.getMyExam().subscribe((resp : any) => {
         console.clear();
         this.dataExam = resp;
-        // console.log("dataExam", this.dataExam);
+        console.log("dataExam", this.dataExam.data[0].exam_agian_status);
 
         setTimeout(() => {
           Swal.close();
