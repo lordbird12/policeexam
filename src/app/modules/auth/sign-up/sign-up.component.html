@@ -50,7 +50,7 @@
                     <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
                         <!-- Section -->
                         <div class="w-full">
-                            <div class="text-xl">ข้อมูลส่วนตัว</div>
+                            <div class="text-xl">ข้อมูลส่วนตัว (สำหรับเจ้าหน้าที่)</div>
                             <div class="text-secondary">กรุณากรอกข้อมูลส่วนตัวของท่าน</div>
                         </div>
 
@@ -268,7 +268,7 @@
 
             </form>
 
-            <form class="mt-8" [formGroup]="signUpForm" *ngIf="userTypeSelect === 0">
+            <form class="mt-8" [formGroup]="signUpForm2" *ngIf="userTypeSelect === 0">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 
 
@@ -276,8 +276,8 @@
                     <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
                         <!-- Section -->
                         <div class="w-full">
-                            <div class="text-xl">ข้อมูลส่วนตัว2</div>
-                            <div class="text-secondary">กรุณากรอกข้อมูลส่วนตัวของท่าน2</div>
+                            <div class="text-xl">ข้อมูลส่วนตัว (สำหรับประชาชน)</div>
+                            <div class="text-secondary">กรุณากรอกข้อมูลส่วนตัวของท่าน</div>
                         </div>
 
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
@@ -414,13 +414,22 @@
                     <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
                         <!-- Section -->
                         <div class="w-full">
-                            <div class="text-xl">ข้อมูลหน่วยงาน</div>
-                            <div class="text-secondary">กรุณากรอกข้อมูลหน่วยงานที่ท่านสังกัดอยู่ ณ ปัจจุบัน
+                            <div class="text-xl">ข้อมูลเพิ่มเติม</div>
+                            <div class="text-secondary">กรุณากรอกข้อมูลข้อมูลเพิ่มเติม
                             </div>
                         </div>
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-
-
+                            <div class="sm:col-span-4">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>File matInput</mat-label>
+                                    <button mat-icon-button matPrefix (click)="f_input.click()">
+                                        <mat-icon>attach_file</mat-icon>
+                                    </button>
+                                    <input type="text" readonly matInput [formControl]="file_citizen" />
+                                    <input type="file" multiple hidden #f_input (change)="handleFileInputChange(f_input.files)" />
+                                    <mat-error>this field is required</mat-error>
+                                </mat-form-field>
+                            </div>
                             <!-- Name -->
                             <div class="sm:col-span-4">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">

@@ -31,6 +31,7 @@ export class AuthSignUpComponent implements OnInit {
         message: '',
     };
     signUpForm: FormGroup;
+    signUpForm2: FormGroup;
     showAlert: boolean = false;
     options: string[] = ['One', 'Two', 'Three'];
     //agency command
@@ -86,6 +87,9 @@ export class AuthSignUpComponent implements OnInit {
 
     userTypeSelect: any = 1;
 
+    file_store: FileList;
+    file_list: Array<string> = [];
+
     imageUrl: any =
         'https://i.pinimg.com/236x/d6/27/d9/d627d9cda385317de4812a4f7bd922e9--man--iron-man.jpg';
     editFile: boolean = true;
@@ -134,6 +138,29 @@ export class AuthSignUpComponent implements OnInit {
             telephone: [''],
             password: [''],
             type: ['police'],
+        });
+
+        this.signUpForm2 = this._formBuilder.group({
+            agency_command_id: [],
+            sub_agency_command_id: [],
+            affiliation_id: [],
+            prefix_type_id: [],
+            prefix_id: [],
+            position_id: [],
+            member_id: [],
+            fname: [],
+            lname: [],
+            image: [''],
+            birth_date: [],
+            sex: [],
+            position_remark: [''],
+            division: [],
+            division_remark: [''],
+            email: ['', Validators.email],
+            telephone: [''],
+            password: [''],
+            type: ['normal'],
+            file_citizen: ['313213213213123'],
         });
 
         this.GetAgencyCommand();
@@ -395,6 +422,44 @@ export class AuthSignUpComponent implements OnInit {
         return this.subagencycommandData.filter((option) =>
             option.toLowerCase().includes(filterValue)
         );
+    }
+
+    handleFileInputChange(l: FileList): void {
+        this.file_store = l;
+        if (l.length) {
+            const f = l[0];
+            const count = l.length > 1 ? `(+${l.length - 1} files)` : '';
+            this.signUpForm2.patchValue({
+                file_citizen:f.name
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                file_citizen:''
+            });
+        }
+    }
+
+    handleSubmit(): void {
+        var fd = new FormData();
+        this.file_list = [];
+        for (let i = 0; i < this.file_store.length; i++) {
+            fd.append('files', this.file_store[i], this.file_store[i].name);
+            this.file_list.push(this.file_store[i].name);
+        }
+
+        // do submit ajax
+    }
+
+    upload(event: Event) {
+        console.log(event);
+    }
+
+    selectFile(event) {
+        // this.selectedFiles = event.target.files;
+    }
+
+    openInput() {
+        document.getElementById('fileInput').click();
     }
 
     uploadFile(event) {

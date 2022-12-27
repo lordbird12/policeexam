@@ -16,14 +16,14 @@
                                 {{t('welcome-back')}}, {{user.fname}} {{user.lname}}</div>
                         </ng-container>
                         <div class="flex items-center">
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:bell'"></mat-icon>
-                            <div class="ml-1.5 leading-6 truncate text-secondary">คุณได้รับแจ้งจดหมาย 3 ฉบับ กรุณาตรวจสอบ
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">{{user.email}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Actions -->
-                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                <!-- <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                     <button class="fuse-mat-button-rounded bg-accent-700" mat-flat-button [color]="'accent'">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                         <span class="ml-2">กล่องข้อความ</span>
@@ -32,7 +32,7 @@
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog'"></mat-icon>
                         <span class="ml-2">การตั้งค่า</span>
                     </button>
-                </div>
+                </div> -->
             </div>
 
         </div>
