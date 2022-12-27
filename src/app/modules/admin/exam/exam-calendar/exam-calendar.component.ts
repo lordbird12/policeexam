@@ -124,7 +124,7 @@ export class ExamCalendarComponent implements OnInit {
     getExamList(): void {
         this.loading();
         this._examServ.getMyExam().subscribe((resp: any) => {
-            console.clear();
+           
             this.dataExam = resp;
             this.events = [];
             for (let i = 0; i <= this.dataExam.data.length - 1; i++) {

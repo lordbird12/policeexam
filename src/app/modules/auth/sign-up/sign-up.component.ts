@@ -79,6 +79,13 @@ export class AuthSignUpComponent implements OnInit {
     public prefixData: any = [];
     public prefixFilter: any = [];
 
+    userType: any = [
+        { value: '1', status: false, name: 'ประชาชนทั่วไป' },
+        { value: '2', status: true, name: 'เจ้าหน้าที่' },
+    ];
+
+    userTypeSelect: any = 1;
+
     imageUrl: any =
         'https://i.pinimg.com/236x/d6/27/d9/d627d9cda385317de4812a4f7bd922e9--man--iron-man.jpg';
     editFile: boolean = true;
@@ -254,6 +261,11 @@ export class AuthSignUpComponent implements OnInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    changeType(status: number): void {
+        this.userTypeSelect = status;
+
+        this._changeDetectorRef.markForCheck();
+    }
     /**
      * Sign up
      */

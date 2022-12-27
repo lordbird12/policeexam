@@ -19,12 +19,35 @@
                 {{alert.message}}
             </fuse-alert>
 
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0 mt-5">
+                <!-- Summary -->
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden cursor-pointer" (click)="changeType(1)">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-5xl sm:text-5xl font-bold tracking-tight leading-none text-black-500" [ngClass]="{'opacity-30': userTypeSelect !== 1}">
+                            {{userType[1].name}}
+                        </div>
+                    </div>
+                </div>
+                <!-- Overdue -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden cursor-pointer" (click)="changeType(0)">
+
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-5xl sm:text-5xl font-bold tracking-tight leading-none text-black-500" [ngClass]="{'opacity-30': userTypeSelect !== 0}">
+                            {{userType[0].name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Sign Up form -->
-            <form class="mt-8" [formGroup]="signUpForm">
+            <form class="mt-8" [formGroup]="signUpForm" *ngIf="userTypeSelect === 1">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 
+
                     <!-- Schedule -->
-                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
                         <!-- Section -->
                         <div class="w-full">
                             <div class="text-xl">ข้อมูลส่วนตัว</div>
@@ -48,19 +71,33 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">Upload Image</button>
+                                <button mat-stroked-button type="button" (click)="fileInput.click()">
+                                    เลือกภาพ
+                                </button>
+                                <!-- <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">เลือกภาพ</button> -->
                             </div>
 
-                            <div class="sm:col-span-3">
+                            <div class="sm:col-span-2">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                                    <mat-label>ชื่อ</mat-label>
-                                    <input [formControlName]="'fname'" matInput>
+                                    <mat-label>ประเภทคำนำหน้า</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา ประเภทคำนำหน้า" aria-label="Number" matInput [formControl]="PrefixTypeId" [matAutocomplete]="prefixtype">
+                                    <mat-autocomplete #prefixtype="matAutocomplete" [displayWith]="displayPrefixType.bind(this)">
+                                        <mat-option *ngFor="let option of filteredPrefixType | async" [value]="option.prefix_type_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
                             </div>
-                            <div class="sm:col-span-3">
+
+                            <div class="sm:col-span-1">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                                    <mat-label>ชื่อสกุล</mat-label>
-                                    <input [formControlName]="'lname'" matInput>
+                                    <mat-label>คำนำหน้า</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา คำนำหน้า" aria-label="Number" matInput [formControl]="PrefixId" [matAutocomplete]="prefix">
+                                    <mat-autocomplete #prefix="matAutocomplete" [displayWith]="displayPrefix.bind(this)">
+                                        <mat-option *ngFor="let option of filteredPrefix | async" [value]="option.prefix_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
                             </div>
 
@@ -74,11 +111,24 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="sm:col-span-3">
+                            <div class="sm:col-span-2">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
                                     <mat-label>รหัสบัตรประชาชน 13 หลัก</mat-label>
 
                                     <input [formControlName]="'member_id'" matInput>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ชื่อ</mat-label>
+                                    <input [formControlName]="'fname'" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ชื่อสกุล</mat-label>
+                                    <input [formControlName]="'lname'" matInput>
                                 </mat-form-field>
                             </div>
 
@@ -135,7 +185,7 @@
                         </div>
                     </div>
                     <!-- Task distribution -->
-                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
                         <!-- Section -->
                         <div class="w-full">
                             <div class="text-xl">ข้อมูลหน่วยงาน</div>
@@ -144,29 +194,7 @@
                         </div>
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
 
-                            <div class="sm:col-span-2">
-                                <mat-form-field class="fuse-mat-no-subscript w-full">
-                                    <mat-label>ประเภทคำนำหน้า</mat-label>
-                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา ประเภทคำนำหน้า" aria-label="Number" matInput [formControl]="PrefixTypeId" [matAutocomplete]="prefixtype">
-                                    <mat-autocomplete #prefixtype="matAutocomplete" [displayWith]="displayPrefixType.bind(this)">
-                                        <mat-option *ngFor="let option of filteredPrefixType | async" [value]="option.prefix_type_id">
-                                            {{option.name}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
-                            </div>
 
-                            <div class="sm:col-span-2">
-                                <mat-form-field class="fuse-mat-no-subscript w-full">
-                                    <mat-label>คำนำหน้า</mat-label>
-                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา คำนำหน้า" aria-label="Number" matInput [formControl]="PrefixId" [matAutocomplete]="prefix">
-                                    <mat-autocomplete #prefix="matAutocomplete" [displayWith]="displayPrefix.bind(this)">
-                                        <mat-option *ngFor="let option of filteredPrefix | async" [value]="option.prefix_id">
-                                            {{option.name}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
-                            </div>
                             <!-- Name -->
                             <div class="sm:col-span-4">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -233,9 +261,233 @@
                         <span *ngIf="!signUpForm.disabled">
                             ลงทะเบียน
                         </span>
-                        <mat-progress-spinner
-                            *ngIf="signUpForm.disabled"
-                            [diameter]="24"
+                        <mat-progress-spinner *ngIf="signUpForm.disabled" [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                    </button>
+                </div>
+
+            </form>
+
+            <form class="mt-8" [formGroup]="signUpForm" *ngIf="userTypeSelect === 0">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+
+
+                    <!-- Schedule -->
+                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
+                        <!-- Section -->
+                        <div class="w-full">
+                            <div class="text-xl">ข้อมูลส่วนตัว2</div>
+                            <div class="text-secondary">กรุณากรอกข้อมูลส่วนตัวของท่าน2</div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+
+
+                            <div class="sm:row-span-2 sm:col-span-1">
+                                <div class="group-gap">
+
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button mat-stroked-button type="button" (click)="fileInput.click()">
+                                    เลือกภาพ
+                                </button>
+                                <!-- <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">เลือกภาพ</button> -->
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ประเภทคำนำหน้า</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา ประเภทคำนำหน้า" aria-label="Number" matInput [formControl]="PrefixTypeId" [matAutocomplete]="prefixtype">
+                                    <mat-autocomplete #prefixtype="matAutocomplete" [displayWith]="displayPrefixType.bind(this)">
+                                        <mat-option *ngFor="let option of filteredPrefixType | async" [value]="option.prefix_type_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-1">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>คำนำหน้า</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา คำนำหน้า" aria-label="Number" matInput [formControl]="PrefixId" [matAutocomplete]="prefix">
+                                    <mat-autocomplete #prefix="matAutocomplete" [displayWith]="displayPrefix.bind(this)">
+                                        <mat-option *ngFor="let option of filteredPrefix | async" [value]="option.prefix_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-1">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>วันเกิด</mat-label>
+                                    <input matInput [matDatepicker]="pickerdate" [formControlName]="'birth_date'" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerdate">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #pickerdate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>รหัสบัตรประชาชน 13 หลัก</mat-label>
+
+                                    <input [formControlName]="'member_id'" matInput>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ชื่อ</mat-label>
+                                    <input [formControlName]="'fname'" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ชื่อสกุล</mat-label>
+                                    <input [formControlName]="'lname'" matInput>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-4">
+                                <mat-label>เพศสภาพ</mat-label>
+                                <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'" [value]="'M'">
+                                    <mat-radio-button [value]="'M'">
+                                        ชาย
+                                    </mat-radio-button>
+                                    <mat-radio-button class="px-4" [value]="'F'">
+                                        หญิง
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>อีเมล</mat-label>
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix>
+                                    </mat-icon>
+                                    <input [formControlName]="'email'" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>เบอร์โทร</mat-label>
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                                    </mat-icon>
+                                    <input [formControlName]="'telephone'" matInput>
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="sm:col-span-4">
+                                <div class="my-3 border-t"></div>
+
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <div class="text-xl">ชื่อผู้ใช้งานระบบ</div>
+                            <div class="text-secondary">กรุณากรอกชื่อผู้ใช้งานระบบของท่าน</div>
+                        </div>
+                        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                            <!-- Username -->
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>Password</mat-label>
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix>
+                                    </mat-icon>
+                                    <input [formControlName]="'password'" type="password" matInput>
+                                </mat-form-field>
+                                <div class="mt-1 text-md text-hint">Minimum 8 characters. Must include numbers, letters and special characters.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Task distribution -->
+                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
+                        <!-- Section -->
+                        <div class="w-full">
+                            <div class="text-xl">ข้อมูลหน่วยงาน</div>
+                            <div class="text-secondary">กรุณากรอกข้อมูลหน่วยงานที่ท่านสังกัดอยู่ ณ ปัจจุบัน
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+
+
+                            <!-- Name -->
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>กองบัญชาการ</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา กองบัญชาการ" aria-label="Number" matInput [formControl]="AgencyCommandId" [matAutocomplete]="agencycommand">
+                                    <mat-autocomplete #agencycommand="matAutocomplete" [displayWith]="displayAgencyCommand.bind(this)">
+                                        <mat-option *ngFor="let option of filteredAgencyCommand | async" [value]="option.agency_command_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>กองบังคับการ</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา กองบังคับการ" aria-label="Number" matInput [formControl]="SubAgencyCommandId" [matAutocomplete]="subagencycommand">
+                                    <mat-autocomplete #subagencycommand="matAutocomplete" [displayWith]="displaySubAgencyCommand.bind(this)">
+                                        <mat-option *ngFor="let option of filteredSubAgencyCommand | async" [value]="option.sub_agency_command_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>กองกำกับการ</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา กองกำกับการ" aria-label="Number" matInput [formControl]="AffiliationId" [matAutocomplete]="affiliation">
+                                    <mat-autocomplete #affiliation="matAutocomplete" [displayWith]="displayAffiliation.bind(this)">
+                                        <mat-option *ngFor="let option of filteredAffiliation | async" [value]="option.affiliation_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>ตำแหน่งงาน</mat-label>
+                                    <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา ตำแหน่งงาน" aria-label="Number" matInput [formControl]="PositionId" [matAutocomplete]="position">
+                                    <mat-autocomplete #position="matAutocomplete" [displayWith]="displayPosition.bind(this)">
+                                        <mat-option *ngFor="let option of filteredPosition | async" [value]="option.position_id">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="my-10 border-t"></div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end">
+                    <button mat-stroked-button type="button">
+                        ย้อนกลับ
+                    </button>
+                    <button class="ml-4" mat-flat-button type="button" [color]="'primary'" [disabled]="signUpForm.disabled" (click)="signUp()">
+                        <span *ngIf="!signUpForm.disabled">
+                            ลงทะเบียน
+                        </span>
+                        <mat-progress-spinner *ngIf="signUpForm.disabled" [diameter]="24"
                             [mode]="'indeterminate'"></mat-progress-spinner>
                     </button>
                 </div>

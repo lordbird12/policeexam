@@ -127,24 +127,16 @@ export const futuristicNavigation: FuseNavigationItem[] = [
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
         id: 'sammary',
-        title: 'ภาพรวมผลการสอบ',
-        type: 'group',
+        title: 'หน้าหลัก',
+        type: 'basic',
         icon: 'heroicons_outline:home',
-        children: [
-            {
-                id: 'sammary-exam',
-                title: 'ผลการสอบ',
-                type: 'basic',
-                icon: 'heroicons_outline:user',
-                link: '/dashboards/member',
-            },
-        ],
+        link: '/home',
     },
     {
         id: 'exam',
         title: 'ข้อมูลรายการสอบ',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'heroicons_outline:identification',
         children: [
             {
                 id: 'exam-register',

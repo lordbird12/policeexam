@@ -43,45 +43,41 @@
         <div class="basis-full">
             <!-- Course -->
             <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
-                <div class="flex flex-col divide-y border-t border-b p-5">
+                <!-- <div class="flex flex-col divide-y border-t border-b p-5"> -->
 
-                    <!-- <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card"> -->
+                <!-- <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card"> -->
 
-                    <!-- <carousel [cellsToShow]="1" [loop]="true" [autoplay]="true" [autoplayInterval]="3000">
+                <!-- <carousel [cellsToShow]="1" [loop]="true" [autoplay]="true" [autoplayInterval]="3000">
                             <div class="carousel-cell" style="width:100% !important;">
                                 <img src="https://i.ytimg.com/vi/pOrxcNTXylc/maxresdefault.jpg">
                             </div>
 
                         </carousel> -->
 
-                    <ngb-carousel>
-                        <ng-template ngbSlide>
+                <ngb-carousel>
+                    <ng-template ngbSlide *ngFor="let item of images;">
+                        <a [href]="item.url" target="_blank">
                             <div class="picsum-img-wrapper">
-                                <img src="https://i.ytimg.com/vi/pOrxcNTXylc/maxresdefault.jpg" alt="Angular Carousel 1">
+                                <img [src]="item.image">
                             </div>
-                            <div class="carousel-caption">
-                                <h3>Title Goes Here</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </ng-template>
-                        <ng-template ngbSlide>
-                            <div class="picsum-img-wrapper">
-                                <img src="https://i.ytimg.com/vi/pOrxcNTXylc/maxresdefault.jpg" alt="Angular Carousel 2">
-                            </div>
-                            <div class="carousel-caption">
-                                <h3>Title Goes Here</h3>
-                                <p>Consectetur tortor volutpat pretium.</p>
-                            </div>
-                        </ng-template>
-                    </ngb-carousel>
-                    <!-- </div> -->
+                        </a>
+                        <!-- <div class="carousel-caption">
+                                <a [href]="item.url" target="_blank">
+                                    <h3>กดเพื่อเปิดลิ้งค์</h3>
+                                </a>
+                            </div> -->
+                    </ng-template>
+                </ngb-carousel>
+                <!-- </div> -->
 
-                </div>
+                <!-- </div> -->
             </div>
 
             <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card mt-3">
-                <div class="flex flex-col divide-y border-t border-b p-5">
-
+                <div class="flex flex-col divide-y p-5">
+                    <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate p-5">
+                        ปฏิทินการสอบ
+                    </div>
                     <full-calendar [options]="calendarOptions"></full-calendar>
 
                 </div>

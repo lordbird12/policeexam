@@ -1,0 +1,99 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card  bg-gray-800 dark">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    แนวข้อสอบ
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+
+    <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
+
+        <div class="basis-full">
+            <mat-form-field class="fuse-mat-no-subscript w-full mb-4">
+                <mat-label>สายงาน</mat-label>
+                <input type="text" placeholder="กรอกข้อมูลเพื่อค้นหา สายงาน" aria-label="Number" matInput [formControl]="LineWorkId" [matAutocomplete]="linework">
+                <mat-autocomplete #linework="matAutocomplete" [displayWith]="displayLinework.bind(this)">
+                    <mat-option *ngFor="let option of filteredLineWork | async" [value]="option.line_work_id">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <!-- Course -->
+            <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
+                <div class="flex flex-col divide-y border-t border-b">
+
+
+
+
+                    <ng-container *ngIf="dataMyExam; else noData">
+                        <ng-container *ngIf="dataMyExam.length; else noData">
+                            <ng-container *ngFor="let examlist of dataMyExam">
+                                <div class="flex flex-row sm:items-center py-6">
+
+                                    <div class="basis-full flex items-center">
+                                        <div class="ml-4">
+                                            <div class="p-1">
+                                                <ng-container>
+
+                                                    <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">
+                                                        {{ examlist.name }} {{ examlist.year }} : รอบที่ {{ examlist.round }} จำนวน {{ examlist.question_qty }} ข้อ</div>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="mt-1 flex items-center leading-5 text-md text-secondar">
+                                                <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                                <div class="ml-2">ระยะเวลาสอบ : {{ examlist.exam_time }} นาที</div>
+                                            </div>
+                                            <div class="mt-1 flex items-center leading-5 text-md text-secondar">
+                                                <mat-icon svgIcon="heroicons_outline:calendar"></mat-icon>
+                                                <div class="ml-2">เปิดรับลงทะเบียน : {{ this.helper.reverseDateSplitKed(examlist.register_start_date) }} ถึงวันที่ {{ this.helper.reverseDateSplitKed(examlist.register_end_date) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col w-full mt-auto">
+                                        <!-- Course button -->
+                                        <div class="px-6 py-4 text-right">
+                                            <button mat-stroked-button type="button" (click)="detailExam(examlist)" class="font-bold mdc-button mat-primary bg-blue-600 text-white mat-mdc-button-base mat-mdc-b ">
+                        <!-- <mat-icon class="text-hint"   [svgIcon]="'heroicons_outline:check-circle'"></mat-icon> -->
+                        <span class="inline-flex items-center">
+                          <span> ดาวน์โหลด</span>
+                        </span>
+                      </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- No courses -->
+                    <ng-template #noData>
+                        <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent p-5">
+                            <mat-icon class="icon-size-20" [svgIcon]="'iconsmind:file_search'"></mat-icon>
+                            <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">ไม่มีรายการแสดงผล</div>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Overlay element -->
+    <div id="overlay" class="fixed hidden z-999 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"></div>
+
+</div>
