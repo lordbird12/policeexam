@@ -52,6 +52,10 @@ export class ExamHistoryComponent implements OnInit {
       });
     }
 
+    ViewCorrect(IdExam): void {
+      this.rou.navigate(['/exam/correct-answers' , IdExam])
+    }
+
     async loading() {
       Swal.fire({
         title: 'กรุณารอสักครู่ !',

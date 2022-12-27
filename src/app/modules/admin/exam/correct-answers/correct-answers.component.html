@@ -1,1 +1,147 @@
-<p>correct-answers works!</p>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card  bg-gray-800 dark">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    ผลการสอบ
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
+        <div class="basis-full">
+            <!-- Course -->
+            <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
+                <div class="flex flex-col divide-y border-t border-b">
+
+                    <ng-container *ngIf="dataExamAnswer.data">
+                        <div class="flex flex-row sm:items-center py-6">
+                            <div class="basis-full flex items-center">
+
+                                <div class="ml-4">
+                                    <div class="flex flex-row mt-1 text-lg font-bold text-blue-800 dark:text-blue-50 dark:bg-blue-500">
+                                       [ผลการสอบ] {{ dataExamAnswer.data.exam_round.exam.name }} {{ dataExamAnswer.data.exam_round.exam.year }} : รอบที่ 
+                                       {{ dataExamAnswer.data.exam_round.exam.round }} จำนวน {{ dataExamAnswer.data.exam_round.exam.question_qty }} ข้อ
+                                    
+                                    </div>
+
+                                    <div class="mt-2 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
+                                        <div class="ml-2">สายงาน : {{ dataExamAnswer.data.exam_round.exam.line_work.name }}</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md text-secondar">
+                                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                        <div class="ml-2">ระยะเวลาสอบ : {{ dataExamAnswer.data.exam_round.exam.exam_time }} นาที</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:location-marker"></mat-icon>
+                                        <div class="ml-2">สนามสอบ : {{ dataExamAnswer.data.exam_field.name }}</div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:calendar"></mat-icon>
+                                        <div class="ml-2">วันที่สอบ : {{ this.helper.reverseDateSplitKed(dataExamAnswer.data.exam_round.exam_date) }}</div>
+                                    </div>
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                        <div class="ml-2">เริ่มสอบเวลา : {{ dataExamAnswer.data.exam_round.start_time }} &nbsp;&nbsp;&nbsp; สิ้นสุดสอบเวลา : {{ dataExamAnswer.data.exam_round.end_time }} </div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:user"></mat-icon>
+                                        <div class="ml-2">ผู้สอบ : {{ dataExamAnswer.data.member.prefix.sub_name }} {{ dataExamAnswer.data.member.fname }} {{ dataExamAnswer.data.member.lname }} </div>
+                                    </div>
+
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:briefcase"></mat-icon>
+                                        <div class="ml-2">ตำแหน่ง : {{ dataExamAnswer.data.member.position.sub_name }}  </div>
+                                    </div>
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:office-building"></mat-icon>
+                                        <div class="ml-2">หน่วยงาน : {{ dataExamAnswer.data.member.division }} </div>
+                                    </div>
+
+                                    <div *ngFor="let coutsub of dataExamAnswer.data.countSubject; let i=index;" class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
+                                        <div class="ml-2">รายวิชาที่สอบ {{i+1}}. {{ coutsub.exam_subjects }} : ได้คะแนน [ {{ coutsub.score }} คะแนน ]</div>
+                                    </div>
+
+                                    <div class="mt-1 text-lg flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:question-mark-circle"></mat-icon>
+                                        <div class="ml-2 flex">ผลสอบ :&nbsp;
+                                            <ng-container>
+                                                <div *ngIf="dataExamAnswer.data.status =='Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold 
+                                                  text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
+                                                <div *ngIf="dataExamAnswer.data.status =='Not Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold
+                                                  text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
+                                            </ng-container>
+                                        </div>
+                                            
+                                        <!-- สอบผ่าน <b class="text-green-600">[{{ dataExamAnswer.data.exam_round.exam.all_score_pass }} คะแนนขึ้นไป]</b> 
+                                            &nbsp;&nbsp; สอบไม่ผ่าน <b class="text-red-600">[ไม่เกิน {{ dataExamAnswer.data.exam_round.exam.exam_group_qty }} คะแนน]</b>  -->
+                                    </div>
+                                </div>
+                            </div>
+
+                    
+
+                            <div class="flex flex-col w-60 mt-auto">
+                                <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score >= dataExamAnswer.data.exam_round.exam.all_score_pass">
+                                    <div class="px-6 py-2 text-right">
+                                        <div
+                                            class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-100 text-green-800 dark:bg-white dark:bg-opacity-5">
+                                            <div class="text-5xl font-semibold leading-none tracking-tight"> 
+                                                {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
+                                            <div class="mt-1 font-medium text-center">คะแนน</div>
+                                        </div>
+                                    </div>
+
+                                    <a type="button" mat-stroked-button class="px-4 py-4 mx-4 mt-2 font-bold mdc-button mat-primary bg-blue-700 text-white mat-mdc-button-base mat-mdc-b" 
+                                        href="https://police-exam.dev-asha.com/api/get_exam_cert_memberPDF?exam_round_member_id={{dataExamAnswer.data.exam_member_answer_results.exam_round_member_id}}" target="_blank">
+                                        <span class="inline-flex items-center">
+                                            <span> ใบรับรองหลักสูตร </span>
+                                        </span>
+                                    </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score < dataExamAnswer.data.exam_round.exam.all_score_pass">
+                                    <div class="px-6 py-2 text-right">
+                                        <div
+                                            class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-red-100 text-red-800 dark:bg-white dark:bg-opacity-5">
+                                            <div class="text-5xl font-semibold leading-none tracking-tight"> 
+                                               {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
+                                            <div class="mt-1 font-medium text-center">คะแนน</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                        </div>
+                    </ng-container>
+
+
+                    <div class="flex flex-row sm:items-center py-6">
+                        <div class="basis-full flex items-center">
+
+                            <div class="ml-4">
+                                เฉลยคำตอบ
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

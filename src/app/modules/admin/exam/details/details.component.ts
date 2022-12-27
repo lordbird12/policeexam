@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ExamService } from '../exam.service';
@@ -8,15 +8,18 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 
+
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
+const memberKey = localStorage.getItem('memberKey') || "";
 
 @Component({
     selector: 'app-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.scss'],
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, AfterViewInit {
+
     categories: any[];
     courses: any[];
     filteredCourses: any[];
@@ -33,6 +36,9 @@ export class DetailsComponent implements OnInit {
     pointEx = 1;
 
     checkCountSend: any;
+    display: any;
+    @ViewChild('displayTime', { static: true }) displayTime: ElementRef;
+
     constructor(
         private _authService: AuthService,
         private _examServ: ExamService,
@@ -43,24 +49,117 @@ export class DetailsComponent implements OnInit {
     ) {
         let paramUrl: any = this.AcRoute.snapshot.params;
         this.examId = paramUrl.id ? paramUrl.id : '';
+      
+        // this.currentTime = `${this.months[this.targetDate.getMonth()] } ${this.targetDate.getDate()}, ${this.targetDate.getFullYear()}`;
     }
 
     ngOnInit(): void {
         // console.log('examId', this.examId);
-        this.getToDoExams(this.examId);
+        // this.getToDoExams(this.examId);
+        let memberkey = localStorage.getItem("memberKey") ? localStorage.getItem("memberKey") : '';
+        this.checkMemberAuthenkey(this.examId, memberkey);
+    }
+
+    ngAfterViewInit() {
+
+    }
+
+    timer(minute) {
+        // let minute = 1;
+        let seconds: number = minute * 60;
+        let textSec: any = '0';
+        let statSec: number = 60;
+
+        const prefix = minute < 10 ? '0' : '';
+
+        var timer = setInterval(() => {
+            // console.log(seconds);
+            seconds--;
+            if (statSec != 0) statSec--;
+            else statSec = 59;
+
+            if (statSec < 10) {
+                textSec = '0' + statSec;
+            } else {
+                textSec = statSec;
+            }
+            this.displayTime.nativeElement.innerText = `${prefix}${Math.floor(seconds / 60)} : ${textSec}`;
+            this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+            if (seconds == 0) {
+                console.log('finished');
+                clearInterval(timer);
+                
+                this.dilogEndTimeAnswer();
+            }
+        }, 1000);
+    }
+
+    dilogEndTimeAnswer() {
+        Swal.fire({
+            title: 'หมดเวลาสอบ!!!',
+            html: 'กรุณาออกจากข้อสอบ!',
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#16a34a',
+            confirmButtonText: 'ตกลง',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.router.navigate(['/exam/exam-history']);
+            }
+        });
+    }
+
+    checkMemberAuthenkey(exam_id, memberkey): void {
+        let body: any = {
+            // key: "19495092933328001550",
+            key: memberkey,
+            exam_id: exam_id,
+        }
+        this.loading();
+        this._examServ
+            .checkMemberAuthenkeyExams(body)
+            .subscribe((resp: any) => {
+                if (resp.status == true) {
+                    localStorage.setItem("memberKey", resp.data);
+                    this.getToDoExams(this.examId);
+                }
+            }, (error: any) => {
+                Swal.fire({
+                    title: 'คำเตือน!!!',
+                    html: 'รหัสของคุณมีการเข้าสอบหลักสูตรซ้อนกัน, <br />กรุณาเข้าสอบช่องทางเดียวเท่านั้น!',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#16a34a',
+                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.router.navigate(['/exam/exam-todo']);
+                    }
+                });
+            });
     }
 
     getToDoExams(examId): void {
-        this.loading();
+        // this.loading();
         this._examServ
             .ListDoExam({ exam_id: examId })
             .subscribe((resp: any) => {
                 console.clear();
                 this.dataExams = resp;
-                // this.dataEx = this.dataExams.data;
                 this.dataExamGroup = this.dataExams.data[0].exam_group.exam_group_subjects;
                 // console.log('dataExams', this.dataExams);
-                // console.log('dataExamGroup', this.dataExamGroup);
+         
+                //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
+                this.timer(this.dataExams.data[0].exam_group.exam.exam_time);
 
                 setTimeout(() => {
                     Swal.close();
@@ -94,7 +193,7 @@ export class DetailsComponent implements OnInit {
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#2196f3',
                 });
-            } 
+            }
             else {
                 Swal.fire({
                     title: 'คำตอบครบถ้วน',
@@ -104,84 +203,86 @@ export class DetailsComponent implements OnInit {
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'ใช่, ส่งคำตอบ',
-                    cancelButtonText: 'ไม่, ปิดหน้าต่าง',    
+                    cancelButtonText: 'ไม่, ปิดหน้าต่าง',
                     allowEscapeKey: false,
                     allowOutsideClick: false,
                 }).then(async (result) => {
 
                     if (result.isConfirmed) {
                         let SendAnswer = {
-                          exam_round_member_id: this.dataExams.data[0].exam_round_member_id,
-                          member_answer: ArrAnswer
+                            exam_round_member_id: this.dataExams.data[0].exam_round_member_id,
+                            member_answer: ArrAnswer
                         };
 
                         this.checkLoading();
                         this.checkCountSend = {};
                         // console.log("SendAnswer" , SendAnswer);
                         await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
-                          if(resp.status == true) {
+                            if (resp.status == true) {
 
-                            //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
-                            await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data[0].exam_round_member_id }).
-                                subscribe((countResp: any) => {
-                                    
-                                this.checkCountSend = countResp;
+                                //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
+                                await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data[0].exam_round_member_id }).
+                                    subscribe((countResp: any) => {
 
-                                if(this.checkCountSend.status == true) {
-                                    // console.log("CheckCount" , this.checkCountSend);
-                                    if(this.checkCountSend.data.count_answer >= this.checkCountSend.data.exam_limit) {
-                                        Swal.fire({
-                                            title: 'ส่งคำตอบสำเร็จ',
-                                            text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#16a34a',
-                                            confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
-                                            allowEscapeKey: false,
-                                            allowOutsideClick: false,
-                                            // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
-                                          }).then((result) => {
-                                              if(result.isConfirmed) {
-                                                this.router.navigate(['/exam/exam-history']);
-                                              }
-                                          });
-                                    }
-                                    else {
-                                        
-                                        Swal.fire({
-                                            title: 'ส่งคำตอบสำเร็จ',
-                                            text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
-                                            icon: 'success',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#16a34a',
-                                            confirmButtonText: 'สอบใหม่อีกครั้ง',
-                                            cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
-                                            allowEscapeKey: false,
-                                            allowOutsideClick: false,
-                                          }).then((result) => {
-                                              if(result.isConfirmed) {
-                                                  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                                                      this.router.navigate(['exam/do-exams', this.examId]);
-                                                  }); 
-                                                  // this.getToDoExams(this.examId);
-                                              }
-                                              else {
-                                                 this.router.navigate(['/exam/exam-history']);
-                                              }
-                                          });
-                                    }
-                                }
-                                else {
-                                    Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
-                                }
-                            });
+                                        this.checkCountSend = countResp;
 
-                          }
-                          else {
-                            Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
-                          }
+                                        if (this.checkCountSend.status == true) {
+                                            // console.log("CheckCount" , this.checkCountSend);
+                                            if (this.checkCountSend.data.count_answer >= this.checkCountSend.data.exam_limit) {
+                                                Swal.fire({
+                                                    title: 'ส่งคำตอบสำเร็จ',
+                                                    text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#16a34a',
+                                                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                    allowEscapeKey: false,
+                                                    allowOutsideClick: false,
+                                                    // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        this.router.navigate(['/exam/exam-history']);
+                                                    }
+                                                });
+                                            }
+                                            else {
+
+                                                Swal.fire({
+                                                    title: 'ส่งคำตอบสำเร็จ',
+                                                    text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#16a34a',
+                                                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                    // confirmButtonText: 'สอบใหม่อีกครั้ง',
+                                                    // cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                    allowEscapeKey: false,
+                                                    allowOutsideClick: false,
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                                                        //     this.router.navigate(['exam/do-exams', this.examId]);
+                                                        // });
+                                                        // this.getToDoExams(this.examId);
+                                                        this.router.navigate(['/exam/exam-history']);
+                                                    }
+                                                    else {
+                                                        this.router.navigate(['/exam/exam-history']);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        else {
+                                            Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
+                                        }
+                                    });
+
+                            }
+                            else {
+                                Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
+                            }
                         });
 
                     } else {
@@ -210,7 +311,7 @@ export class DetailsComponent implements OnInit {
     }
 
     async DotSend() {
-      Swal.fire('สิ้นสุดการสอบ','ไม่ส่งคำตอบได้ กรุณาลงทะเบียนสอบรอบใหม่!', 'warning');
+        Swal.fire('สิ้นสุดการสอบ', 'ไม่ส่งคำตอบได้ กรุณาลงทะเบียนสอบรอบใหม่!', 'warning');
     }
 
     async loading() {
@@ -227,18 +328,18 @@ export class DetailsComponent implements OnInit {
     }
 
     async checkLoading() {
-      Swal.fire({
-          icon: 'info',
-          title: 'กำลังตรวจข้อมูล... !',
-          // html: 'กำลังตรวจข้อมูลคำตอบ...', // add html attribute if you want or remove
-          allowOutsideClick: false,
-          showCancelButton: false,
-          showConfirmButton: false,
-          didRender: () => {
-              Swal.showLoading(Swal.getDenyButton());
-          },
-      });
-  }
+        Swal.fire({
+            icon: 'info',
+            title: 'กำลังตรวจข้อมูล... !',
+            // html: 'กำลังตรวจข้อมูลคำตอบ...', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showCancelButton: false,
+            showConfirmButton: false,
+            didRender: () => {
+                Swal.showLoading(Swal.getDenyButton());
+            },
+        });
+    }
 }
 
 export interface ExamGroup {
