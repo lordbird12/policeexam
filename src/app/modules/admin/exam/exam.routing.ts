@@ -6,6 +6,7 @@ import { ExamTodoComponent } from './exam-todo/exam-todo.component';
 import { DetailsComponent } from './details/details.component';
 import { ExamCalendarComponent } from './exam-calendar/exam-calendar.component';
 import { ExamHistoryComponent } from './exam-history/exam-history.component';
+import { CorrectAnswersComponent } from './correct-answers/correct-answers.component';
 
 // import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 // import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
@@ -53,6 +54,13 @@ export const examRoutes: Route[] = [
             {
                 path     : 'exam-history',
                 component: ExamHistoryComponent,
+                // resolve  : {
+                //     course: AcademyCourseResolver
+                // }
+            },
+            {
+                path     : 'correct-answers/:id',
+                component: CorrectAnswersComponent,
                 // resolve  : {
                 //     course: AcademyCourseResolver
                 // }
