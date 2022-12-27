@@ -1,5 +1,6 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { PageService } from 'app/modules/admin/dashboards/member/page.service';
-
+import Swal from 'sweetalert2';
 import {
     CalendarOptions,
     DateSelectArg,
@@ -40,13 +41,10 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
         initialView: 'dayGridMonth',
         locale: thLocale,
     };
+    dataExam: any;
+    dataArrExam = [];
+    events: any = [];
 
-    chartGithubIssues: ApexOptions = {};
-    chartTaskDistribution: ApexOptions = {};
-    chartBudgetDistribution: ApexOptions = {};
-    chartWeeklyExpenses: ApexOptions = {};
-    chartMonthlyExpenses: ApexOptions = {};
-    chartYearlyExpenses: ApexOptions = {};
     data: any;
     user: any;
     selectedProject: string = 'รายการสอบครั้งที่ 1 2565';
@@ -62,16 +60,15 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
     //     this.slider.next();
     // }
 
-    images = [
-        {path: 'https://source.unsplash.com/800x600/?nature'},
-        {path: 'https://source.unsplash.com/800x600/?car'},
-        {path: 'https://source.unsplash.com/800x600/?moto'},
-        {path: 'https://source.unsplash.com/800x600/?fantasy'},
-      ]
+    images = [];
     /**
      * Constructor
      */
-    constructor(private _Service: PageService, private _router: Router) {}
+    constructor(
+        private _Service: PageService,
+        private _router: Router,
+        private _changeDetectorRef: ChangeDetectorRef
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -83,16 +80,7 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.user = JSON.parse(localStorage.getItem('user')) || null;
         // Get the data
-        this._Service.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-                // Store the data
-                this.data = data;
-
-   
-            });
-
-      
+        this.GetBanners();
     }
 
     /**
@@ -104,5 +92,52 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    GetBanners(): void {
+        this.loading();
+        this._Service.getBanners().subscribe((resp) => {
+            this.images = resp.data;
+            this.GetCalendar();
+            this._changeDetectorRef.markForCheck();
 
+            setTimeout(() => {
+                Swal.close();
+            }, 500);
+        });
+    }
+
+    GetCalendar(): void {
+        this._Service.getCalendar().subscribe((resp) => {
+            this.dataExam = resp.data;
+
+            this.events = [];
+            for (let i = 0; i <= this.dataExam.length - 1; i++) {
+                let sendData = {
+                    title: this.dataExam[i].exam.name,
+                    date: this.dataExam[i].exam_date,
+                };
+                this.events.push(sendData);
+                this._changeDetectorRef.markForCheck();
+            }
+
+            this.calendarOptions.events = this.events;
+            this._changeDetectorRef.markForCheck();
+
+            setTimeout(() => {
+                Swal.close();
+            }, 500);
+        });
+    }
+
+    async loading() {
+        Swal.fire({
+            title: 'กรุณารอสักครู่ !',
+            html: 'กำลังโหลดข้อมูล...', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showCancelButton: false,
+            showConfirmButton: false,
+            didRender: () => {
+                Swal.showLoading(Swal.getDenyButton());
+            },
+        });
+    }
 }
