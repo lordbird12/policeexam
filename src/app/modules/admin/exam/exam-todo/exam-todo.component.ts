@@ -7,6 +7,7 @@ import { HelperFunctionService } from 'app/shared/helper-function.service';
 import { Route, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
+import { HttpClient } from '@angular/common/http';
 
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
@@ -29,9 +30,10 @@ export class ExamTodoComponent implements OnInit {
 
   dataExam: any;
   dataArrExam = [];
+  ipAddress: any;
 
   constructor(private _authService: AuthService, private _examServ: ExamService, private helper: HelperFunctionService,
-    private rou: Router, private _formBuilder: FormBuilder) {
+    private rou: Router, private _formBuilder: FormBuilder, private _httpClient: HttpClient) {
 
 
     }
@@ -42,16 +44,34 @@ export class ExamTodoComponent implements OnInit {
     }
 
     doExample(ArrData): void {
-      // console.log("ArrData", ArrData);
-       this.rou.navigate(['/exam/do-exams' , ArrData.exam_id])
+      console.log("ArrData", ArrData);
+      if(!this.ipAddress) {
+        Swal.fire('พบข้อผิดพลาด กรุณาลองเข้าใช้งานใหม่!', 'warning');
+      }
+      else {
+        this.rou.navigate(['/exam/do-exams' , ArrData.id]);
+      }
+    }
+
+    
+    getIPClient(): void {
+      this._examServ.getIPAddress().then((res) => {
+        // console.log("IP", res);
+        this.ipAddress = res.ip;
+        sessionStorage.setItem("GetMyIP", this.ipAddress);
+      });
     }
 
     getExamList(): void {
       this.loading();
+
+      this.getIPClient();
+
       this._examServ.getMyExam().subscribe((resp : any) => {
         console.clear();
         this.dataExam = resp;
-        console.log("dataExam", this.dataExam.data[0].exam_agian_status);
+        console.log(this.dataExam);
+        // console.log("dataExam", this.dataExam.data[0].exam_agian_status);
 
         setTimeout(() => {
           Swal.close();

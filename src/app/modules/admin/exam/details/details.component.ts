@@ -39,6 +39,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     display: any;
     @ViewChild('displayTime', { static: true }) displayTime: ElementRef;
 
+    IPClient : any;
+    sesExamTime : any;
+
     constructor(
         private _authService: AuthService,
         private _examServ: ExamService,
@@ -51,13 +54,17 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.examId = paramUrl.id ? paramUrl.id : '';
       
         // this.currentTime = `${this.months[this.targetDate.getMonth()] } ${this.targetDate.getDate()}, ${this.targetDate.getFullYear()}`;
+
+        this.IPClient = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
     }
 
     ngOnInit(): void {
-        // console.log('examId', this.examId);
         // this.getToDoExams(this.examId);
         let memberkey = localStorage.getItem("memberKey") ? localStorage.getItem("memberKey") : '';
         this.checkMemberAuthenkey(this.examId, memberkey);
+        // this.getToDoExams(this.examId);
+
+        console.log('GetMyIP', sessionStorage.getItem("GetMyIP"));
     }
 
     ngAfterViewInit() {
@@ -119,6 +126,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             // key: "19495092933328001550",
             key: memberkey,
             exam_id: exam_id,
+            ip: this.IPClient
         }
         this.loading();
         this._examServ
@@ -129,6 +137,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                     this.getToDoExams(this.examId);
                 }
             }, (error: any) => {
+               
                 Swal.fire({
                     title: 'คำเตือน!!!',
                     html: 'รหัสของคุณมีการเข้าสอบหลักสูตรซ้อนกัน, <br />กรุณาเข้าสอบช่องทางเดียวเท่านั้น!',
@@ -148,20 +157,23 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             });
     }
 
-    getToDoExams(examId): void {
+    getToDoExams(round_member_id): void {
         // this.loading();
         this._examServ
-            .ListDoExam({ exam_id: examId })
+            .ListDoExam({ exam_round_member_id: round_member_id })
             .subscribe((resp: any) => {
                 console.clear();
                 this.dataExams = resp;
-                this.dataExamGroup = this.dataExams.data[0].exam_group.exam_group_subjects;
-                // console.log('dataExams', this.dataExams);
+                this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
+                console.log('dataExamGroup', this.dataExamGroup);
+                console.log('dataExams', this.dataExams);
          
                 //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
-                this.timer(this.dataExams.data[0].exam_group.exam.exam_time);
+                this.timer(this.dataExams.data.time_count);
+                // this.timer(this.sesExamTime);
 
                 setTimeout(() => {
+                    console.log('GetMyIP', this.IPClient);
                     Swal.close();
                 }, 1000);
             });
@@ -210,7 +222,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
                     if (result.isConfirmed) {
                         let SendAnswer = {
-                            exam_round_member_id: this.dataExams.data[0].exam_round_member_id,
+                            exam_round_member_id: this.dataExams.data.exam_round_member_id,
                             member_answer: ArrAnswer
                         };
 
@@ -218,15 +230,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                         this.checkCountSend = {};
                         // console.log("SendAnswer" , SendAnswer);
                         await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
-                            if (resp.status == true) {
+                            if (resp.code == "200") {
 
                                 //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
-                                await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data[0].exam_round_member_id }).
+                                await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data.exam_round_member_id }).
                                     subscribe((countResp: any) => {
 
                                         this.checkCountSend = countResp;
 
-                                        if (this.checkCountSend.status == true) {
+                                        if (this.checkCountSend.code == "200") {
                                             // console.log("CheckCount" , this.checkCountSend);
                                             if (this.checkCountSend.data.count_answer >= this.checkCountSend.data.exam_limit) {
                                                 Swal.fire({
@@ -283,6 +295,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                             else {
                                 Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                             }
+                        }, (error: any) => { 
+                            Swal.fire('พบข้อผิดพลาด', error, 'error');
                         });
 
                     } else {

@@ -60,9 +60,7 @@ export class CorrectAnswersComponent implements OnInit {
     });
   }
 
-  ViewCorrect(IdExam): void {
-    // this.router.navigate(['/exam/correct-answers' , IdExam])
-  }
+
 
   async loading() {
     Swal.fire({

@@ -24,7 +24,7 @@
         "@angular/localize": "^13.2.3",
         "@angular/material": "13.2.3",
         "@angular/material-moment-adapter": "13.2.3",
-        "@angular/platform-browser": "13.2.3",
+        "@angular/platform-browser": "^13.2.3",
         "@angular/platform-browser-dynamic": "13.2.3",
         "@angular/router": "13.2.3",
         "@fullcalendar/angular": "^6.0.1",

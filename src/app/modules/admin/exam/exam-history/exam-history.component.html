@@ -56,19 +56,23 @@
                                         <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
                                         <div class="ml-2">เริ่มสอบเวลา : {{ list.exam_round.start_time }} &nbsp;&nbsp;&nbsp; สิ้นสุดสอบเวลา : {{ list.exam_round.end_time }} </div>
                                     </div>
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                                        <div class="ml-2">สถานะส่งข้อสอบ : </div>
+                                    </div>
                                     <div class="mt-1 text-lg flex items-center leading-5 text-md font-medium">
                                         <mat-icon svgIcon="heroicons_outline:question-mark-circle"></mat-icon>
                                         <div class="ml-2 flex">ผลสอบ :&nbsp;
                                             <ng-container>
-                                                <div *ngIf="list.status =='Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold 
-                                                  text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
-                                                <div *ngIf="list.status =='Not Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold
-                                                  text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
+                                                <div *ngIf="list.exam_member_answer_results.score >= list.exam_round.exam.all_score_pass"  
+                                                    class="py-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> 
+                                                    {{ list.exam_member_answer_results.score }}/{{ list.exam_round.exam.question_qty }} </div>
+                                                    
+                                                <div *ngIf="list.exam_member_answer_results.score < list.exam_round.exam.all_score_pass"
+                                                  class="py-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> 
+                                                  {{ list.exam_member_answer_results.score }}/{{ list.exam_round.exam.question_qty }} </div>
                                             </ng-container>
                                         </div>
-                                            
-                                        <!-- สอบผ่าน <b class="text-green-600">[{{ list.exam_round.exam.all_score_pass }} คะแนนขึ้นไป]</b> 
-                                            &nbsp;&nbsp; สอบไม่ผ่าน <b class="text-red-600">[ไม่เกิน {{ list.exam_round.exam.exam_group_qty }} คะแนน]</b>  -->
                                     </div>
                                 </div>
                             </div>
@@ -76,13 +80,12 @@
                     
 
                             <div class="flex flex-col w-60 mt-auto">
-                                <ng-container *ngIf="list.exam_member_answer_results.score >= list.exam_round.exam.all_score_pass">
+                                <ng-container *ngIf="list.status =='Pass'">
                                     <div class="px-6 py-2 text-right">
                                         <div
                                             class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-100 text-green-800 dark:bg-white dark:bg-opacity-5">
-                                            <div class="text-5xl font-semibold leading-none tracking-tight"> 
-                                                {{ list.exam_member_answer_results.score }}/{{ list.exam_round.exam.question_qty }} </div>
-                                            <div class="mt-1 font-medium text-center">คะแนน</div>
+                                            <div class="text-5xl font-semibold leading-none tracking-tight"> ผ่าน </div>
+                                            <!-- <div class="mt-1 font-medium text-center">คะแนน</div> -->
                                         </div>
                                     </div>
 
@@ -100,13 +103,13 @@
                                     </a>
                                 </ng-container>
 
-                                <ng-container *ngIf="list.exam_member_answer_results.score < list.exam_round.exam.all_score_pass">
+                                <ng-container *ngIf="list.status =='Not Pass'">
                                     <div class="px-6 py-2 text-right">
                                         <div
                                             class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-red-100 text-red-800 dark:bg-white dark:bg-opacity-5">
                                             <div class="text-5xl font-semibold leading-none tracking-tight"> 
-                                               {{ list.exam_member_answer_results.score }}/{{ list.exam_round.exam.question_qty }} </div>
-                                            <div class="mt-1 font-medium text-center">คะแนน</div>
+                                               ไม่ผ่าน </div>
+                                            <!-- <div class="mt-1 font-medium text-center">คะแนน</div> -->
                                         </div>
                                     </div>
 
@@ -121,6 +124,7 @@
 
                         </div>
                     </ng-container>
+                    
 
                 </div>
             </div>
