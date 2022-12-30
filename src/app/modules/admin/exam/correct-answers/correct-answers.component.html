@@ -75,19 +75,40 @@
                                         <div class="ml-2">รายวิชาที่สอบ {{i+1}}. {{ coutsub.exam_subjects }} : ได้คะแนน [ {{ coutsub.score }} คะแนน ]</div>
                                     </div>
 
+                                    <div class="mt-1 flex items-center leading-5 text-md font-medium">
+                                        <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>
+                                        <div *ngIf="dataExamAnswer.data.send_answer =='Not Send'" class="ml-2">สถานะส่งคำตอบ : ไม่ได้ส่งคำตอบ</div>
+                                        <div *ngIf="dataExamAnswer.data.send_answer =='Send'" class="ml-2">สถานะส่งคำตอบ : ส่งคำตอบทันเวลา</div>
+                                        <div *ngIf="dataExamAnswer.data.send_answer =='Send late'" class="ml-2">สถานะส่งคำตอบ : ส่งคำตอบล่าช้า</div>
+                                    </div>
+
                                     <div class="mt-1 text-lg flex items-center leading-5 text-md font-medium">
                                         <mat-icon svgIcon="heroicons_outline:question-mark-circle"></mat-icon>
-                                        <div class="ml-2 flex">ผลสอบ :&nbsp;
+                                        <!-- <div class="ml-2 flex">ผลสอบ :&nbsp;
                                             <ng-container>
                                                 <div *ngIf="dataExamAnswer.data.status =='Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold 
                                                   text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
                                                 <div *ngIf="dataExamAnswer.data.status =='Not Pass'" class="py-0.5 px-3 rounded-full text-sm font-semibold
                                                   text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> สอบผ่าน </div>
                                             </ng-container>
-                                        </div>
+                                        </div> -->
                                             
-                                        <!-- สอบผ่าน <b class="text-green-600">[{{ dataExamAnswer.data.exam_round.exam.all_score_pass }} คะแนนขึ้นไป]</b> 
-                                            &nbsp;&nbsp; สอบไม่ผ่าน <b class="text-red-600">[ไม่เกิน {{ dataExamAnswer.data.exam_round.exam.exam_group_qty }} คะแนน]</b>  -->
+                                        <div class="ml-2 flex">ผลสอบ :&nbsp;
+                                            <ng-container *ngIf="dataExamAnswer.data.send_answer != 'Not Send'">
+                                                <div *ngIf="dataExamAnswer.data.exam_member_answer_results.score >= dataExamAnswer.data.exam_round.exam.all_score_pass"  
+                                                    class="py-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> 
+                                                    {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
+                                                    
+                                                <div *ngIf="dataExamAnswer.data.exam_member_answer_results.score < dataExamAnswer.data.exam_round.exam.all_score_pass"
+                                                  class="py-0.5 px-3 rounded-full text-sm font-semibold text-red-800 bg-red-100 dark:text-blue-50 dark:bg-blue-500"> 
+                                                  {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="dataExamAnswer.data.send_answer == 'Not Send'">
+                                                <div class="py-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100 dark:text-blue-50 dark:bg-blue-500"> 
+                                                0/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
+                                            </ng-container>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,34 +116,45 @@
                     
 
                             <div class="flex flex-col w-60 mt-auto">
-                                <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score >= dataExamAnswer.data.exam_round.exam.all_score_pass">
-                                    <div class="px-6 py-2 text-right">
-                                        <div
-                                            class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-100 text-green-800 dark:bg-white dark:bg-opacity-5">
-                                            <div class="text-5xl font-semibold leading-none tracking-tight"> 
-                                                {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
-                                            <div class="mt-1 font-medium text-center">คะแนน</div>
-                                        </div>
-                                    </div>
-
-                                    <a type="button" mat-stroked-button class="px-4 py-4 mx-4 mt-2 font-bold mdc-button mat-primary bg-blue-700 text-white mat-mdc-button-base mat-mdc-b" 
-                                        href="https://police-exam.dev-asha.com/api/get_exam_cert_memberPDF?exam_round_member_id={{dataExamAnswer.data.exam_member_answer_results.exam_round_member_id}}" target="_blank">
-                                        <span class="inline-flex items-center">
-                                            <span> ใบรับรองหลักสูตร </span>
-                                        </span>
-                                    </a>
-                                </ng-container>
-
-                                <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score < dataExamAnswer.data.exam_round.exam.all_score_pass">
+                                <ng-container *ngIf="!dataExamAnswer.data.exam_member_answer_results">
                                     <div class="px-6 py-2 text-right">
                                         <div
                                             class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-red-100 text-red-800 dark:bg-white dark:bg-opacity-5">
                                             <div class="text-5xl font-semibold leading-none tracking-tight"> 
-                                               {{ dataExamAnswer.data.exam_member_answer_results.score }}/{{ dataExamAnswer.data.exam_round.exam.question_qty }} </div>
-                                            <div class="mt-1 font-medium text-center">คะแนน</div>
+                                               ไม่ผ่าน </div>
+                                            <!-- <div class="mt-1 font-medium text-center">คะแนน</div> -->
                                         </div>
                                     </div>
                                 </ng-container>
+
+                                <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results">
+                                    <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score >= dataExamAnswer.data.exam_round.exam.all_score_pass">
+                                        <div class="px-6 py-2 text-right">
+                                            <div
+                                                class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-100 text-green-800 dark:bg-white dark:bg-opacity-5">
+                                                <div class="text-5xl font-semibold leading-none tracking-tight"> ผ่าน </div>
+                                            </div>
+                                        </div>
+    
+                                        <a type="button" mat-stroked-button class="px-4 py-4 mx-4 mt-2 font-bold mdc-button mat-primary bg-blue-700 text-white mat-mdc-button-base mat-mdc-b" 
+                                            href="https://police-exam.dev-asha.com/api/get_exam_cert_memberPDF?exam_round_member_id={{dataExamAnswer.data.exam_member_answer_results.exam_round_member_id}}" target="_blank">
+                                            <span class="inline-flex items-center">
+                                                <span> ใบรับรองหลักสูตร </span>
+                                            </span>
+                                        </a>
+                                    </ng-container>
+    
+                                    <ng-container *ngIf="dataExamAnswer.data.exam_member_answer_results.score < dataExamAnswer.data.exam_round.exam.all_score_pass">
+                                        <div class="px-6 py-2 text-right">
+                                            <div
+                                                class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-red-100 text-red-800 dark:bg-white dark:bg-opacity-5">
+                                                <div class="text-5xl font-semibold leading-none tracking-tight"> ไม่ผ่าน</div>
+                                                <!-- <div class="mt-1 font-medium text-center">คะแนน</div> -->
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
                             </div>
 
                         </div>

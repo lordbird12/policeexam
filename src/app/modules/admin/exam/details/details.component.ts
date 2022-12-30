@@ -8,7 +8,6 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 
-
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
 const memberKey = localStorage.getItem('memberKey') || "";
@@ -39,8 +38,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     display: any;
     @ViewChild('displayTime', { static: true }) displayTime: ElementRef;
 
-    IPClient : any;
-    sesExamTime : any;
+    IPClient: any;
+    ExamRound_ExamId: any;
+    sesExamTime: any;
 
     constructor(
         private _authService: AuthService,
@@ -52,19 +52,20 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     ) {
         let paramUrl: any = this.AcRoute.snapshot.params;
         this.examId = paramUrl.id ? paramUrl.id : '';
-      
+
         // this.currentTime = `${this.months[this.targetDate.getMonth()] } ${this.targetDate.getDate()}, ${this.targetDate.getFullYear()}`;
 
         this.IPClient = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
+        this.ExamRound_ExamId = sessionStorage.getItem("ExamRound_ExamId") ? sessionStorage.getItem("ExamRound_ExamId") : '';
     }
 
     ngOnInit(): void {
         // this.getToDoExams(this.examId);
         let memberkey = localStorage.getItem("memberKey") ? localStorage.getItem("memberKey") : '';
-        this.checkMemberAuthenkey(this.examId, memberkey);
+        
+        this.checkMemberAuthenkey(this.ExamRound_ExamId, memberkey);
         // this.getToDoExams(this.examId);
-
-        console.log('GetMyIP', sessionStorage.getItem("GetMyIP"));
+        // console.log('GetMyIP', sessionStorage.getItem("GetMyIP"));
     }
 
     ngAfterViewInit() {
@@ -96,11 +97,20 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             if (seconds == 0) {
                 console.log('finished');
                 clearInterval(timer);
-                
+
                 this.dilogEndTimeAnswer();
             }
+
+            // เช็คปรับเวลาข้อสอบ
+            // if (Math.floor(seconds / 60) == 5) {
+            //     this._examServ.getExamRoundTimeCount({ exam_round_id: this.dataExams.data.exam_round_member.exam_round_id }).subscribe((resp: any) => {
+            //         seconds = seconds + resp.data * 60;
+            //         console.log("getExamRoundTimeCount", resp.data * 60)
+            //     });
+            // }
         }, 1000);
     }
+
 
     dilogEndTimeAnswer() {
         Swal.fire({
@@ -129,32 +139,30 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             ip: this.IPClient
         }
         this.loading();
-        this._examServ
-            .checkMemberAuthenkeyExams(body)
-            .subscribe((resp: any) => {
-                if (resp.status == true) {
-                    localStorage.setItem("memberKey", resp.data);
-                    this.getToDoExams(this.examId);
+        this._examServ.checkMemberAuthenkeyExams(body).subscribe((resp: any) => {
+            if (resp.status == true) {
+                localStorage.setItem("memberKey", resp.data);
+                this.getToDoExams(this.examId);
+            }
+        }, (error: any) => {
+
+            Swal.fire({
+                title: 'คำเตือน!!!',
+                html: 'รหัสของคุณมีการเข้าสอบหลักสูตรซ้อนกัน, <br />กรุณาเข้าสอบช่องทางเดียวเท่านั้น!',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#16a34a',
+                confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.router.navigate(['/exam/exam-todo']);
                 }
-            }, (error: any) => {
-               
-                Swal.fire({
-                    title: 'คำเตือน!!!',
-                    html: 'รหัสของคุณมีการเข้าสอบหลักสูตรซ้อนกัน, <br />กรุณาเข้าสอบช่องทางเดียวเท่านั้น!',
-                    icon: 'error',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#16a34a',
-                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.router.navigate(['/exam/exam-todo']);
-                    }
-                });
             });
+        });
     }
 
     getToDoExams(round_member_id): void {
@@ -167,13 +175,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
                 console.log('dataExamGroup', this.dataExamGroup);
                 console.log('dataExams', this.dataExams);
-         
+
                 //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
                 this.timer(this.dataExams.data.time_count);
                 // this.timer(this.sesExamTime);
 
                 setTimeout(() => {
-                    console.log('GetMyIP', this.IPClient);
+                    // console.log('GetMyIP', this.IPClient);
+                    // this.getExamRoundTimeCount(this.dataExams.data);
                     Swal.close();
                 }, 1000);
             });
@@ -182,17 +191,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     async AnswerSend(): Promise<void> {
         this.checkLoading();
         let ArrAnswer = [];
+        let chkVal: any;
+
         await this.dataExamGroup.forEach(async (sub, x) => {
-            await this.dataExamGroup[x].exam_group_subject_questions.forEach(
-                async (ques, y) => {
-                    let chkVal = await this.checkValueAnswer(
-                        ques.main_question_id
+            await this.dataExamGroup[x].exam_group_subject_questions.forEach(async (ques, y) => {
+
+                await this.dataExamGroup[x].exam_group_subject_questions[y].exam_group_subject_answers.forEach(async (subanws, y) => {
+                    //เช็คข้อมูลเอา group_subject_question_id มาหาชื่อ radio เพื่อ get value
+                    chkVal = await this.checkValueAnswer(
+                        subanws.group_subject_question_id
                     );
-                    ArrAnswer.push(chkVal);
-                }
-            );
+                });
+
+                //return value ที่เป็น id ใน exam_group_subject_answers
+                ArrAnswer.push(chkVal); 
+            });
         });
-        // console.log("ArrAnswer" , ArrAnswer);
+        // console.log("ArrAnswer", ArrAnswer);
+        
         setTimeout(async () => {
             let NotSend: any = this.containsUndefined(ArrAnswer);
             // console.log(NotSend.__zone_symbol__value);
@@ -295,7 +311,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                             else {
                                 Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                             }
-                        }, (error: any) => { 
+                        }, (error: any) => {
                             Swal.fire('พบข้อผิดพลาด', error, 'error');
                         });
 
@@ -306,7 +322,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
                 });
             }
-        }, 1000);
+        }, 1500);
     }
 
     //เช็คข้อมูล Arr undefind

@@ -30,6 +30,7 @@ export class ExamService {
         return this._examList.asObservable();
     }
 
+    //รายการที่ต้องสอบ
     getMyExam(): Observable<any> {
         return this._httpClient
             .get<any>(
@@ -38,6 +39,7 @@ export class ExamService {
             )
             .pipe(catchError(this.handlerError));
     }
+    
 
     getExamPage(dataBody: any): Observable<DataExam> {
         return this._httpClient
@@ -47,12 +49,6 @@ export class ExamService {
                 this.httpOptionsFormdata
             )
             .pipe(catchError(this.handlerError));
-
-        //   return this._httpClient.post<DataExam>(`${environment.API_URL}/api/get_exam_page`, dataBody, this.httpOptionsFormdata).pipe(
-        //     tap((response: any) => {
-        //         this._examList.next(response);
-        //     })
-        // );
     }
 
     getExamRound(dataBody: any): Observable<any> {
@@ -85,6 +81,7 @@ export class ExamService {
             .pipe(catchError(this.handlerError));
     }
 
+    //ข้อสอบ
     ListDoExam(dataBody: any): Observable<any> {
         return this._httpClient
             .post<any>(
@@ -95,6 +92,7 @@ export class ExamService {
             .pipe(catchError(this.handlerError));
     }
 
+    //ส่งข้อสอบ
     SendAnswerExam(dataBody: any): Observable<any> {
         return this._httpClient
             .post<any>(
@@ -143,9 +141,15 @@ export class ExamService {
             .pipe(catchError(this.handlerError));
     }
 
-    getClientIPAddress() {
-        return this._httpClient.get<any>('https://jsonip.com');
-        // return this._httpClient.get("https://jsonip.com?callback=?");
+    //get เวลาที่เหลือในการสอบ ทุกๆ 5 นาที (ที่ต้องแยกเพราะเขามีการปรับเวลาตอนสอบ)
+    getExamRoundTimeCount(dataBody: any): Observable<any> {
+        return this._httpClient
+            .post<any>(
+                `${environment.API_URL}/api/get_exam_round_time_count`,
+                dataBody,
+                this.httpOptionsFormdata
+            )
+            .pipe(catchError(this.handlerError));
     }
 
     getIPAddress() {
@@ -153,7 +157,7 @@ export class ExamService {
             .then((response) => response.json())
             .then((data) => data);
     }
-
+    
     handlerError(error): Observable<never> {
         let errorMessage = 'Error unknown';
         if (error) {
