@@ -62,8 +62,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         // this.getToDoExams(this.examId);
         let memberkey = localStorage.getItem("memberKey") ? localStorage.getItem("memberKey") : '';
-        
+
+        //เช็คเข้าใช้คนเดียวหรือไม่ แล้วดึงข้อสอบ
         this.checkMemberAuthenkey(this.ExamRound_ExamId, memberkey);
+
+        //ดึงข้อสอบ
         // this.getToDoExams(this.examId);
         // console.log('GetMyIP', sessionStorage.getItem("GetMyIP"));
     }
@@ -237,85 +240,112 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 }).then(async (result) => {
 
                     if (result.isConfirmed) {
-                        let SendAnswer = {
-                            exam_round_member_id: this.dataExams.data.exam_round_member_id,
-                            member_answer: ArrAnswer
-                        };
-
                         this.checkLoading();
                         this.checkCountSend = {};
-                        // console.log("SendAnswer" , SendAnswer);
-                        await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
-                            if (resp.code == "200") {
+                        //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
+                        await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data.exam_round_member_id }).
+                            subscribe(async (countResp: any) => {
 
-                                //ยิงเช็คข้อมูลจำนวนครั้งสอบสูงสุด และส่งไปแล้วกี่ครั้ง
-                                await this._examServ.getCountMemberAnswerResult({ exam_round_member_id: this.dataExams.data.exam_round_member_id }).
-                                    subscribe((countResp: any) => {
+                                this.checkCountSend = countResp;
+                                let SendAnswer = {
+                                    exam_round_member_id: this.dataExams.data.exam_round_member_id,
+                                    member_answer: ArrAnswer
+                                };
+                                // console.log("SendAnswer" , SendAnswer);
+                                if (this.checkCountSend.code == "200") {
+                                    // console.log("CheckCount" , this.checkCountSend);
 
-                                        this.checkCountSend = countResp;
+                                    // หากส่งคำตอบยังเกินจำนวนครั้งที่กำหนด
+                                    if (this.checkCountSend.data.count_answer >= this.checkCountSend.data.exam_limit) {
+                                        Swal.fire({
+                                            title: 'ไม่สามารถส่งคำตอบได้',
+                                            text: `เนื่องจากคุณส่งคำตอบเกิดจำนวนครั้งที่กำหนด ในการส่งคำตอบแล้ว!`,
+                                            icon: 'warning',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#16a34a',
+                                            confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                            allowEscapeKey: false,
+                                            allowOutsideClick: false,
+                                            // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                this.router.navigate(['/exam/exam-history']);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        // หากส่งคำตอบยังไม่เกินจำนวนครั้งที่กำหนด
+                                        // ยิงส่งคำตอบ
+                                        await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
+                                            if (resp.code == "200") {     
 
-                                        if (this.checkCountSend.code == "200") {
-                                            // console.log("CheckCount" , this.checkCountSend);
-                                            if (this.checkCountSend.data.count_answer >= this.checkCountSend.data.exam_limit) {
-                                                Swal.fire({
-                                                    title: 'ส่งคำตอบสำเร็จ',
-                                                    text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
-                                                    icon: 'success',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#16a34a',
-                                                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
-                                                    allowEscapeKey: false,
-                                                    allowOutsideClick: false,
-                                                    // cancelButtonText: 'ตกลง, ปิดหน้าต่าง',
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        this.router.navigate(['/exam/exam-history']);
-                                                    }
-                                                });
+                                                //เช็คคะแนนว่ามีค่าหรือไม่ score = null ส่งคำตอบแบบไม่แสดงคะแนน
+                                                if(!resp.data.score){
+                                                    Swal.fire({
+                                                        title: 'ส่งคำตอบสำเร็จ',
+                                                        text: `ขอบคุณที่ทำข้อสอบ, ขอให้โชคดีในคำตอบนะครับ`,
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#16a34a',
+                                                        confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        // confirmButtonText: 'สอบใหม่อีกครั้ง',
+                                                        // cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        allowEscapeKey: false,
+                                                        allowOutsideClick: false,
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            this.router.navigate(['/exam/exam-history']);
+                                                        }
+                                                    });
+                                                }
+                                                else {
+                                                    //score > 0 ส่งคำตอบแบบแสดงคะแนน
+                                                    Swal.fire({
+                                                        title: 'ส่งคำตอบสำเร็จ',
+                                                        text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#16a34a',
+                                                        confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        // confirmButtonText: 'สอบใหม่อีกครั้ง',
+                                                        // cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        allowEscapeKey: false,
+                                                        allowOutsideClick: false,
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                                                            //     this.router.navigate(['exam/do-exams', this.examId]);
+                                                            // });
+                                                            // this.getToDoExams(this.examId);
+                                                            this.router.navigate(['/exam/exam-history']);
+                                                        }
+                                                        else {
+                                                            this.router.navigate(['/exam/exam-history']);
+                                                        }
+                                                    });
+                                                }
                                             }
                                             else {
-
-                                                Swal.fire({
-                                                    title: 'ส่งคำตอบสำเร็จ',
-                                                    text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
-                                                    icon: 'success',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#16a34a',
-                                                    confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
-                                                    // confirmButtonText: 'สอบใหม่อีกครั้ง',
-                                                    // cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
-                                                    allowEscapeKey: false,
-                                                    allowOutsideClick: false,
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                                                        //     this.router.navigate(['exam/do-exams', this.examId]);
-                                                        // });
-                                                        // this.getToDoExams(this.examId);
-                                                        this.router.navigate(['/exam/exam-history']);
-                                                    }
-                                                    else {
-                                                        this.router.navigate(['/exam/exam-history']);
-                                                    }
-                                                });
+                                                Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                                             }
-                                        }
-                                        else {
-                                            Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
-                                        }
-                                    });
+                                        }, (error: any) => {
+                                            Swal.fire('พบข้อผิดพลาด', error, 'error');
+                                        });
+                                    }
+                                }
+                                else {
+                                    Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
+                                }
 
-                            }
-                            else {
-                                Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
-                            }
-                        }, (error: any) => {
-                            Swal.fire('พบข้อผิดพลาด', error, 'error');
-                        });
+                            }, (error: any) => {
+                                Swal.fire('พบข้อผิดพลาด', error, 'error');
+                            });
 
                     } else {
+                        //ปิดหน้าต่าง
                         Swal.close();
                         return;
                     }

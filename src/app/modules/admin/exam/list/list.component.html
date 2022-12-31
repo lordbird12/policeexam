@@ -137,7 +137,7 @@
                         <!-- <input id="exam_round_id" matInput formControlName="exam_round_id"> -->
                         <mat-select  placeholder="ระบุรอบที่สอบ" formControlName="exam_round_id">
                             <mat-option value="" disabled>-- ระบุรอบที่สอบ --</mat-option>
-                            <mat-option *ngFor="let round of this.dataExamRound" [value]="round.exam.round">
+                            <mat-option *ngFor="let round of this.dataExamRound" [value]="round.id">
                               {{ this.helper.reverseDateSplitKed(round.exam_date) }} เวลา {{ round.start_time }} ถึง {{ round.end_time }}
                             </mat-option>
                       </mat-select>

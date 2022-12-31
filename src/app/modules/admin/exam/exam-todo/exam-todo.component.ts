@@ -35,16 +35,17 @@ export class ExamTodoComponent implements OnInit {
   constructor(private _authService: AuthService, private _examServ: ExamService, private helper: HelperFunctionService,
     private rou: Router, private _formBuilder: FormBuilder, private _httpClient: HttpClient) {
 
-      this.getIPClient();
-    }
-
-    ngOnInit(): void {
-      this.getExamList();
       
     }
 
+    ngOnInit(): void {
+      this.getIPClient();
+      
+      this.getExamList();
+    }
+
     doExample(ArrData : any): void {
-      console.log("ArrData", ArrData);
+      // console.log("ArrData", ArrData);
       if(!this.ipAddress) {
         Swal.fire({
           icon: 'warning',
