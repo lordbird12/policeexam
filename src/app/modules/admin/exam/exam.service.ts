@@ -37,7 +37,7 @@ export class ExamService {
                 `${environment.API_URL}/api/my_exam`,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError(this.handlerError));
+            .pipe(catchError((error : any) => { return of(error.error) }));
     }
     
 
@@ -89,7 +89,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError(this.handlerError));
+            .pipe(catchError((error : any) => { return of(error.error) }));
     }
 
     //ส่งข้อสอบ
@@ -119,7 +119,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError(this.handlerError));
+            .pipe(catchError((error : any) => { return of(error.error) }));
     }
 
     checkMemberAuthenkeyExams(dataBody: any): Observable<any> {
@@ -138,7 +138,7 @@ export class ExamService {
                 `${environment.API_URL}/api/exam_round_member/` + paramUrl,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError(this.handlerError));
+            .pipe(catchError((error : any) => { return of(error.error) }));
     }
 
     //get เวลาที่เหลือในการสอบ ทุกๆ 5 นาที (ที่ต้องแยกเพราะเขามีการปรับเวลาตอนสอบ)
@@ -149,7 +149,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError(this.handlerError));
+            .pipe(catchError((error : any) => { return of(error.error) }));
     }
 
     getIPAddress() {
@@ -159,9 +159,9 @@ export class ExamService {
     }
     
     handlerError(error): Observable<never> {
-        let errorMessage = 'Error unknown';
+        let errorMessage = { message : 'Error unknown'};
         if (error) {
-            errorMessage = ` ${error.error.message}`;
+            errorMessage = error.error;
         }
         return throwError(errorMessage);
     }

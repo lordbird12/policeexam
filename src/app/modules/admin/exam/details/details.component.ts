@@ -143,14 +143,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
         this.loading();
         this._examServ.checkMemberAuthenkeyExams(body).subscribe((resp: any) => {
+           
             if (resp.status == true) {
                 localStorage.setItem("memberKey", resp.data);
                 this.getToDoExams(this.examId);
             }
-        }, (error: any) => {
 
+        }, (error: any) => {
             Swal.fire({
-                title: 'คำเตือน!!!',
+                title: 'คำเตือน !! [' + error.code + ']',
                 html: 'รหัสของคุณมีการเข้าสอบหลักสูตรซ้อนกัน, <br />กรุณาเข้าสอบช่องทางเดียวเท่านั้น!',
                 icon: 'error',
                 showCancelButton: false,
