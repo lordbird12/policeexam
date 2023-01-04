@@ -39,9 +39,12 @@ export class ExamTodoComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      this.loading();
       this.getIPClient();
-      
-      this.getExamList();
+
+      setTimeout(() => {
+        this.getExamList();
+      }, 1000);
     }
 
     doExample(ArrData : any): void {
@@ -72,7 +75,6 @@ export class ExamTodoComponent implements OnInit {
     }
 
     getExamList(): void {
-      this.loading();
       this._examServ.getMyExam().subscribe((resp : any) => {
         console.clear();
         this.dataExam = resp;
