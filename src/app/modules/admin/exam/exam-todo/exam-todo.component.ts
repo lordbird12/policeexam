@@ -82,6 +82,9 @@ export class ExamTodoComponent implements OnInit {
         setTimeout(() => {
           Swal.close();
         }, 1000);
+      }, 
+      (error: any) => {
+          Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
       });
     }
 

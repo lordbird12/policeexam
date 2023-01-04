@@ -37,7 +37,7 @@ export class ExamService {
                 `${environment.API_URL}/api/my_exam`,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError((error : any) => { return of(error.error) }));
+            .pipe(catchError(this.handlerError));
     }
     
 
@@ -89,7 +89,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError((error : any) => { return of(error.error) }));
+            .pipe(catchError(this.handlerError));
     }
 
     //ส่งข้อสอบ
@@ -119,7 +119,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError((error : any) => { return of(error.error) }));
+            .pipe(catchError(this.handlerError));
     }
 
     checkMemberAuthenkeyExams(dataBody: any): Observable<any> {
@@ -138,7 +138,7 @@ export class ExamService {
                 `${environment.API_URL}/api/exam_round_member/` + paramUrl,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError((error : any) => { return of(error.error) }));
+            .pipe(catchError(this.handlerError));
     }
 
     //get เวลาที่เหลือในการสอบ ทุกๆ 5 นาที (ที่ต้องแยกเพราะเขามีการปรับเวลาตอนสอบ)

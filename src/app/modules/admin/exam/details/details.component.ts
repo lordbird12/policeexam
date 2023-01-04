@@ -332,8 +332,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                             else {
                                                 Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                                             }
-                                        }, (error: any) => {
-                                            Swal.fire('พบข้อผิดพลาด', error, 'error');
+                                        }, 
+                                        (error: any) => {
+                                            Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
                                         });
                                     }
                                 }
@@ -341,8 +342,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                     Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
                                 }
 
-                            }, (error: any) => {
-                                Swal.fire('พบข้อผิดพลาด', error, 'error');
+                            }, 
+                            (error: any) => {
+                                Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
                             });
 
                     } else {
