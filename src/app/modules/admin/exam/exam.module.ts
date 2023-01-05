@@ -30,6 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ExamCalendarComponent } from './exam-calendar/exam-calendar.component';
 import { ExamHistoryComponent } from './exam-history/exam-history.component';
 import { CorrectAnswersComponent } from './correct-answers/correct-answers.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CorrectAnswersComponent } from './correct-answers/correct-answers.compo
     MatProgressSpinnerModule,
     FullCalendarModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ]
 })
 export class ExamModule { }

@@ -234,6 +234,9 @@ export class ListComponent implements OnInit, OnDestroy {
               this.regitExamForm.enable();
               Swal.fire('พบข้อผิดพลาด', response.message, 'error');
             }
+          }, 
+          (error: any) => {
+              Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
           });
         }
         else {

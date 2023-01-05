@@ -1,6 +1,7 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header -->
+<<<<<<< HEAD
     <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card  bg-blue-500 dark">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
@@ -11,6 +12,17 @@
                     ลงทะเบียนสอบ
                 </h2>
             </div>
+=======
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card bg-primary-100">
+      <div class="flex-1 min-w-0">
+        <!-- Breadcrumbs -->
+    
+        <!-- Title -->
+        <div class="mt-2">
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            ลงทะเบียนสอบ
+          </h2>
+>>>>>>> 35cd6cd13e44a8eead94b2c6a8a59f87e7f0a4da
         </div>
     </div>
 
@@ -80,7 +92,12 @@
     <div id="overlay" class="fixed hidden z-999 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"></div>
 
     <!-- The dialog -->
+<<<<<<< HEAD
     <div id="dialog" class="hidden fixed z-999 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6/12 bg-white rounded-md px-5 py-5 space-y-5 drop-shadow-lg">
+=======
+    <div id="dialog" 
+        class="hidden fixed z-999 h-4/6 sm:h-3/5 top-36 sm:top-24 left-0 sm:left-1/4 md:left-1/4 inset-0 w-full sm:w-6/12 md:w-6/12 bg-white rounded-md px-5 py-4 mb-6 sm:pb-8 drop-shadow-lg">
+>>>>>>> 35cd6cd13e44a8eead94b2c6a8a59f87e7f0a4da
         <!-- header -->
         <div class="flex items-start justify-between">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -101,9 +118,9 @@
             <!-- Form -->
             <form class="mt-4" [formGroup]="regitExamForm">
                 <div class="py-2 border-t border-b border-gray-300">
-                    <h1 class="text-lg font-bold">ข้อมูลวิชาสอบ</h1>
+                    <h1 class="text-xl font-bold">ข้อมูลวิชาสอบ</h1>
 
-                    <div class="flex items-center p-2 text-secondar">
+                    <div class="flex items-center mt-1 sm:mt-4 p-2 text-secondar">
                         <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
                         <mat-label class="ml-2"><b>รายชื่อวิชา : </b> {{ displayDialog.Name }} {{ displayDialog.year }}</mat-label>
                     </div>
@@ -129,8 +146,13 @@
                         <!-- <input id="exam_round_id" matInput formControlName="exam_round_id"> -->
                         <mat-select placeholder="ระบุรอบที่สอบ" formControlName="exam_round_id">
                             <mat-option value="" disabled>-- ระบุรอบที่สอบ --</mat-option>
+<<<<<<< HEAD
                             <mat-option *ngFor="let round of this.dataExamRound" [value]="round.exam.round">
                                 {{ this.helper.reverseDateSplitKed(round.exam_date) }} เวลา {{ round.start_time }} ถึง {{ round.end_time }}
+=======
+                            <mat-option *ngFor="let round of this.dataExamRound" [value]="round.id">
+                              {{ this.helper.reverseDateSplitKed(round.exam_date) }} เวลา {{ round.start_time }} ถึง {{ round.end_time }}
+>>>>>>> 35cd6cd13e44a8eead94b2c6a8a59f87e7f0a4da
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
