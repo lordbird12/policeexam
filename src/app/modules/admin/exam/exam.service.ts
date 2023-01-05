@@ -44,7 +44,7 @@ export class ExamService {
     getExamPage(dataBody: any): Observable<DataExam> {
         return this._httpClient
             .post<DataExam>(
-                `${environment.API_URL}/api/get_exam_page`,
+                `${environment.API_URL}/api/get_exam_font_page`,
                 dataBody,
                 this.httpOptionsFormdata
             )

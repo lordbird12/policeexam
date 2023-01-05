@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ExamService } from '../exam.service';
@@ -33,7 +33,8 @@ export class ExamTodoComponent implements OnInit {
   ipAddress: any;
 
   constructor(private _authService: AuthService, private _examServ: ExamService, private helper: HelperFunctionService,
-    private rou: Router, private _formBuilder: FormBuilder, private _httpClient: HttpClient) {
+    private rou: Router, private _formBuilder: FormBuilder, private _httpClient: HttpClient,
+    private _changeDetectorRef: ChangeDetectorRef) {
 
       
     }
@@ -80,7 +81,7 @@ export class ExamTodoComponent implements OnInit {
         this.dataExam = resp;
         console.log(this.dataExam);
         // console.log("dataExam", this.dataExam.data[0].exam_agian_status);
-
+        
         setTimeout(() => {
           Swal.close();
         }, 1000);

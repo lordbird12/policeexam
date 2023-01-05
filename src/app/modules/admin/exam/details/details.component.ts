@@ -64,10 +64,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         let memberkey = localStorage.getItem("memberKey") ? localStorage.getItem("memberKey") : '';
 
         //เช็คเข้าใช้คนเดียวหรือไม่ แล้วดึงข้อสอบ
-        this.checkMemberAuthenkey(this.ExamRound_ExamId, memberkey);
+        // this.checkMemberAuthenkey(this.ExamRound_ExamId, memberkey);
 
         //ดึงข้อสอบ
-        // this.getToDoExams(this.examId);
+        this.getToDoExams(this.examId);
         // console.log('GetMyIP', sessionStorage.getItem("GetMyIP"));
     }
 
