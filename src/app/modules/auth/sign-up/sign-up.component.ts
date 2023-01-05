@@ -160,7 +160,9 @@ export class AuthSignUpComponent implements OnInit {
             telephone: [''],
             password: [''],
             type: ['normal'],
-            file_citizen: ['313213213213123'],
+            file_citizen: [''],
+            address: [''],
+            address_of_citizen: [''],
         });
 
         this.GetAgencyCommand();
@@ -317,6 +319,91 @@ export class AuthSignUpComponent implements OnInit {
 
         // Sign up
         this._authService.signUp(this.signUpForm.value).subscribe(
+            (response) => {
+                // Navigate to the confirmation required page
+
+                const confirmation = this._fuseConfirmationService.open({
+                    title: 'การลงทะเบียนสำเร็จ',
+                    message: response.message,
+                    icon: {
+                        show: true,
+                        name: 'heroicons_outline:badge-check',
+                        color: 'success',
+                    },
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'กลับสู่หน้าเข้าสู่ระบบ',
+                            color: 'primary',
+                        },
+                        cancel: {
+                            show: false,
+                            label: 'ยกเลิก',
+                        },
+                    },
+                    dismissible: true,
+                });
+
+                confirmation.afterClosed().subscribe((result) => {
+                    // If the confirm button pressed...
+                    if (result === 'confirmed') {
+                        this._router.navigateByUrl('/signin');
+                    }
+                });
+            },
+            (response) => {
+                // Re-enable the form
+                this.signUpForm.enable();
+
+                // Reset the form
+                this.signUpNgForm.resetForm();
+
+                // Set the alert
+                this.alert = {
+                    type: 'error',
+                    message: 'Something went wrong, please try again.',
+                };
+
+                // Show the alert
+                this.showAlert = true;
+            }
+        );
+    }
+
+    signUp2(): void {
+        // Do nothing if the form is invalid
+        if (this.signUpForm2.invalid) {
+            return;
+        }
+
+        //convert date
+        this.signUpForm2.patchValue({
+            birth_date: moment(this.signUpForm2.value.birth_date).format(
+                'YYYY-MM-DD'
+            ),
+        });
+
+        // Disable the form
+        this.signUpForm2.disable();
+
+        // Hide the alert
+        this.showAlert = false;
+
+        const formData = new FormData();
+        Object.entries(this.signUpForm2.value).forEach(
+            ([key, value]: any[]) => {
+                formData.append(key, value);
+            }
+        );
+
+        this.file_list = [];
+        for (let i = 0; i < this.file_store.length; i++) {
+            formData.append('file_citizen', this.file_store[i], this.file_store[i].name);
+            this.file_list.push(this.file_store[i].name);
+        }
+
+        // Sign up
+        this._authService.signUp(formData).subscribe(
             (response) => {
                 // Navigate to the confirmation required page
 

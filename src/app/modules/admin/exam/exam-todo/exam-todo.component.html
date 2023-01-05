@@ -1,7 +1,7 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header dark:bg-transparent -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card bg-gray-800 dark ">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card  bg-blue-500 dark">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
 
@@ -44,9 +44,7 @@
 
                                 <div class="ml-4">
                                     <div class="mt-1 text-lg font-bold text-blue-800 dark:text-blue-50 dark:bg-blue-500">
-                                        {{ list.exam_round.exam.name }} {{ list.exam_round.exam.year }} : รอบที่ {{
-                                        list.exam_round.exam.round }}
-                                        จำนวน {{ list.exam_round.exam.question_qty }} ข้อ</div>
+                                        {{ list.exam_round.exam.name }} {{ list.exam_round.exam.year }} : รอบที่ {{ list.exam_round.exam.round }} จำนวน {{ list.exam_round.exam.question_qty }} ข้อ</div>
 
                                     <div class="mt-2 flex items-center leading-5 text-md font-medium">
                                         <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
@@ -83,9 +81,8 @@
                                             <span> เริ่มทำข้อสอบ</span>
                                         </span>
                                     </button>
-                                    
-                                    <button *ngIf="list.exam_agian_status==false"  mat-stroked-button
-                                        class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100" disabled>
+
+                                    <button *ngIf="list.exam_agian_status==false" mat-stroked-button class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100" disabled>
                                         <span class="inline-flex items-center">
                                             <span> สิ้นสุดการสอบ</span>
                                         </span>
