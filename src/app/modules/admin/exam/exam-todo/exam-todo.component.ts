@@ -49,7 +49,7 @@ export class ExamTodoComponent implements OnInit {
     }
 
     doExample(ArrData : any): void {
-      // console.log("ArrData", ArrData);
+      console.log("ArrData", ArrData);
       if(!this.ipAddress) {
         Swal.fire({
           icon: 'warning',
