@@ -31,6 +31,7 @@ export class ExamService {
     }
 
     //รายการที่ต้องสอบ
+    //แต่ละประเภท Procress : รายการต้องสอบ Finish : ประวัติที่สอบ
     getMyExam(paramUrl: any): Observable<any> {
         return this._httpClient
             .get<any>(
