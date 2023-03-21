@@ -321,10 +321,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                             //     this.router.navigate(['exam/do-exams', this.examId]);
                                                             // });
                                                             // this.getToDoExams(this.examId);
-                                                            this.router.navigate(['/exam/exam-history']);
+                                                            this.router.navigate(['/exam/do-exams']);
                                                         }
                                                         else {
-                                                            this.router.navigate(['/exam/exam-history']);
+                                                            // this.router.navigate(['/exam/exam-history']);
+                                                            this.router.navigate(['/exam/do-exams']);
                                                         }
                                                     });
                                                 }
