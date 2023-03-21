@@ -49,8 +49,10 @@ export class ExamTodoComponent implements OnInit {
     }
 
     doExample(ArrData : any): void {
-      console.log("ArrData", ArrData);
-      if(!this.ipAddress) {
+      //console.log("ArrData", ArrData);
+      let ipAddress : any = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
+
+      if(!ipAddress) {
         Swal.fire({
           icon: 'warning',
           title: 'พบข้อผิดพลาด!',
