@@ -31,10 +31,10 @@ export class ExamService {
     }
 
     //รายการที่ต้องสอบ
-    getMyExam(): Observable<any> {
+    getMyExam(paramUrl: any): Observable<any> {
         return this._httpClient
             .get<any>(
-                `${environment.API_URL}/api/my_exam`,
+                `${environment.API_URL}/api/my_exam?exam_finish=` + paramUrl,
                 this.httpOptionsFormdata
             )
             .pipe(catchError(this.handlerError));

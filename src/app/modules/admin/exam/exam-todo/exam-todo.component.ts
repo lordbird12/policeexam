@@ -75,8 +75,9 @@ export class ExamTodoComponent implements OnInit {
       });
     }
 
+    //ดูรายการสอบ แต่ละประเภท Procress : รายการต้องสอบ Finish : ประวัติที่สอบ
     getExamList(): void {
-      this._examServ.getMyExam().subscribe((resp : any) => {
+      this._examServ.getMyExam("Procress").subscribe((resp : any) => {
         console.clear();
         this.dataExam = resp;
         console.log(this.dataExam);

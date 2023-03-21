@@ -123,7 +123,7 @@ export class ExamCalendarComponent implements OnInit {
 
     getExamList(): void {
         this.loading();
-        this._examServ.getMyExam().subscribe((resp: any) => {
+        this._examServ.getMyExam("Procress").subscribe((resp: any) => {
            
             this.dataExam = resp;
             this.events = [];
