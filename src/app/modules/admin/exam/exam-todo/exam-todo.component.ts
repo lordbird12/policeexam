@@ -47,7 +47,7 @@ export class ExamTodoComponent implements OnInit {
 
     setTimeout(() => {
       this.getExamList();
-    }, 1000);
+    }, 1500);
   }
 
   doExample(ArrData: any): void {
