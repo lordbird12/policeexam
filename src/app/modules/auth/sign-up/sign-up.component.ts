@@ -91,7 +91,7 @@ export class AuthSignUpComponent implements OnInit {
     file_list: Array<string> = [];
 
     imageUrl: any =
-        'https://i.pinimg.com/236x/d6/27/d9/d627d9cda385317de4812a4f7bd922e9--man--iron-man.jpg';
+        'assets/images/no_pic.png';
     editFile: boolean = true;
     removeUpload: boolean = false;
 
@@ -107,7 +107,7 @@ export class AuthSignUpComponent implements OnInit {
         private _router: Router,
         private _matDialog: MatDialog,
         private _fuseConfirmationService: FuseConfirmationService
-    ) {}
+    ) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -371,6 +371,11 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     signUp2(): void {
+
+
+        console.log(this.signUpForm2.value)
+        return;
+
         // Do nothing if the form is invalid
         if (this.signUpForm2.invalid) {
             return;
@@ -517,11 +522,11 @@ export class AuthSignUpComponent implements OnInit {
             const f = l[0];
             const count = l.length > 1 ? `(+${l.length - 1} files)` : '';
             this.signUpForm2.patchValue({
-                file_citizen:f.name
+                file_citizen: f.name
             });
         } else {
             this.signUpForm2.patchValue({
-                file_citizen:''
+                file_citizen: ''
             });
         }
     }
