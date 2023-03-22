@@ -307,11 +307,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                     //score > 0 ส่งคำตอบแบบแสดงคะแนน
                                                     Swal.fire({
                                                         title: 'ส่งคำตอบสำเร็จ',
-                                                        text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty} <br /> ต้องการดูผลเฉลยข้อสอบ หรือไม่ ?`,
+                                                        html: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty} <br /> ต้องการดูผลเฉลยข้อสอบ หรือไม่ ?`,
                                                         icon: 'success',
-                                                        showCancelButton: false,
+                                                        showCancelButton: true,
                                                         confirmButtonColor: '#3085d6',
-                                                        cancelButtonColor: '#16a34a',
+                                                        cancelButtonColor: '#999999',
                                                         confirmButtonText: 'ตกลง, ดูผลเฉลยข้อสอบ',
                                                         // confirmButtonText: 'สอบใหม่อีกครั้ง',
                                                         cancelButtonText: 'ไม่ดูผลสอบ, ออกจากข้อสอบ',
@@ -326,7 +326,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                             //     this.router.navigate(['exam/do-exams', this.examId]);
                                                             // });
                                                             // this.getToDoExams(this.examId);
-                                                            // this.router.navigate(['/exam/do-exams']);
                                                         }
                                                         else {
                                                             // this.router.navigate(['/exam/exam-history']);
@@ -375,7 +374,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             .afterClosed()
             .subscribe(res => {
                 // console.log("res", res);
-                this.router.navigate(['/exam/do-exams']);
+                this.router.navigateByUrl('/exam/exam-todo', { skipLocationChange: true });
             });
     }
 
