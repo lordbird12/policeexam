@@ -23,6 +23,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 // import timeGridPlugin from '@fullcalendar/timegrid';
 // import listPlugin from '@fullcalendar/list';
 import thLocale from '@fullcalendar/core/locales/th';
+import { ExamService } from 'app/modules/admin/exam/exam.service';
 
 @Component({
     selector: 'landing-home',
@@ -67,7 +68,8 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
     constructor(
         private _Service: PageService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _examServ: ExamService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -81,7 +83,18 @@ export class LandingHomeComponent implements OnInit, OnDestroy {
         this.user = JSON.parse(localStorage.getItem('user')) || null;
         // Get the data
         this.GetBanners();
+
+        this.getIPClient();
     }
+
+    getIPClient(): void {
+        this._examServ.getIPAddress().then((res) => {
+          // console.log("IP", res);
+          let ipAddress = res.ip ? res.ip : '';
+          sessionStorage.setItem("GetMyIP", ipAddress);
+        });
+    }
+    
 
     /**
      * On destroy

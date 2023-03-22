@@ -47,7 +47,7 @@ export class ExamTodoComponent implements OnInit {
 
     setTimeout(() => {
       this.getExamList();
-    }, 2000);
+    }, 1000);
   }
 
   doExample(ArrData: any): void {
@@ -88,7 +88,7 @@ export class ExamTodoComponent implements OnInit {
   getIPClient(): void {
     this._examServ.getIPAddress().then((res) => {
       // console.log("IP", res);
-      this.ipAddress = res.ip;
+      this.ipAddress = res.ip ? res.ip : '';
       sessionStorage.setItem("GetMyIP", this.ipAddress);
     });
   }
