@@ -63,8 +63,6 @@ export class CorrectAnswersComponent implements OnInit {
     });
   }
 
-
-
   async loading() {
     Swal.fire({
       title: 'กรุณารอสักครู่ !',
