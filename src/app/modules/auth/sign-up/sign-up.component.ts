@@ -208,10 +208,15 @@ export class AuthSignUpComponent implements OnInit {
             (state) => state.prefix_type_id === subject
         );
 
-        this.signUpForm.patchValue({
-            prefix_type_id: this.prefixtypeData[index].prefix_type_id,
-        });
-
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                prefix_type_id: this.prefixtypeData[index].prefix_type_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                prefix_type_id: this.prefixtypeData[index].prefix_type_id,
+            });
+        }
         return this.prefixtypeData[index].name;
     }
 
@@ -221,11 +226,15 @@ export class AuthSignUpComponent implements OnInit {
         let index = this.prefixData.findIndex(
             (state) => state.prefix_id === subject
         );
-
-        this.signUpForm.patchValue({
-            prefix_id: this.prefixData[index].prefix_id,
-        });
-
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                prefix_id: this.prefixData[index].prefix_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                prefix_id: this.prefixData[index].prefix_id,
+            });
+        }
         return this.prefixData[index].name;
     }
 
@@ -236,9 +245,15 @@ export class AuthSignUpComponent implements OnInit {
             (state) => state.agency_command_id === subject
         );
 
-        this.signUpForm.patchValue({
-            agency_command_id: this.acmData[index].agency_command_id,
-        });
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                agency_command_id: this.acmData[index].agency_command_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                agency_command_id: this.acmData[index].agency_command_id,
+            });
+        }
 
         return this.acmData[index].name;
     }
@@ -250,10 +265,17 @@ export class AuthSignUpComponent implements OnInit {
             (state) => state.sub_agency_command_id === subject
         );
 
-        this.signUpForm.patchValue({
-            sub_agency_command_id:
-                this.subagencycommandData[index].sub_agency_command_id,
-        });
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                sub_agency_command_id:
+                    this.subagencycommandData[index].sub_agency_command_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                sub_agency_command_id:
+                    this.subagencycommandData[index].sub_agency_command_id,
+            });
+        }
 
         return this.subagencycommandData[index].name;
     }
@@ -264,10 +286,15 @@ export class AuthSignUpComponent implements OnInit {
         let index = this.affiliationData.findIndex(
             (state) => state.affiliation_id === subject
         );
-
-        this.signUpForm.patchValue({
-            affiliation_id: this.affiliationData[index].affiliation_id,
-        });
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                affiliation_id: this.affiliationData[index].affiliation_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                affiliation_id: this.affiliationData[index].affiliation_id,
+            });
+        }
 
         return this.affiliationData[index].name;
     }
@@ -279,25 +306,218 @@ export class AuthSignUpComponent implements OnInit {
             (state) => state.position_id === subject
         );
 
-        this.signUpForm.patchValue({
-            position_id: this.positionData[index].position_id,
-        });
-
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                position_id: this.positionData[index].position_id,
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                position_id: this.positionData[index].position_id,
+            });
+        }
         return this.positionData[index].name;
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    private _filterAgencyComand(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        this.GetSubAgencyCommand(filterValue);
+        return this.acmData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterPrefixType(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        this.GetPrefix(filterValue);
+        return this.prefixtypeData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterPrefix(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.prefixData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterSubAgencyComand(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        this.GetAffiliation(filterValue);
+        return this.subagencycommandData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterAffiliation(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.affiliationData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterPosition(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.positionData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.subagencycommandData.filter((option) =>
+            option.toLowerCase().includes(filterValue)
+        );
+    }
 
     changeType(status: number): void {
+        console.log(status)
         this.userTypeSelect = status;
+
 
         this._changeDetectorRef.markForCheck();
     }
+
+    handleFileInputChange(l: FileList): void {
+        this.file_store = l;
+        if (l.length) {
+            const f = l[0];
+            const count = l.length > 1 ? `(+${l.length - 1} files)` : '';
+            this.signUpForm2.patchValue({
+                file_citizen: f.name
+            });
+        } else {
+            this.signUpForm2.patchValue({
+                file_citizen: ''
+            });
+        }
+    }
+
+    handleSubmit(): void {
+        var fd = new FormData();
+        this.file_list = [];
+        for (let i = 0; i < this.file_store.length; i++) {
+            fd.append('files', this.file_store[i], this.file_store[i].name);
+            this.file_list.push(this.file_store[i].name);
+        }
+
+        // do submit ajax
+    }
+
+    upload(event: Event) {
+        console.log(event);
+    }
+
+    selectFile(event) {
+        // this.selectedFiles = event.target.files;
+    }
+
+    openInput() {
+        document.getElementById('fileInput').click();
+    }
+
+    uploadFile(event) {
+        let reader = new FileReader(); // HTML5 FileReader API
+        let file = event.target.files[0];
+        if (event.target.files && event.target.files[0]) {
+            reader.readAsDataURL(file);
+
+            // When file uploads set it to file formcontrol
+            reader.onload = () => {
+                this.imageUrl = reader.result;
+                if (this.userTypeSelect === 1) {
+                    this.signUpForm.patchValue({
+                        image: reader.result,
+                    });
+                    this.editFile = false;
+                    this.removeUpload = true;
+                } else {
+                    this.signUpForm2.patchValue({
+                        image: reader.result,
+                    });
+                    this.editFile = false;
+                    this.removeUpload = true;
+                }
+
+            };
+            // ChangeDetectorRef since file is loading outside the zone
+            this._changeDetectorRef.markForCheck();
+        }
+    }
+
+    // Function to remove uploaded file
+    removeUploadedFile() {
+        this.imageUrl =
+            'assets/images/no_pic.png';
+        this.editFile = true;
+        this.removeUpload = false;
+        this.signUpForm.patchValue({
+            file: [null],
+        });
+    }
+
+    onSubmit() {
+        // this.submitted = true;
+        if (!this.signUpForm.valid) {
+            alert(
+                'Please fill all the required fields to create a super hero!'
+            );
+            return false;
+        } else {
+            console.log(this.signUpForm.value);
+        }
+    }
+
+    GetAgencyCommand(): void {
+        this._authService.getAgencyCommand().subscribe((resp) => {
+            this.acmData = resp.data;
+            this.acmFilter = this.acmData;
+        });
+    }
+
+    GetSubAgencyCommand(id): void {
+        this._authService.getSubAgencyCommand(id).subscribe((resp) => {
+            this.subagencycommandData = resp.data;
+            this.subagencycommandFilter = this.subagencycommandData;
+            // console.log('subagen', this.subagencycommandData)
+        });
+    }
+
+    GetAffiliation(id): void {
+        this._authService.getAffiliation(id).subscribe((resp) => {
+            this.affiliationData = resp.data;
+        });
+    }
+
+    GetPosition(): void {
+        this._authService.getPosition().subscribe((resp) => {
+            this.positionData = resp.data;
+        });
+    }
+
+    GetPrefixType(): void {
+        this._authService.getPrefixType().subscribe((resp) => {
+            this.prefixtypeData = resp.data;
+        });
+    }
+
+    GetPrefix(id): void {
+        this._authService.getPrefix(id).subscribe((resp) => {
+            this.prefixData = resp.data;
+        });
+        // console.log(this.prefixData)
+    }
+
     /**
-     * Sign up
-     */
+ * Sign up
+ */
     signUp(): void {
         // Do nothing if the form is invalid
         if (this.signUpForm.invalid) {
@@ -371,15 +591,10 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     signUp2(): void {
-
-
-        console.log(this.signUpForm2.value)
-        return;
-
         // Do nothing if the form is invalid
-        if (this.signUpForm2.invalid) {
-            return;
-        }
+        // if (this.signUpForm2.invalid) {
+        //     return;
+        // }
 
         //convert date
         this.signUpForm2.patchValue({
@@ -406,7 +621,6 @@ export class AuthSignUpComponent implements OnInit {
             formData.append('file_citizen', this.file_store[i], this.file_store[i].name);
             this.file_list.push(this.file_store[i].name);
         }
-
         // Sign up
         this._authService.signUp(formData).subscribe(
             (response) => {
@@ -458,182 +672,5 @@ export class AuthSignUpComponent implements OnInit {
                 this.showAlert = true;
             }
         );
-    }
-
-    private _filterAgencyComand(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        this.GetSubAgencyCommand(filterValue);
-        return this.acmData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filterPrefixType(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        this.GetPrefix(filterValue);
-        return this.prefixtypeData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filterPrefix(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.prefixData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filterSubAgencyComand(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        this.GetAffiliation(filterValue);
-        return this.subagencycommandData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filterAffiliation(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.affiliationData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filterPosition(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.positionData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
-        );
-    }
-
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.subagencycommandData.filter((option) =>
-            option.toLowerCase().includes(filterValue)
-        );
-    }
-
-    handleFileInputChange(l: FileList): void {
-        this.file_store = l;
-        if (l.length) {
-            const f = l[0];
-            const count = l.length > 1 ? `(+${l.length - 1} files)` : '';
-            this.signUpForm2.patchValue({
-                file_citizen: f.name
-            });
-        } else {
-            this.signUpForm2.patchValue({
-                file_citizen: ''
-            });
-        }
-    }
-
-    handleSubmit(): void {
-        var fd = new FormData();
-        this.file_list = [];
-        for (let i = 0; i < this.file_store.length; i++) {
-            fd.append('files', this.file_store[i], this.file_store[i].name);
-            this.file_list.push(this.file_store[i].name);
-        }
-
-        // do submit ajax
-    }
-
-    upload(event: Event) {
-        console.log(event);
-    }
-
-    selectFile(event) {
-        // this.selectedFiles = event.target.files;
-    }
-
-    openInput() {
-        document.getElementById('fileInput').click();
-    }
-
-    uploadFile(event) {
-        let reader = new FileReader(); // HTML5 FileReader API
-        let file = event.target.files[0];
-        if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(file);
-
-            // When file uploads set it to file formcontrol
-            reader.onload = () => {
-                this.imageUrl = reader.result;
-                this.signUpForm.patchValue({
-                    file: reader.result,
-                });
-                this.editFile = false;
-                this.removeUpload = true;
-            };
-            // ChangeDetectorRef since file is loading outside the zone
-            this._changeDetectorRef.markForCheck();
-        }
-    }
-
-    // Function to remove uploaded file
-    removeUploadedFile() {
-        this.imageUrl =
-            'https://i.pinimg.com/236x/d6/27/d9/d627d9cda385317de4812a4f7bd922e9--man--iron-man.jpg';
-        this.editFile = true;
-        this.removeUpload = false;
-        this.signUpForm.patchValue({
-            file: [null],
-        });
-    }
-
-    onSubmit() {
-        // this.submitted = true;
-        if (!this.signUpForm.valid) {
-            alert(
-                'Please fill all the required fields to create a super hero!'
-            );
-            return false;
-        } else {
-            console.log(this.signUpForm.value);
-        }
-    }
-
-    GetAgencyCommand(): void {
-        this._authService.getAgencyCommand().subscribe((resp) => {
-            this.acmData = resp.data;
-            this.acmFilter = this.acmData;
-        });
-    }
-
-    GetSubAgencyCommand(id): void {
-        this._authService.getSubAgencyCommand(id).subscribe((resp) => {
-            this.subagencycommandData = resp.data;
-            this.subagencycommandFilter = this.subagencycommandData;
-            // console.log('subagen', this.subagencycommandData)
-        });
-    }
-
-    GetAffiliation(id): void {
-        this._authService.getAffiliation(id).subscribe((resp) => {
-            this.affiliationData = resp.data;
-        });
-    }
-
-    GetPosition(): void {
-        this._authService.getPosition().subscribe((resp) => {
-            this.positionData = resp.data;
-        });
-    }
-
-    GetPrefixType(): void {
-        this._authService.getPrefixType().subscribe((resp) => {
-            this.prefixtypeData = resp.data;
-        });
-    }
-
-    GetPrefix(id): void {
-        this._authService.getPrefix(id).subscribe((resp) => {
-            this.prefixData = resp.data;
-        });
-        // console.log(this.prefixData)
     }
 }
