@@ -172,7 +172,7 @@
     
                                          <div class="p-3">
                                             <ng-container *ngFor="let resultExam of dataExamAnswer.data.result; let i=index;">
-                                                <div class="ml-1">{{i+1}}. {{ resultExam.exam_group_subject_answer.main_answer.main_question.name }} </div>
+                                                <div class="ml-1">{{i+1}}. {{ resultExam.exam_group_subject_answer.exam_group_subject_question.question }} </div>
                                                 <img *ngIf="resultExam.exam_group_subject_answer.main_answer.main_question.image" src="{{resultExam.exam_group_subject_answer.main_answer.main_question.image}}"
                                                     class="mt-3 mb-3 ml-2 w-40 border-solid border-2">
                                 
