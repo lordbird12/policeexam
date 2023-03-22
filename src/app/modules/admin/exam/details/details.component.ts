@@ -369,7 +369,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '800px',
             height: '650px',
-            data: { exam_round_member_id: 24 }
+            data: { exam_round_member_id: examId }
         })
             .afterClosed()
             .subscribe(res => {
