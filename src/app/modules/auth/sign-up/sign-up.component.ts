@@ -621,6 +621,8 @@ export class AuthSignUpComponent implements OnInit {
             formData.append('file_citizen', this.file_store[i], this.file_store[i].name);
             this.file_list.push(this.file_store[i].name);
         }
+
+
         // Sign up
         this._authService.signUp(formData).subscribe(
             (response) => {
