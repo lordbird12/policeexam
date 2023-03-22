@@ -452,6 +452,28 @@ export class AuthSignUpComponent implements OnInit {
         }
     }
 
+    onChange(event: any): void {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = (e: any) =>
+            this.imageUrl = e.target.result;
+        const file = event.target.files[0];
+        if (this.userTypeSelect === 1) {
+            this.signUpForm.patchValue({
+                image: file,
+            });
+            this.editFile = false;
+            this.removeUpload = true;
+        } else {
+            this.signUpForm2.patchValue({
+                image: file,
+            });
+            this.editFile = false;
+            this.removeUpload = true;
+        }
+
+    }
+
     // Function to remove uploaded file
     removeUploadedFile() {
         this.imageUrl =
@@ -537,8 +559,15 @@ export class AuthSignUpComponent implements OnInit {
         // Hide the alert
         this.showAlert = false;
 
+        const formData = new FormData();
+        Object.entries(this.signUpForm.value).forEach(
+            ([key, value]: any[]) => {
+                formData.append(key, value);
+            }
+        );
+
         // Sign up
-        this._authService.signUp(this.signUpForm.value).subscribe(
+        this._authService.signUp(formData).subscribe(
             (response) => {
                 // Navigate to the confirmation required page
 
