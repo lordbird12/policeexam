@@ -7,6 +7,8 @@ import { HelperFunctionService } from 'app/shared/helper-function.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCorrectAnswerComponent } from '../dialog-correct-answer/dialog-correct-answer.component';
 
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
@@ -48,7 +50,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         private helper: HelperFunctionService,
         private router: Router,
         private _formBuilder: FormBuilder,
-        private AcRoute: ActivatedRoute
+        private AcRoute: ActivatedRoute,
+        private _matDialog: MatDialog
     ) {
         let paramUrl: any = this.AcRoute.snapshot.params;
         this.examId = paramUrl.id ? paramUrl.id : '';
@@ -113,7 +116,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             // }
         }, 1000);
     }
-
 
     dilogEndTimeAnswer() {
         Swal.fire({
@@ -305,27 +307,30 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                     //score > 0 ส่งคำตอบแบบแสดงคะแนน
                                                     Swal.fire({
                                                         title: 'ส่งคำตอบสำเร็จ',
-                                                        text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty}`,
+                                                        text: `คุณได้คะแนน ${resp.data.score}/${resp.data.exam.question_qty} <br /> ต้องการดูผลเฉลยข้อสอบ หรือไม่ ?`,
                                                         icon: 'success',
                                                         showCancelButton: false,
                                                         confirmButtonColor: '#3085d6',
                                                         cancelButtonColor: '#16a34a',
-                                                        confirmButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        confirmButtonText: 'ตกลง, ดูผลเฉลยข้อสอบ',
                                                         // confirmButtonText: 'สอบใหม่อีกครั้ง',
-                                                        // cancelButtonText: 'ตกลง, ออกจากข้อสอบ',
+                                                        cancelButtonText: 'ไม่ดูผลสอบ, ออกจากข้อสอบ',
                                                         allowEscapeKey: false,
                                                         allowOutsideClick: false,
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
+
+                                                            this.openDialogCorrectAnswers(SendAnswer.exam_round_member_id);
+                                                            
                                                             // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                                                             //     this.router.navigate(['exam/do-exams', this.examId]);
                                                             // });
                                                             // this.getToDoExams(this.examId);
-                                                            this.router.navigate(['/exam/do-exams']);
+                                                            // this.router.navigate(['/exam/do-exams']);
                                                         }
                                                         else {
                                                             // this.router.navigate(['/exam/exam-history']);
-                                                            this.router.navigate(['/exam/do-exams']);
+                                                            this.router.navigate(['/exam/exam-todo']);
                                                         }
                                                     });
                                                 }
@@ -358,6 +363,22 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             }
         }, 1500);
     }
+
+    //ดูผลเฉลยข้อสอบหลังส่งคำตอบ
+    openDialogCorrectAnswers(examId) {
+        this._matDialog.open(DialogCorrectAnswerComponent, {
+            disableClose: true,
+            width: '800px',
+            height: '650px',
+            data: { exam_round_member_id: 24 }
+        })
+            .afterClosed()
+            .subscribe(res => {
+                // console.log("res", res);
+                this.router.navigate(['/exam/do-exams']);
+            });
+    }
+
 
     //เช็คข้อมูล Arr undefind
     async containsUndefined(Arr) {

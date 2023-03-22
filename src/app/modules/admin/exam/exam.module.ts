@@ -31,6 +31,7 @@ import { ExamCalendarComponent } from './exam-calendar/exam-calendar.component';
 import { ExamHistoryComponent } from './exam-history/exam-history.component';
 import { CorrectAnswersComponent } from './correct-answers/correct-answers.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-correct-answer.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ExamTodoComponent,
     ExamCalendarComponent,
     ExamHistoryComponent,
-    CorrectAnswersComponent
+    CorrectAnswersComponent,
+    DialogCorrectAnswerComponent
   ],
   imports: [
     CommonModule,
