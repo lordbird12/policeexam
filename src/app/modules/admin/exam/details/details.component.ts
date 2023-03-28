@@ -186,8 +186,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 this.timer(this.dataExams.data.time_count);
                 // this.timer(this.sesExamTime);
 
+                this.CheckDataAnswer();
+
                 setTimeout(() => {
-                    this.CheckDataAnswer();
                     // console.log('GetMyIP', this.IPClient);
                     // this.getExamRoundTimeCount(this.dataExams.data);
                     Swal.close();
