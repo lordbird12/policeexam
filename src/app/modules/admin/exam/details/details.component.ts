@@ -230,9 +230,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         let DataList : any = JSON.parse(localStorage.getItem("AnswerUser"));
 
         if(DataList.member_Ans.length > 0) {
-            await DataList.member_Ans.forEach(async (item, x) => {
-                $("#" + item).prop("checked", true);
-            });
+            //เช็คข้อสอบชุดเดียวกันหรือไม่
+            if(DataList.round_id == this.examId) {
+                await DataList.member_Ans.forEach(async (item, x) => {
+                    $("#" + item).prop("checked", true);
+                });
+            }
+            else {
+                localStorage.removeItem("AnswerUser");
+            }
         }
         else {
             localStorage.removeItem("AnswerUser");
