@@ -181,18 +181,64 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
                 console.log('dataExamGroup', this.dataExamGroup);
                 console.log('dataExams', this.dataExams);
-
+                
                 //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
                 this.timer(this.dataExams.data.time_count);
                 // this.timer(this.sesExamTime);
 
                 setTimeout(() => {
+                    this.CheckDataAnswer();
                     // console.log('GetMyIP', this.IPClient);
                     // this.getExamRoundTimeCount(this.dataExams.data);
                     Swal.close();
                 }, 1000);
             });
     }
+
+    //คลิกคำตอบแล้วทำการเก็บค่า ที่ checked ไว้
+    async AnswerClick(): Promise<void> {
+        let ArrAnswer = [];
+        let chkVal: any;
+        await this.dataExamGroup.forEach(async (sub, x) => {
+            await this.dataExamGroup[x].exam_group_subject_questions.forEach(async (ques, y) => {
+
+                await this.dataExamGroup[x].exam_group_subject_questions[y].exam_group_subject_answers.forEach(async (subanws, y) => {
+                    //เช็คข้อมูลเอา group_subject_question_id มาหาชื่อ radio เพื่อ get value
+                    chkVal = await this.checkValueAnswer(
+                        subanws.group_subject_question_id
+                    );
+                });
+
+                //return value ที่เป็น id ใน exam_group_subject_answers
+                ArrAnswer.push(chkVal); 
+            });
+        });
+        // console.log("ArrAnswer", ArrAnswer);
+
+        setTimeout(() => {
+            let AnswerData = {
+                round_id: this.dataExams.data.exam_round_member_id,
+                member_Ans: ArrAnswer
+            };
+            localStorage.setItem("AnswerUser", JSON.stringify(AnswerData));
+            //console.log("Answer", JSON.parse(localStorage.getItem("AnswerUser")));
+        }, 100);
+    }
+
+    //ใช้ JQuery มา checked by id โดย id คือ หมายเลขคำตอบของข้อสอบ 
+    async CheckDataAnswer(): Promise<void> {
+        let DataList : any = JSON.parse(localStorage.getItem("AnswerUser"));
+
+        if(DataList.member_Ans.length > 0) {
+            await DataList.member_Ans.forEach(async (item, x) => {
+                $("#" + item).prop("checked", true);
+            });
+        }
+        else {
+            localStorage.removeItem("AnswerUser");
+        }
+    }
+
 
     async AnswerSend(): Promise<void> {
         this.checkLoading();
@@ -274,6 +320,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                         }).then((result) => {
                                             if (result.isConfirmed) {
                                                 this.router.navigate(['/exam/exam-history']);
+                                                localStorage.removeItem("AnswerUser");
                                             }
                                         });
                                     }
@@ -328,6 +375,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                             // this.getToDoExams(this.examId);
                                                         }
                                                         else {
+                                                            localStorage.removeItem("AnswerUser");
                                                             // this.router.navigate(['/exam/exam-history']);
                                                             this.router.navigate(['/exam/exam-todo']);
                                                         }
@@ -360,7 +408,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
                 });
             }
-        }, 1500);
+        }, 2000);
     }
 
     //ดูผลเฉลยข้อสอบหลังส่งคำตอบ
@@ -375,6 +423,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             .subscribe(res => {
                 // console.log("res", res);
                 this.router.navigateByUrl('/exam/exam-todo', { skipLocationChange: true });
+                localStorage.removeItem("AnswerUser");
             });
     }
 
@@ -384,7 +433,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         return Arr.some((element) => element === undefined);
     }
 
-    //เช็คเอาค่า id ของ radio ของชุดคำถาม
+    //เช็คเอาค่า name ของ radio ที่ใช้ของชุดคำถามเป็น name และวนดึงค่าที่ checked เพื่อเก็บ value
     async checkValueAnswer(NameRadio) {
         var radios: any = document.getElementsByName(NameRadio);
         for (var radio of radios) {

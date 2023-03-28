@@ -75,15 +75,17 @@
 
                                     <ng-container *ngFor="let answ of subques.exam_group_subject_answers; let x = index;">
                                         <div class="flex flex-row">
-                                            <div class="form-check">
-                                                <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white 
-                                                checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top 
-                                                bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" [name]="answ.group_subject_question_id" [id]="answ.group_subject_question_id" [value]="answ.id">
-
-                                                <ng-container>
-                                                    <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{x + 1}}) {{ answ.main_answer.answer }}</p>
-                                                    <img *ngIf="answ.main_answer.type=='Image'" src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mb-3 ml-2 w-40 border-solid border-2">
-                                                </ng-container>
+                                            <div class="form-check" (click)="AnswerClick()">
+                                                <label>
+                                                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white 
+                                                    checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top 
+                                                    bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" [name]="answ.group_subject_question_id" 
+                                                    [id]="answ.id" [value]="answ.id">
+                                                    <ng-container>
+                                                        <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{x + 1}}) {{ answ.main_answer.answer }}</p>
+                                                        <img *ngIf="answ.main_answer.type=='Image'" src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mb-3 ml-2 w-40 border-solid border-2">
+                                                    </ng-container>
+                                                </label>
                                             </div>
 
                                      
