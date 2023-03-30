@@ -4,10 +4,12 @@
         <img
             class="w-7 h-7 rounded-full"
             *ngIf="user.image"
-            [src]="user.image">
+            [src]="user.image"
+        />
         <mat-icon
             *ngIf="!user.image"
-            [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+            [svgIcon]="'heroicons_outline:user-circle'"
+        ></mat-icon>
     </span>
 </button>
 
@@ -15,7 +17,7 @@
     <button mat-menu-item>
         <span class="flex flex-col leading-none">
             <span>ชื่อผู้เข้าใช้งาน</span>
-            <span class="mt-1.5 text-md font-medium">{{user.email}}</span>
+            <span class="mt-1.5 text-md font-medium">{{ user.email }}</span>
         </span>
     </button>
     <mat-divider class="my-2"></mat-divider>

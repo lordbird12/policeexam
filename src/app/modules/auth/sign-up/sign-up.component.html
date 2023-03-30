@@ -93,35 +93,39 @@
 
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
                             <div class="sm:row-span-2 sm:col-span-1">
-                                <div class="group-gap">
-                                    <div class="avatar-upload">
-                                        <div class="avatar-edit">
-                                            <input
-                                                type="file"
-                                                id="imageUpload"
-                                                accept=".png, .jpg, .jpeg"
-                                                #fileInput
-                                                (change)="onChange($event)"
-                                            />
-                                        </div>
-                                        <div class="avatar-preview">
-                                            <div
-                                                id="imagePreview"
-                                                [style.backgroundImage]="
-                                                    'url(' + imageUrl + ')'
-                                                "
-                                            ></div>
+                                <div class="flex justify-center">
+                                    <div class="group-gap">
+                                        <div class="avatar-upload">
+                                            <div class="avatar-edit">
+                                                <input
+                                                    type="file"
+                                                    id="imageUpload"
+                                                    accept=".png, .jpg, .jpeg"
+                                                    #fileInput
+                                                    (change)="onChange($event)"
+                                                />
+                                            </div>
+                                            <div class="avatar-preview">
+                                                <div
+                                                    id="imagePreview"
+                                                    [style.backgroundImage]="
+                                                        'url(' + imageUrl + ')'
+                                                    "
+                                                ></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button
-                                    mat-stroked-button
-                                    type="button"
-                                    (click)="fileInput.click()"
-                                >
-                                    เลือกภาพ
-                                </button>
+                                <div class="flex justify-center">
+                                    <button
+                                        mat-stroked-button
+                                        type="button"
+                                        (click)="fileInput.click()"
+                                    >
+                                        เลือกภาพ
+                                    </button>
+                                </div>
                                 <!-- <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">เลือกภาพ</button> -->
                             </div>
 
@@ -508,7 +512,7 @@
                         [disabled]="signUpForm.disabled"
                         (click)="signUp()"
                     >
-                        <span *ngIf="!signUpForm.disabled"> ลงทะเบียน </span>
+                        <span *ngIf="!signUpForm.disabled"> ลงทะเบียน</span>
                         <mat-progress-spinner
                             *ngIf="signUpForm.disabled"
                             [diameter]="24"
@@ -517,7 +521,7 @@
                     </button>
                 </div>
             </form>
-
+            เ
             <form
                 class="mt-8"
                 [formGroup]="signUpForm2"
@@ -541,36 +545,42 @@
                         </div>
 
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                            <div class="sm:row-span-2 sm:col-span-1">
-                                <div class="group-gap">
-                                    <div class="avatar-upload">
-                                        <div class="avatar-edit">
-                                            <input
-                                                type="file"
-                                                id="imageUpload"
-                                                accept=".png, .jpg, .jpeg"
-                                                #fileInput
-                                                (change)="onChange($event)"
-                                            />
-                                        </div>
-                                        <div class="avatar-preview">
-                                            <div
-                                                id="imagePreview"
-                                                [style.backgroundImage]="
-                                                    'url(' + imageUrl + ')'
-                                                "
-                                            ></div>
+                            <div
+                                class="sm:row-span-2 sm:col-span-1 justify-center"
+                            >
+                                <div class="flex justify-center">
+                                    <div class="group-gap">
+                                        <div class="avatar-upload">
+                                            <div class="avatar-edit">
+                                                <input
+                                                    type="file"
+                                                    id="imageUpload"
+                                                    accept=".png, .jpg, .jpeg"
+                                                    #fileInput
+                                                    (change)="onChange($event)"
+                                                />
+                                            </div>
+                                            <div class="avatar-preview">
+                                                <div
+                                                    id="imagePreview"
+                                                    [style.backgroundImage]="
+                                                        'url(' + imageUrl + ')'
+                                                    "
+                                                ></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="flex justify-center">
+                                    <button
+                                        mat-stroked-button
+                                        type="button"
+                                        (click)="fileInput.click()"
+                                    >
+                                        เลือกภาพ
+                                    </button>
+                                </div>
 
-                                <button
-                                    mat-stroked-button
-                                    type="button"
-                                    (click)="fileInput.click()"
-                                >
-                                    เลือกภาพ
-                                </button>
                                 <!-- <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">เลือกภาพ</button> -->
                             </div>
 

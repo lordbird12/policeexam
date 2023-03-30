@@ -445,7 +445,6 @@ export class AuthSignUpComponent implements OnInit {
                     this.editFile = false;
                     this.removeUpload = true;
                 }
-
             };
             // ChangeDetectorRef since file is loading outside the zone
             this._changeDetectorRef.markForCheck();
@@ -558,7 +557,6 @@ export class AuthSignUpComponent implements OnInit {
 
         // Hide the alert
         this.showAlert = false;
-
         const formData = new FormData();
         Object.entries(this.signUpForm.value).forEach(
             ([key, value]: any[]) => {
@@ -570,7 +568,6 @@ export class AuthSignUpComponent implements OnInit {
         this._authService.signUp(formData).subscribe(
             (response) => {
                 // Navigate to the confirmation required page
-
                 const confirmation = this._fuseConfirmationService.open({
                     title: 'การลงทะเบียนสำเร็จ',
                     message: response.message,
@@ -596,23 +593,45 @@ export class AuthSignUpComponent implements OnInit {
                 confirmation.afterClosed().subscribe((result) => {
                     // If the confirm button pressed...
                     if (result === 'confirmed') {
-                        this._router.navigateByUrl('/signin');
+                        this._router.navigateByUrl('/sign-in');
                     }
                 });
             },
             (response) => {
+
+
+                // Set the alert
+                // this.alert = {
+                //     type: 'error',
+                //     message: response.message,
+                // };
+
+                const confirmation = this._fuseConfirmationService.open({
+                    title: 'การลงทะเบียนไม่สำเร็จ',
+                    message: response.error.message,
+                    icon: {
+                        show: true,
+                        name: 'heroicons_outline:x-circle',
+                        color: 'error',
+                    },
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'กลับสู่หน้าเข้าสู่ระบบ',
+                            color: 'primary',
+                        },
+                        cancel: {
+                            show: false,
+                            label: 'ยกเลิก',
+                        },
+                    },
+                    dismissible: true,
+                });
                 // Re-enable the form
                 this.signUpForm.enable();
 
                 // Reset the form
                 this.signUpNgForm.resetForm();
-
-                // Set the alert
-                this.alert = {
-                    type: 'error',
-                    message: 'Something went wrong, please try again.',
-                };
-
                 // Show the alert
                 this.showAlert = true;
             }
@@ -682,23 +701,52 @@ export class AuthSignUpComponent implements OnInit {
                 confirmation.afterClosed().subscribe((result) => {
                     // If the confirm button pressed...
                     if (result === 'confirmed') {
-                        this._router.navigateByUrl('/signin');
+                        this._router.navigateByUrl('/sign-in');
                     }
                 });
             },
             (response) => {
+                // // Re-enable the form
+                // this.signUpForm.enable();
+
+                // // Reset the form
+                // this.signUpNgForm.resetForm();
+
+                // // Set the alert
+                // this.alert = {
+                //     type: 'error',
+                //     message: 'Something went wrong, please try again.',
+                // };
+
+                // // Show the alert
+                // this.showAlert = true;
+
+                const confirmation = this._fuseConfirmationService.open({
+                    title: 'การลงทะเบียนไม่สำเร็จ',
+                    message: response.error.message,
+                    icon: {
+                        show: true,
+                        name: 'heroicons_outline:x-circle',
+                        color: 'error',
+                    },
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'กลับสู่หน้าเข้าสู่ระบบ',
+                            color: 'primary',
+                        },
+                        cancel: {
+                            show: false,
+                            label: 'ยกเลิก',
+                        },
+                    },
+                    dismissible: true,
+                });
                 // Re-enable the form
-                this.signUpForm.enable();
+                this.signUpForm2.enable();
 
                 // Reset the form
                 this.signUpNgForm.resetForm();
-
-                // Set the alert
-                this.alert = {
-                    type: 'error',
-                    message: 'Something went wrong, please try again.',
-                };
-
                 // Show the alert
                 this.showAlert = true;
             }
