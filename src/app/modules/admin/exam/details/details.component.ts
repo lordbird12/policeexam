@@ -179,20 +179,21 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 console.clear();
                 this.dataExams = resp;
                 this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
-                console.log('dataExamGroup', this.dataExamGroup);
-                console.log('dataExams', this.dataExams);
+                // console.log('dataExamGroup', this.dataExamGroup);
+                // console.log('dataExams', this.dataExams);
                 
                 //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
                 this.timer(this.dataExams.data.time_count);
                 // this.timer(this.sesExamTime);
 
-                this.CheckDataAnswer();
-
                 setTimeout(() => {
+                    this.CheckDataAnswer();       
                     // console.log('GetMyIP', this.IPClient);
                     // this.getExamRoundTimeCount(this.dataExams.data);
-                    Swal.close();
-                }, 1000);
+                    setTimeout(() => {
+                        Swal.close();
+                    }, 500);
+                }, 500);
             });
     }
 
