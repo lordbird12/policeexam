@@ -82,7 +82,7 @@ export class AuthSignUpComponent implements OnInit {
 
     userType: any = [
         { value: '1', status: false, name: 'ประชาชนทั่วไป' },
-        { value: '2', status: true, name: 'เจ้าหน้าที่' },
+        { value: '2', status: true, name: 'ข้าราชการตำรวจ' },
     ];
 
     userTypeSelect: any = 1;
@@ -229,13 +229,15 @@ export class AuthSignUpComponent implements OnInit {
         if (this.userTypeSelect === 1) {
             this.signUpForm.patchValue({
                 prefix_id: this.prefixData[index].prefix_id,
+                sex: this.prefixData[index].sex
             });
         } else {
             this.signUpForm2.patchValue({
                 prefix_id: this.prefixData[index].prefix_id,
+                sex: this.prefixData[index].sex
             });
         }
-        return this.prefixData[index].name;
+        return this.prefixData[index].sub_name;
     }
 
     displayAgencyCommand(subject) {
@@ -533,7 +535,7 @@ export class AuthSignUpComponent implements OnInit {
         this._authService.getPrefix(id).subscribe((resp) => {
             this.prefixData = resp.data;
         });
-        // console.log(this.prefixData)
+        console.log(this.prefixData)
     }
 
     /**
@@ -751,5 +753,13 @@ export class AuthSignUpComponent implements OnInit {
                 this.showAlert = true;
             }
         );
+    }
+
+
+    onChangeSex(event): void {
+        console.log(event)
+        this.signUpForm.patchValue({
+            sex: 'M'
+        })
     }
 }
