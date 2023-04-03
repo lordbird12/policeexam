@@ -25,7 +25,7 @@ export class AuthService {
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService
-    ) {}
+    ) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -71,8 +71,15 @@ export class AuthService {
      *
      * @param email
      */
-    forgotPassword(email: string): Observable<any> {
-        return this._httpClient.post('api/auth/forgot-password', email);
+    // forgotPassword(email: string): Observable<any> {
+    //     return this._httpClient.post('api/auth/forgot-password', email);
+    // }
+
+    forgotPassword(data: any): Observable<any> {
+        return this._httpClient.post(
+            `${environment.API_URL}/api/forgot_password_member`,
+            { email: data }
+        );
     }
 
     /**
@@ -89,7 +96,7 @@ export class AuthService {
      *
      * @param credentials
      */
-     signIn(credentials: { member_id: string; password: string }): Observable<any> {
+    signIn(credentials: { member_id: string; password: string }): Observable<any> {
         // Throw error, if the user is already logged in
         if (this._authenticated) {
             return throwError('User is already logged in.');
@@ -153,6 +160,8 @@ export class AuthService {
             data
         );
     }
+
+
 
     /**
      * Unlock session

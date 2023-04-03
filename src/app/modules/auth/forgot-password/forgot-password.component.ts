@@ -6,17 +6,16 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
-    selector     : 'auth-forgot-password',
-    templateUrl  : './forgot-password.component.html',
+    selector: 'auth-forgot-password',
+    templateUrl: './forgot-password.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class AuthForgotPasswordComponent implements OnInit
-{
+export class AuthForgotPasswordComponent implements OnInit {
     @ViewChild('forgotPasswordNgForm') forgotPasswordNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
+        type: 'success',
         message: ''
     };
     forgotPasswordForm: FormGroup;
@@ -28,8 +27,7 @@ export class AuthForgotPasswordComponent implements OnInit
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -39,8 +37,7 @@ export class AuthForgotPasswordComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.forgotPasswordForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]]
@@ -54,11 +51,9 @@ export class AuthForgotPasswordComponent implements OnInit
     /**
      * Send the reset link
      */
-    sendResetLink(): void
-    {
+    sendResetLink(): void {
         // Return if the form is invalid
-        if ( this.forgotPasswordForm.invalid )
-        {
+        if (this.forgotPasswordForm.invalid) {
             return;
         }
 
@@ -88,16 +83,16 @@ export class AuthForgotPasswordComponent implements OnInit
 
                     // Set the alert
                     this.alert = {
-                        type   : 'success',
-                        message: 'Password reset sent! You\'ll receive an email if you are registered on our system.'
+                        type: 'success',
+                        message: 'ส่งการรีเซ็ตรหัสผ่านแล้ว! คุณจะได้รับอีเมลหากคุณลงทะเบียนในระบบของเรา'
                     };
                 },
                 (response) => {
 
                     // Set the alert
                     this.alert = {
-                        type   : 'error',
-                        message: 'Email does not found! Are you sure you are already a member?'
+                        type: 'error',
+                        message: 'ไม่พบอีเมล! คุณแน่ใจหรือว่าคุณเป็นสมาชิกอยู่แล้ว?'
                     };
                 }
             );
