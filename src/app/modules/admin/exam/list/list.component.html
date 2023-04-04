@@ -1,174 +1,294 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable
+>
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card bg-blue-500 dark"
+    >
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
 
-  <!-- Header -->
-  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card bg-blue-500 dark">
-    <div class="flex-1 min-w-0">
-      <!-- Breadcrumbs -->
-  
-      <!-- Title -->
-      <div class="mt-2">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-          ลงทะเบียนสอบ
-        </h2>
-      </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    ลงทะเบียนสอบ
+                </h2>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Main -->
+    <!-- Main -->
 
-  <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
-      <div class="basis-full">
-          <!-- Course -->
-          <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
-              <div class="flex flex-col divide-y border-t border-b">
-
-                  <ng-container *ngFor="let examlist of dataMyExam.data">
-                      <div class="flex flex-row sm:items-center py-6">
-                          <div class="basis-full flex items-center">
-                              <div class="ml-4">
-                                  <div class="p-1">
-                                      <ng-container>
-                                          <!-- <div class="py-0.5 px-3 rounded-full font-semibold text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500">
+    <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
+        <div class="basis-full">
+            <!-- Course -->
+            <div
+                class="flex flex-col shadow rounded-2xl overflow-hidden bg-card"
+            >
+                <div class="flex flex-col divide-y border-t border-b">
+                    <ng-container *ngFor="let examlist of dataMyExam.data">
+                        <div class="flex flex-row sm:items-center py-6">
+                            <div class="basis-full flex items-center">
+                                <div class="ml-4">
+                                    <div class="p-1">
+                                        <ng-container>
+                                            <!-- <div class="py-0.5 px-3 rounded-full font-semibold text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500">
                                          {{ exam.name }} {{ exam.year }} : รอบที่ {{exam.round }}  จำนวน {{exam.question_qty }} ข้อ</div> -->
-                                          <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">
-                                              {{ examlist.name }} {{ examlist.year }} : รอบที่ {{ examlist.round }} จำนวน
-                                              {{ examlist.question_qty }} ข้อ</div>
-                                      </ng-container>
-                                  </div>
+                                            <div
+                                                class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500"
+                                            >
+                                                {{ examlist.name }}
+                                                {{ examlist.year }} : รอบที่
+                                                {{ examlist.round }} จำนวน
+                                                {{ examlist.question_qty }} ข้อ
+                                            </div>
+                                        </ng-container>
+                                    </div>
 
-                                  <div class="mt-1 flex items-center leading-5 text-md font-medium">
-                                      <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
-                                      <div class="ml-2">สายงาน : {{ examlist.line_work.name }}</div>
-                                  </div>
-                                  <div class="mt-1 flex items-center leading-5 text-md text-secondar">
-                                      <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
-                                      <div class="ml-2" >ระยะเวลาสอบ : {{ examlist.exam_time }} นาที</div>
-                                  </div>
-                                  <div class="mt-1 flex items-center leading-5 text-md text-secondar">
-                                    <mat-icon svgIcon="heroicons_outline:calendar"></mat-icon>
-                                    <div class="ml-2" >เปิดรับลงทะเบียน : {{ this.helper.reverseDateSplitKed(examlist.register_start_date) }} 
-                                      ถึงวันที่ {{ this.helper.reverseDateSplitKed(examlist.register_end_date) }}</div>
-                                  </div>
-                              </div>
-                          </div>
+                                    <div
+                                        class="mt-1 flex items-center leading-5 text-md font-medium"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:book-open"
+                                        ></mat-icon>
+                                        <div class="ml-2">
+                                            สายงาน :
+                                            {{ examlist.line_work.name }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mt-1 flex items-center leading-5 text-md text-secondar"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:clock"
+                                        ></mat-icon>
+                                        <div class="ml-2">
+                                            ระยะเวลาสอบ :
+                                            {{ examlist.exam_time }} นาที
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mt-1 flex items-center leading-5 text-md text-secondar"
+                                    >
+                                        <mat-icon
+                                            svgIcon="heroicons_outline:calendar"
+                                        ></mat-icon>
+                                        <div class="ml-2">
+                                            เปิดรับลงทะเบียน :
+                                            {{
+                                                this.helper.reverseDateSplitKed(
+                                                    examlist.register_start_date
+                                                )
+                                            }}
+                                            ถึงวันที่
+                                            {{
+                                                this.helper.reverseDateSplitKed(
+                                                    examlist.register_end_date
+                                                )
+                                            }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                          <div class="flex flex-col w-full mt-auto">
-                              <!-- Course button -->
-                              <div class="px-6 py-4 text-right">
-                                  <button *ngIf="examlist.status != 'End'" mat-stroked-button type="button" (click)="detailExam(examlist)" 
-                                      class="font-bold mdc-button mat-primary bg-blue-600 text-white mat-mdc-button-base mat-mdc-b ">
-                                      <!-- <mat-icon class="text-hint"   [svgIcon]="'heroicons_outline:check-circle'"></mat-icon> -->
-                                      <span class="inline-flex items-center">
-                                          <span> เปิดลงทะเบียน</span>
-                                      </span>
-                                  </button>
+                            <div class="flex flex-col w-full mt-auto">
+                                <!-- Course button -->
+                                <div class="px-6 py-4 text-right">
+                                    <button
+                                        *ngIf="examlist.status != 'End'"
+                                        mat-stroked-button
+                                        type="button"
+                                        (click)="detailExam(examlist)"
+                                        class="font-bold mdc-button mat-primary bg-blue-600 text-white mat-mdc-button-base mat-mdc-b"
+                                    >
+                                        <!-- <mat-icon class="text-hint"   [svgIcon]="'heroicons_outline:check-circle'"></mat-icon> -->
+                                        <span class="inline-flex items-center">
+                                            <span> เปิดลงทะเบียน</span>
+                                        </span>
+                                    </button>
 
-                                  <button *ngIf="examlist.status == 'End'" mat-stroked-button
-                                      class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100"
-                                      disabled>
-                                      <span class="inline-flex items-center">
-                                          <span> ปิดลงทะเบียน</span>
-                                      </span>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </ng-container>
+                                    <button
+                                        *ngIf="examlist.status == 'End'"
+                                        mat-stroked-button
+                                        class="font-bold mdc-button mat-primary mat-mdc-button-base mat-mdc-b bg-black-100"
+                                        disabled
+                                    >
+                                        <span class="inline-flex items-center">
+                                            <span> ปิดลงทะเบียน</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
 
-              </div>
-          </div>
-      </div>
-  </div>
+    <!-- Overlay element -->
+    <div
+        id="overlay"
+        class="fixed hidden z-999 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
+    ></div>
 
+    <!-- The dialog -->
+    <div
+        id="dialog"
+        class="hidden fixed z-999 h-4/6 sm:h-3/5 top-36 sm:top-24 left-0 sm:left-1/4 md:left-1/4 inset-0 w-full sm:w-6/12 md:w-6/12 bg-white rounded-md px-5 py-4 mb-6 sm:pb-8 drop-shadow-lg"
+    >
+        <!-- header -->
+        <div class="flex items-start justify-between">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                ลงทะเบียนสอบ
+            </h3>
+            <button
+                type="button"
+                (click)="actionClickDialog('Close')"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-toggle="defaultModal"
+            >
+                <svg
+                    aria-hidden="true"
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                    ></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+        <!-- body -->
+        <div class="flex-row">
+            <!-- Form -->
+            <form class="mt-4" [formGroup]="regitExamForm">
+                <div class="py-2 border-t border-b border-gray-300">
+                    <h1 class="text-xl font-bold">ข้อมูลวิชาสอบ</h1>
 
-  <!-- Overlay element -->
-  <div id="overlay" class="fixed hidden z-999 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"></div>
+                    <div
+                        class="flex items-center mt-1 sm:mt-4 p-2 text-secondar"
+                    >
+                        <mat-icon
+                            svgIcon="heroicons_outline:book-open"
+                        ></mat-icon>
+                        <mat-label class="ml-2"
+                            ><b>รายชื่อวิชา : </b> {{ displayDialog.Name }}
+                            {{ displayDialog.year }}</mat-label
+                        >
+                    </div>
 
-  <!-- The dialog -->
-  <div id="dialog" 
-      class="hidden fixed z-999 h-4/6 sm:h-3/5 top-36 sm:top-24 left-0 sm:left-1/4 md:left-1/4 inset-0 w-full sm:w-6/12 md:w-6/12 bg-white rounded-md px-5 py-4 mb-6 sm:pb-8 drop-shadow-lg">
-      <!-- header -->
-      <div class="flex items-start justify-between">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              ลงทะเบียนสอบ
-          </h3>
-          <button type="button" (click)="actionClickDialog('Close')"
-              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-toggle="defaultModal">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"></path>
-              </svg>
-              <span class="sr-only">Close modal</span>
-          </button>
-      </div>
-      <!-- body -->
-      <div class="flex-row">
-          <!-- Form -->
-          <form class="mt-4" [formGroup]="regitExamForm">
-              <div class="py-2 border-t border-b border-gray-300">
-                  <h1 class="text-xl font-bold">ข้อมูลวิชาสอบ</h1>
+                    <div class="flex items-center p-2 text-secondar">
+                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                        <mat-label class="ml-2"
+                            ><b>เปิดรับลงทะเบียน : </b>
+                            {{ displayDialog.register_start_date }} ถึงวันที่
+                            {{ displayDialog.register_end_date }}</mat-label
+                        >
+                    </div>
 
-                  <div class="flex items-center mt-1 sm:mt-4 p-2 text-secondar">
-                      <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
-                      <mat-label class="ml-2"><b>รายชื่อวิชา : </b> {{ displayDialog.Name }} {{ displayDialog.year }}</mat-label>
-                  </div>
+                    <div class="flex items-center p-2 text-secondar">
+                        <mat-icon
+                            svgIcon="heroicons_outline:clipboard-list"
+                        ></mat-icon>
+                        <mat-label class="ml-2"
+                            ><b>จำนวน : </b>
+                            {{ displayDialog.question_qty }} ข้อ</mat-label
+                        >
+                    </div>
 
-                  <div class="flex items-center p-2 text-secondar">
-                      <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
-                      <mat-label class="ml-2"><b>เปิดรับลงทะเบียน : </b> {{ displayDialog.register_start_date }} ถึงวันที่  {{ displayDialog.register_end_date }}</mat-label>
-                  </div>
+                    <div class="flex items-center p-2 text-secondar">
+                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+                        <mat-label class="ml-2"
+                            ><b>ระยะเวลาสอบ : </b>
+                            {{ displayDialog.exam_time }} นาที</mat-label
+                        >
+                    </div>
 
-                  <div class="flex items-center p-2 text-secondar">
-                      <mat-icon svgIcon="heroicons_outline:clipboard-list"></mat-icon>
-                      <mat-label class="ml-2"><b>จำนวน : </b> {{ displayDialog.question_qty }} ข้อ</mat-label>
-                  </div> 
+                    <hr style="margin: 15px 0 !important" />
+                    <mat-form-field class="w-full flex-auto gt-xs:pl-3">
+                        <mat-label>รอบที่</mat-label>
+                        <!-- <input id="exam_round_id" matInput formControlName="exam_round_id"> -->
+                        <mat-select
+                            placeholder="ระบุรอบที่สอบ"
+                            formControlName="exam_round_id"
+                        >
+                            <mat-option value="" disabled
+                                >-- ระบุรอบที่สอบ --</mat-option
+                            >
+                            <mat-option
+                                *ngFor="let round of this.dataExamRound"
+                                [value]="round.id"
+                            >
+                                {{
+                                    this.helper.reverseDateSplitKed(
+                                        round.exam_date
+                                    )
+                                }}
+                                เวลา {{ round.start_time }} ถึง
+                                {{ round.end_time }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-                  <div class="flex items-center p-2 text-secondar">
-                      <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
-                      <mat-label class="ml-2"><b>ระยะเวลาสอบ : </b> {{ displayDialog.exam_time }} นาที</mat-label>
-                  </div>
-                  
-                  <hr style="margin: 15px 0 !important" />
-                  <mat-form-field class="w-full flex-auto gt-xs:pl-3">
-                      <mat-label>รอบที่</mat-label>
-                      <!-- <input id="exam_round_id" matInput formControlName="exam_round_id"> -->
-                      <mat-select  placeholder="ระบุรอบที่สอบ" formControlName="exam_round_id">
-                          <mat-option value="" disabled>-- ระบุรอบที่สอบ --</mat-option>
-                          <mat-option *ngFor="let round of this.dataExamRound" [value]="round.id">
-                            {{ this.helper.reverseDateSplitKed(round.exam_date) }} เวลา {{ round.start_time }} ถึง {{ round.end_time }}
-                          </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>สนามสอบ</mat-label>
+                        <mat-select
+                            placeholder="สนามสอบ"
+                            formControlName="exam_field_id"
+                        >
+                            <mat-option value="" disabled
+                                >-- ระบุสนามสอบ --</mat-option
+                            >
+                            <mat-option
+                                *ngFor="let fieldMem of this.dataFieldMember"
+                                [value]="fieldMem.exam_field.exam_field_id"
+                                >{{ fieldMem.exam_field.name }}</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button
+                        class="fuse-mat-button mx-2"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="regitExamForm.disabled"
+                        (click)="RegiterExam()"
+                    >
+                        <span *ngIf="!regitExamForm.disabled">
+                            ลงทะเบียนสอบ
+                        </span>
+                        <mat-progress-spinner
+                            *ngIf="regitExamForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"
+                        >
+                        </mat-progress-spinner>
+                    </button>
 
-                  <mat-form-field class="w-full">
-                      <mat-label>สนามสอบ</mat-label>
-                      <mat-select  placeholder="สนามสอบ" formControlName="exam_field_id">
-                          <mat-option value="" disabled>-- ระบุสนามสอบ --</mat-option>
-                          <mat-option *ngFor="let fieldMem of this.dataFieldMember" [value]="fieldMem.exam_field.exam_field_id">{{ fieldMem.exam_field.name }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="mt-4 flex justify-end">
-                  <button class="fuse-mat-button mx-2" mat-flat-button [color]="'primary'" [disabled]="regitExamForm.disabled" (click)="RegiterExam()">
-                      <span *ngIf="!regitExamForm.disabled">
-                          ลงทะเบียนสอบ
-                      </span>
-                      <mat-progress-spinner *ngIf="regitExamForm.disabled" [diameter]="24" [mode]="'indeterminate'">
-                      </mat-progress-spinner>
-                  </button>
+                    <button
+                        id="close"
+                        class="bg-accent-300 mdc-button mat-Accent"
+                        mat-flat-button
+                        (click)="actionClickDialog('Close')"
+                    >
+                        ปิดหน้าต่าง
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-                  <button id="close" class="bg-accent-300 mdc-button mat-Accent" mat-flat-button (click)="actionClickDialog('Close')"> ปิดหน้าต่าง</button>
-              </div>
-          </form> 
-
-      </div>
-   
-  </div>
-
-  <!-- <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
@@ -230,7 +350,7 @@
       </div>
     </div> -->
 
-  <!-- <div class="flex justify-center">
+    <!-- <div class="flex justify-center">
       <nav aria-label="Page navigation example">
           <ul class="flex list-style-none">
               <li class="page-item disabled"><a
@@ -252,7 +372,7 @@
       </nav>
   </div> -->
 
-  <!-- <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <table datatable [dtOptions]="dtOptions" style="width:100% !important;" id="example"
           class="min-w-full">

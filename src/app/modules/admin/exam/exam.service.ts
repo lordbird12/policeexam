@@ -20,7 +20,7 @@ const token = localStorage.getItem('accessToken') || null;
 export class ExamService {
     private _examList: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -40,7 +40,7 @@ export class ExamService {
             )
             .pipe(catchError(this.handlerError));
     }
-    
+
 
     getExamPage(dataBody: any): Observable<DataExam> {
         return this._httpClient
@@ -81,6 +81,17 @@ export class ExamService {
             )
             .pipe(catchError(this.handlerError));
     }
+
+    Resetpassword(dataBody: any, id: any): Observable<any> {
+        return this._httpClient
+            .put<any>(
+                `${environment.API_URL}/api/register_exam/` + id,
+                dataBody,
+                this.httpOptionsFormdata
+            )
+            .pipe(catchError(this.handlerError));
+    }
+
 
     //ข้อสอบ
     ListDoExam(dataBody: any): Observable<any> {
@@ -150,7 +161,7 @@ export class ExamService {
                 dataBody,
                 this.httpOptionsFormdata
             )
-            .pipe(catchError((error : any) => { return of(error.error) }));
+            .pipe(catchError((error: any) => { return of(error.error) }));
     }
 
     getIPAddress() {
@@ -158,9 +169,9 @@ export class ExamService {
             .then((response) => response.json())
             .then((data) => data);
     }
-    
+
     handlerError(error): Observable<never> {
-        let errorMessage = { message : 'Error unknown'};
+        let errorMessage = { message: 'Error unknown' };
         if (error) {
             errorMessage = error.error;
         }

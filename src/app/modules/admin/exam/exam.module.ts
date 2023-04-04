@@ -32,6 +32,7 @@ import { ExamHistoryComponent } from './exam-history/exam-history.component';
 import { CorrectAnswersComponent } from './correct-answers/correct-answers.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-correct-answer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-cor
     ExamCalendarComponent,
     ExamHistoryComponent,
     CorrectAnswersComponent,
-    DialogCorrectAnswerComponent
+    DialogCorrectAnswerComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
