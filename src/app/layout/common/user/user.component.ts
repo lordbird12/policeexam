@@ -84,4 +84,9 @@ export class UserComponent implements OnInit, OnDestroy {
         sessionStorage.clear();
         this._router.navigate(['/sign-out']);
     }
+
+    Reset(): void {
+        this._router.navigate(['/exam/password-reset']);
+    }
 }
+
