@@ -244,6 +244,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
               }).then((result) => {
                 this.actionClickDialog('Close');
               });
+              this.resetPassword.reset();
             }
             else {
               this.resetPassword.enable();

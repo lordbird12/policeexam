@@ -85,7 +85,7 @@ export class ExamService {
     Resetpassword(dataBody: any, id: any): Observable<any> {
         return this._httpClient
             .put<any>(
-                `${environment.API_URL}/api/register_exam/` + id,
+                `${environment.API_URL}/api/reset_password_member/` + id,
                 dataBody,
                 this.httpOptionsFormdata
             )
