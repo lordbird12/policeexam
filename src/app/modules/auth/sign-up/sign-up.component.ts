@@ -642,9 +642,30 @@ export class AuthSignUpComponent implements OnInit {
 
     signUp2(): void {
         // Do nothing if the form is invalid
-        // if (this.signUpForm2.invalid) {
-        //     return;
-        // }
+        if (this.signUpForm2.value.invalid) {
+            const confirmation = this._fuseConfirmationService.open({
+                title: 'การลงทะเบียนไม่สำเร็จ',
+                message: 'กรุณาระบุข้อมูลให้ครบถ้วน ',
+                icon: {
+                    show: true,
+                    name: 'heroicons_outline:x-circle',
+                    color: 'error',
+                },
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'กลับสู่หน้าเข้าสู่ระบบ',
+                        color: 'primary',
+                    },
+                    cancel: {
+                        show: false,
+                        label: 'ยกเลิก',
+                    },
+                },
+                dismissible: true,
+            });
+            return;
+        }
 
         //convert date
         this.signUpForm2.patchValue({
