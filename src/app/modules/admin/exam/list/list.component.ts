@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ExamService } from '../exam.service';
@@ -7,6 +7,8 @@ import { HelperFunctionService } from 'app/shared/helper-function.service';
 import { Route, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
+import { MatDialog } from '@angular/material/dialog';
+import { RegiterDialogComponent } from '../regiter-dialog/regiter-dialog.component';
 
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
@@ -14,7 +16,8 @@ const token = localStorage.getItem('accessToken') || null;
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ListComponent implements OnInit, OnDestroy {
 
@@ -64,7 +67,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
 
   constructor(private _authService: AuthService, private _examServ: ExamService, public helper: HelperFunctionService,
-    private rou: Router, private _formBuilder: FormBuilder) {
+    private rou: Router, private _formBuilder: FormBuilder, private _matDialog: MatDialog) {
 
     this.regitExamForm = this._formBuilder.group({
       exam_round_id: ['', Validators.required],
@@ -130,6 +133,32 @@ export class ListComponent implements OnInit, OnDestroy {
       overlay.classList.add('hidden');
       this.regitExamForm.enable();
     }
+  }
+
+  openDetail(item: any) {
+
+    // this.displayDialog = {
+    //   exam_id: item.id ? item.id : '',
+    //   Name: item.name ? item.name : '',
+    //   year: item.year ? item.year : '',
+    //   register_end_date: item.register_end_date ? this.helper.reverseDateSplitKed(item.register_end_date) : '',
+    //   register_start_date : item.register_start_date ? this.helper.reverseDateSplitKed(item.register_start_date) : '',
+    //   question_qty: item.question_qty ? item.question_qty : '',
+    //   exam_time: item.exam_time ? item.exam_time : '',
+    //   line_work_id : item.line_work.line_work_id ? item.line_work.line_work_id : '',
+    //   line_work_name : item.line_work.name ? item.line_work.name : ''
+    // }
+
+    this._matDialog.open(RegiterDialogComponent, { autoFocus: false, data: { data : { exam_id : 1 } } })
+      .afterClosed()
+      .subscribe({
+        next: (result) => {
+          console.log(result)
+          if (result === 'successful') {
+           
+          }
+        },
+      });
   }
 
   detailExam(item): void  {

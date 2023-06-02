@@ -1,0 +1,52 @@
+<div class="flex flex-col max-w-280 md:min-w-180 max-h-screen -m-6">
+
+  <!-- Header -->
+  <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+    <div class="text-lg font-medium">ข้อมูลวิชาสอบ</div>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+    </button>
+  </div>
+
+  <!-- Compose form -->
+  <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
+
+    <div class="flex items-center mt-1 sm:mt-4 p-2 text-secondar">
+        <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
+        <mat-label class="ml-2"><b>รายชื่อวิชา : </b> {{ displayDialog.Name }} {{ displayDialog.year }}</mat-label>
+    </div>
+
+    <div class="flex items-center p-2 text-secondar">
+        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+        <mat-label class="ml-2"><b>เปิดรับลงทะเบียน : </b> {{ displayDialog.register_start_date }} ถึงวันที่  {{ displayDialog.register_end_date }}</mat-label>
+    </div>
+
+    <div class="flex items-center p-2 text-secondar">
+        <mat-icon svgIcon="heroicons_outline:clipboard-list"></mat-icon>
+        <mat-label class="ml-2"><b>จำนวน : </b> {{ displayDialog.question_qty }} ข้อ</mat-label>
+    </div> 
+
+    <div class="flex items-center p-2 text-secondar">
+        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>
+        <mat-label class="ml-2"><b>ระยะเวลาสอบ : </b> {{ displayDialog.exam_time }} นาที</mat-label>
+    </div>
+
+    <hr style="margin: 15px 0 !important" />
+
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+      <div class="flex items-center mt-4 sm:mt-0">
+        <!-- Send -->
+        <button class="ml-auto sm:ml-0" mat-flat-button [color]="'primary'">
+          บันทึก
+        </button>
+
+        <button class="sm:ml-3 order-first sm:order-last" mat-stroked-button (click)="closeDialog()">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
