@@ -53,19 +53,9 @@ export class RegiterDialogComponent implements OnInit {
   dataExamRound: any;
   dataFieldMember: any;
 
-  displayDialog : any = {
-    exam_id: "",
-    Name:  "",
-    year:  "",
-    register_end_date:  "",
-    register_start_date :  "",
-    question_qty:  "",
-    exam_time:  0,
-    line_work_id :  "",
-    line_work_name :  "",
-  };
+  displayDialog : any = {};
 
-  constructor(@Inject(MAT_DIALOG_DATA) private _data: { data?: any }, private _authService: AuthService, private _examServ: ExamService,
+  constructor(@Inject(MAT_DIALOG_DATA) private _dataExt: { data?: any }, private _authService: AuthService, private _examServ: ExamService,
     public helper: HelperFunctionService, private rou: Router, 
     private _formBuilder: FormBuilder, private matDialogRef: MatDialogRef<RegiterDialogComponent>) {
 
@@ -77,11 +67,136 @@ export class RegiterDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this._data)
+    console.log(this._dataExt.data);
+
+    if(this._dataExt.data.exam_id) {
+      this.loading();
+    
+      this.getDropDownExamRound(this._dataExt.data.exam_id);
+      this.getDropDownExamFieldMemmer(this._dataExt.data.exam_id);
+
+      this.displayDialog = this._dataExt.data;
+
+      setTimeout(async () => {
+        Swal.close();
+      }, 1000);
+    }
+    else {
+      this.displayDialog = {};
+      this.dataExamRound = [];
+      this.dataExamRound = [];
+    }
+    
   }
 
   closeDialog(): void {
-    this.matDialogRef.close();
+    this.matDialogRef.close('successful');
   }
 
+
+  getDropDownExamRound(examId): void {
+    
+    this.dataExamRound = [];
+    this._examServ.getExamRound({ exam_id: examId }).subscribe((response) => {
+      this.dataExamRound = response.data ? response.data : [];
+      // console.log("ExamRound",  this.dataExamRound);
+    });
+  }
+
+  getDropDownExamFieldMemmer(examId): void {
+    this.dataExamRound = [];
+    this._examServ.getExamFieldMember({ exam_id: examId }).subscribe((response) => {
+
+      this.dataFieldMember = response.data ? response.data : [];
+      // console.log("FieldMember",  this.dataFieldMember);
+    });
+  }
+
+  RegiterExam(): void {
+    // Disable the form
+    this.regitExamForm.disable();
+    console.log("save", this.regitExamForm.value);
+
+    if(!this.regitExamForm.value.exam_round_id || !this.regitExamForm.value.exam_field_id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'พบข้อผิดพลาด!',
+        text: 'กรุณาระบุรอบที่สอบ และสนามสอบให้ครบถ้วน!',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#2196f3',
+      });
+      this.regitExamForm.enable();
+      return;
+    }
+    else {
+      Swal.fire({
+        title: 'ลงทะเบียนสอบ',
+        text: "คุณต้องการรายวิชานี้ ใช่หรือไม่?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, ลงทะเบียน',
+        cancelButtonText: 'ไม่, ปิดหน้าต่าง'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this._examServ.RegisterExam(this.regitExamForm.value).subscribe((response) => {
+            // console.log("RegisterExam",  response.data);
+            if(response.status == true) {
+              Swal.fire({
+                title: 'ลงทะเบียนสำเร็จ',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#2196f3',
+              }).then((result) => {
+                this.matDialogRef.close('successful');
+              });
+            }
+            else {
+              this.regitExamForm.enable();
+              Swal.fire('พบข้อผิดพลาด', response.message, 'error');
+            }
+          }, 
+          (error: any) => {
+              this.regitExamForm.enable();
+              Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
+          });
+        }
+        else {
+          this.regitExamForm.enable();
+          return; 
+        }
+      });
+    }
+
+  }
+
+  async clerData() {
+    this.displayDialog = {
+      exam_id: "",
+      Name:  "",
+      year:  "",
+      register_end_date:  "",
+      register_start_date :  "",
+      question_qty:  "",
+      exam_time:  0,
+      line_work_id :  "",
+      line_work_name :  "",
+    };
+  }
+
+  async loading() {
+    Swal.fire({
+      title: 'กรุณารอสักครู่ !',
+      html: 'กำลังโหลดข้อมูล...',// add html attribute if you want or remove
+      allowOutsideClick: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didRender: () => {
+        Swal.showLoading(Swal.getDenyButton())
+      },
+    });
+  }
+  
 }

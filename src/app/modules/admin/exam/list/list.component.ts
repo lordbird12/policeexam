@@ -52,17 +52,17 @@ export class ListComponent implements OnInit, OnDestroy {
   dataExamPage: any;
   dataExamRound: any;
   dataFieldMember: any;
-  
-  displayDialog : any = {
+
+  displayDialog: any = {
     exam_id: "",
-    Name:  "",
-    year:  "",
-    register_end_date:  "",
-    register_start_date :  "",
-    question_qty:  "",
-    exam_time:  0,
-    line_work_id :  "",
-    line_work_name :  "",
+    Name: "",
+    year: "",
+    register_end_date: "",
+    register_start_date: "",
+    question_qty: "",
+    exam_time: 0,
+    line_work_id: "",
+    line_work_name: "",
   };
 
 
@@ -109,7 +109,7 @@ export class ListComponent implements OnInit, OnDestroy {
       console.clear();
       // this.dataArrExam = response.data.data;
       this.dataMyExam = response.data;
-     
+
       setTimeout(() => {
         Swal.close();
       }, 500);
@@ -135,35 +135,51 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  openDetail(item: any) {
-
-    // this.displayDialog = {
-    //   exam_id: item.id ? item.id : '',
-    //   Name: item.name ? item.name : '',
-    //   year: item.year ? item.year : '',
-    //   register_end_date: item.register_end_date ? this.helper.reverseDateSplitKed(item.register_end_date) : '',
-    //   register_start_date : item.register_start_date ? this.helper.reverseDateSplitKed(item.register_start_date) : '',
-    //   question_qty: item.question_qty ? item.question_qty : '',
-    //   exam_time: item.exam_time ? item.exam_time : '',
-    //   line_work_id : item.line_work.line_work_id ? item.line_work.line_work_id : '',
-    //   line_work_name : item.line_work.name ? item.line_work.name : ''
-    // }
-
-    this._matDialog.open(RegiterDialogComponent, { autoFocus: false, data: { data : { exam_id : 1 } } })
-      .afterClosed()
-      .subscribe({
-        next: (result) => {
-          console.log(result)
-          if (result === 'successful') {
-           
-          }
-        },
+  openRegiter(item: any) {
+    if (!item) {
+      this.clerData();
+      Swal.fire({
+        icon: 'error',
+        title: 'พบข้อผิดพลาด!',
+        text: 'กรุณาลองเข้าใช้งานระบบใหม่!',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#2196f3',
       });
+      return;
+    }
+    else {
+  
+      if(item.id) {
+        this.displayDialog = {
+          exam_id: item.id ? item.id : '',
+          Name: item.name ? item.name : '',
+          year: item.year ? item.year : '',
+          register_end_date: item.register_end_date ? this.helper.reverseDateSplitKed(item.register_end_date) : '',
+          register_start_date: item.register_start_date ? this.helper.reverseDateSplitKed(item.register_start_date) : '',
+          question_qty: item.question_qty ? item.question_qty : '',
+          exam_time: item.exam_time ? item.exam_time : '',
+          line_work_id: item.line_work.line_work_id ? item.line_work.line_work_id : '',
+          line_work_name: item.line_work.name ? item.line_work.name : ''
+        }
+      }
+
+      this._matDialog.open(RegiterDialogComponent, { autoFocus: false, data: { data: this.displayDialog } })
+        .afterClosed()
+        .subscribe({
+          next: (result) => {
+            // console.log(result)
+            if (result === 'successful') {
+              this.getPageListExam();
+            }
+          },
+        });
+    }
+
   }
 
-  detailExam(item): void  {
+  detailExam(item): void {
     // console.log("item", item);
-    if(!item) {
+    if (!item) {
       this.clerData();
       Swal.fire({
         icon: 'error',
@@ -182,26 +198,26 @@ export class ListComponent implements OnInit, OnDestroy {
         Name: item.name,
         year: item.year,
         register_end_date: this.helper.reverseDateSplitKed(item.register_end_date),
-        register_start_date : this.helper.reverseDateSplitKed(item.register_start_date),
+        register_start_date: this.helper.reverseDateSplitKed(item.register_start_date),
         question_qty: item.question_qty,
         exam_time: item.exam_time,
-        line_work_id :  item.line_work.line_work_id,
-        line_work_name : item.line_work.name
+        line_work_id: item.line_work.line_work_id,
+        line_work_name: item.line_work.name
       }
 
       this.getDropDownExamRound(item.id);
       this.getDropDownExamFieldMemmer(item.id);
-      
+
       setTimeout(async () => {
         Swal.close();
       }, 1000);
     }
-   
+
   }
 
   getDropDownExamRound(examId): void {
     this.actionClickDialog('Open');
-    
+
     this.dataExamRound = [];
     this._examServ.getExamRound({ exam_id: examId }).subscribe((response) => {
       this.dataExamRound = response.data;
@@ -223,7 +239,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.regitExamForm.disable();
     console.log("save", this.regitExamForm.value);
 
-    if(!this.regitExamForm.value.exam_round_id || !this.regitExamForm.value.exam_field_id) {
+    if (!this.regitExamForm.value.exam_round_id || !this.regitExamForm.value.exam_field_id) {
       Swal.fire({
         icon: 'error',
         title: 'พบข้อผิดพลาด!',
@@ -248,7 +264,7 @@ export class ListComponent implements OnInit, OnDestroy {
         if (result.isConfirmed) {
           this._examServ.RegisterExam(this.regitExamForm.value).subscribe((response) => {
             // console.log("RegisterExam",  response.data);
-            if(response.status == true) {
+            if (response.status == true) {
               Swal.fire({
                 title: 'ลงทะเบียนสำเร็จ',
                 icon: 'success',
@@ -263,14 +279,15 @@ export class ListComponent implements OnInit, OnDestroy {
               this.regitExamForm.enable();
               Swal.fire('พบข้อผิดพลาด', response.message, 'error');
             }
-          }, 
-          (error: any) => {
+          },
+            (error: any) => {
+              this.regitExamForm.enable();
               Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
-          });
+            });
         }
         else {
           this.regitExamForm.enable();
-          return; 
+          return;
         }
       });
     }
@@ -280,14 +297,14 @@ export class ListComponent implements OnInit, OnDestroy {
   async clerData() {
     this.displayDialog = {
       exam_id: "",
-      Name:  "",
-      year:  "",
-      register_end_date:  "",
-      register_start_date :  "",
-      question_qty:  "",
-      exam_time:  0,
-      line_work_id :  "",
-      line_work_name :  "",
+      Name: "",
+      year: "",
+      register_end_date: "",
+      register_start_date: "",
+      question_qty: "",
+      exam_time: 0,
+      line_work_id: "",
+      line_work_name: "",
     };
   }
 

@@ -2,16 +2,16 @@
 
   <!-- Header -->
   <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-    <div class="text-lg font-medium">ข้อมูลวิชาสอบ</div>
+    <div class="text-xl font-bold">ข้อมูลวิชาสอบ</div>
     <button mat-icon-button (click)="closeDialog()">
       <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
     </button>
   </div>
 
   <!-- Compose form -->
-  <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
+  <form class="flex flex-col flex-auto p-4 sm:p-6 overflow-y-auto" [formGroup]="regitExamForm">
 
-    <div class="flex items-center mt-1 sm:mt-4 p-2 text-secondar">
+    <div class="flex items-center  p-2 text-secondar">
         <mat-icon svgIcon="heroicons_outline:book-open"></mat-icon>
         <mat-label class="ml-2"><b>รายชื่อวิชา : </b> {{ displayDialog.Name }} {{ displayDialog.year }}</mat-label>
     </div>
@@ -33,20 +33,44 @@
 
     <hr style="margin: 15px 0 !important" />
 
+    <mat-form-field class="w-full flex-auto gt-xs:pl-3">
+        <mat-label>รอบที่</mat-label>
+        <!-- <input id="exam_round_id" matInput formControlName="exam_round_id"> -->
+        <mat-select  placeholder="ระบุรอบที่สอบ" formControlName="exam_round_id">
+            <mat-option value="" disabled>-- ระบุรอบที่สอบ --</mat-option>
+            <mat-option *ngFor="let round of this.dataExamRound" [value]="round.id">
+              {{ this.helper.reverseDateSplitKed(round.exam_date) }} เวลา {{ round.start_time }} ถึง {{ round.end_time }}
+            </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+        <mat-label>สนามสอบ</mat-label>
+        <mat-select  placeholder="สนามสอบ" formControlName="exam_field_id">
+            <mat-option value="" disabled>-- ระบุสนามสอบ --</mat-option>
+            <mat-option *ngFor="let fieldMem of this.dataFieldMember" [value]="fieldMem.exam_field.exam_field_id">{{ fieldMem.exam_field.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
 
     <!-- Actions -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
       <div class="flex items-center mt-4 sm:mt-0">
-        <!-- Send -->
-        <button class="ml-auto sm:ml-0" mat-flat-button [color]="'primary'">
-          บันทึก
+        <button class="ml-auto sm:ml-0" mat-flat-button [color]="'primary'" [disabled]="regitExamForm.disabled" (click)="RegiterExam()">
+            <span *ngIf="!regitExamForm.disabled">
+                ลงทะเบียนสอบ
+            </span>
+            <mat-progress-spinner *ngIf="regitExamForm.disabled" [diameter]="24" [mode]="'indeterminate'">
+            </mat-progress-spinner>
         </button>
 
-        <button class="sm:ml-3 order-first sm:order-last" mat-stroked-button (click)="closeDialog()">
+        <button class="sm:ml-3 order-last sm:order-last" mat-stroked-button (click)="closeDialog()">
           ปิดหน้าต่าง
         </button>
       </div>
     </div>
+
+    
   </form>
 
 </div>

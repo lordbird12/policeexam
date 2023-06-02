@@ -34,6 +34,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-correct-answer.component';
 import { RegiterDialogComponent } from './regiter-dialog/regiter-dialog.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -53,12 +54,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     // FormsModule,
     // ReactiveFormsModule,
     RouterModule.forChild(examRoutes),
+    MatAutocompleteModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatProgressBarModule,
     MatSelectModule,
+    MatDialogModule,
     MatSidenavModule,
     MatSlideToggleModule,
     MatTooltipModule,
@@ -69,8 +72,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FuseAlertModule,
     MatProgressSpinnerModule,
     FullCalendarModule,
-    MatSelectModule,
-    MatAutocompleteModule,
+
   ]
 })
 export class ExamModule { }

@@ -88,7 +88,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     let item = localStorage.getItem('user')
     let user = JSON.parse(item)
     this.UserId = user.id;
-    // this.getPageListExam();
     // alert(1);
     console.log('user', this.UserId)
   }
@@ -99,34 +98,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     // this.destroy$.complete();
   }
 
-  getPageListExam(): void {
-    let getBody = {
-      "line_work_id": null,
-      "status": null,
-      "draw": 1,
-      "columns": [],
-      "order": [{
-        "column": 1,
-        "dir": "asc"
-      }],
-      "start": 0,
-      "length": 10,
-      "search": {
-        "value": "",
-        "regex": false
-      }
-    };
-    this.loading();
-    this._examServ.getExamPage(getBody).subscribe((response) => {
-      console.clear();
-      // this.dataArrExam = response.data.data;
-      this.dataMyExam = response.data;
-
-      setTimeout(() => {
-        Swal.close();
-      }, 500);
-    });
-  }
 
   actionClickDialog(type: any): void {
     var openButton = document.getElementById('open');
@@ -145,63 +116,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       overlay.classList.add('hidden');
       this.regitExamForm.enable();
     }
-  }
-
-  detailExam(item): void {
-    // console.log("item", item);
-    if (!item) {
-      this.clerData();
-      Swal.fire({
-        icon: 'error',
-        title: 'พบข้อผิดพลาด!',
-        text: 'กรุณาลองเข้าใช้งานระบบใหม่!',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#2196f3',
-      });
-      return;
-    }
-    else {
-      this.loading();
-
-      this.displayDialog = {
-        exam_id: item.id,
-        Name: item.name,
-        year: item.year,
-        register_end_date: this.helper.reverseDateSplitKed(item.register_end_date),
-        register_start_date: this.helper.reverseDateSplitKed(item.register_start_date),
-        question_qty: item.question_qty,
-        exam_time: item.exam_time,
-        line_work_id: item.line_work.line_work_id,
-        line_work_name: item.line_work.name
-      }
-
-      this.getDropDownExamRound(item.id);
-      this.getDropDownExamFieldMemmer(item.id);
-
-      setTimeout(async () => {
-        Swal.close();
-      }, 1000);
-    }
-
-  }
-
-  getDropDownExamRound(examId): void {
-    this.actionClickDialog('Open');
-
-    this.dataExamRound = [];
-    this._examServ.getExamRound({ exam_id: examId }).subscribe((response) => {
-      this.dataExamRound = response.data;
-      // console.log("ExamRound",  this.dataExamRound);
-    });
-  }
-
-  getDropDownExamFieldMemmer(examId): void {
-    this.dataExamRound = [];
-    this._examServ.getExamFieldMember({ exam_id: examId }).subscribe((response) => {
-
-      this.dataFieldMember = response.data;
-      // console.log("FieldMember",  this.dataFieldMember);
-    });
   }
 
   ResetPassword(): void {
@@ -245,6 +159,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                 this.actionClickDialog('Close');
               });
               this.resetPassword.reset();
+              this.resetPassword.enable();
             }
             else {
               this.resetPassword.enable();
@@ -252,6 +167,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             }
           },
             (error: any) => {
+              this.resetPassword.enable();
               Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
             });
         }
