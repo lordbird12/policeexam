@@ -33,6 +33,7 @@ import { CorrectAnswersComponent } from './correct-answers/correct-answers.compo
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-correct-answer.component';
 import { RegiterDialogComponent } from './regiter-dialog/regiter-dialog.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RegiterDialogComponent } from './regiter-dialog/regiter-dialog.componen
     ExamHistoryComponent,
     CorrectAnswersComponent,
     DialogCorrectAnswerComponent,
-    RegiterDialogComponent
+    RegiterDialogComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
