@@ -54,6 +54,11 @@ export class AuthSignInComponent implements OnInit {
     /**
      * Sign in
      */
+
+    GoSignUp() {
+        this._router.navigate(['/sign-up'])
+    }
+
     signIn(): void {
         // Return if the form is invalid
         if (this.signInForm.invalid) {
