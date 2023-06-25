@@ -14,6 +14,7 @@ import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { MaterialComponentsModule } from './modules/admin/ui/material-components/material-components.module';
 import { CommonModule } from '@angular/common';
+import { IdCardFormatPipe } from './id-card-format.pipe';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -23,6 +24,7 @@ const routerConfig: ExtraOptions = {
 @NgModule({
     declarations: [
         AppComponent,
+
     ],
     imports     : [
         BrowserModule,

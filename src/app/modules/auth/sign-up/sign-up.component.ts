@@ -97,6 +97,14 @@ export class AuthSignUpComponent implements OnInit {
 
     datestart: any;
 
+    selectedDay: number;
+    selectedMonth: number;
+    selectedYear: number;
+
+    dayOptions: number[];
+    monthOptions: number[];
+    yearOptions: number[];
+
     /**
      * Constructor
      */
@@ -107,7 +115,18 @@ export class AuthSignUpComponent implements OnInit {
         private _router: Router,
         private _matDialog: MatDialog,
         private _fuseConfirmationService: FuseConfirmationService
-    ) { }
+    ) {
+        this.dayOptions = Array.from({ length: 31 }, (_, index) => index + 1);
+        this.monthOptions =
+            Array.from({ length: 12 }, (_, index) => index + 1);
+
+
+        const currentYear = new Date().getFullYear();
+        const startYear = currentYear - 60;
+        this.yearOptions = Array.from({ length: 61 }, (_, index) => startYear + index + 543); // Add 543 to convert to B.E.
+
+      }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -509,7 +528,7 @@ export class AuthSignUpComponent implements OnInit {
         this._authService.getSubAgencyCommand(id).subscribe((resp) => {
             this.subagencycommandData = resp.data;
             this.subagencycommandFilter = this.subagencycommandData;
-            // console.log('subagen', this.subagencycommandData)
+            console.log('subagen', this.subagencycommandData)
         });
     }
 
@@ -778,9 +797,25 @@ export class AuthSignUpComponent implements OnInit {
 
 
     onChangeSex(event): void {
-        console.log(event)
+        // console.log(event)
+        const sexdata = this.prefixData.find(item => item.prefix_id === event)
         this.signUpForm.patchValue({
-            sex: 'M'
+            sex: sexdata.sex
         })
     }
+
+    onChangeSubAgencyCommand(id: string): void {
+        console.log(id, 'id ')
+    this.GetSubAgencyCommand(id);
+    }
+    onChangeAffiliation(id: string): void {
+        console.log(id, 'id ')
+    this.GetAffiliation(id);
+    }
+    onChangePrefix(id: string): void {
+        console.log(id, 'id ')
+    this.GetPrefix(id);
+    }
+
+
 }

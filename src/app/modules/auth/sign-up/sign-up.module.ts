@@ -17,9 +17,10 @@ import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignUpComponent } from 'app/modules/auth/sign-up/sign-up.component';
 import { authSignupRoutes } from 'app/modules/auth/sign-up/sign-up.routing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { IdCardFormatPipe } from 'app/id-card-format.pipe';
 
 @NgModule({
-    declarations: [AuthSignUpComponent],
+    declarations: [AuthSignUpComponent,IdCardFormatPipe],
     imports: [
         RouterModule.forChild(authSignupRoutes),
         MatButtonModule,
