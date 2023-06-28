@@ -86,7 +86,18 @@
                                 </div>
                                 <!-- <button type="submit" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">เลือกภาพ</button> -->
                             </div>
-
+                            <div class="sm:col-span-4">
+                                <mat-label>เพศสภาพ</mat-label>
+                                <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'"
+                                    [value]="'M'">
+                                    <mat-radio-button [value]="'M'" (click)="ChangeSex($event)">
+                                        ชาย
+                                    </mat-radio-button>
+                                    <mat-radio-button class="px-4" [value]="'F'" (click)="ChangeSex($event)">
+                                        หญิง
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
                             <div class="sm:col-span-2">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
                                     <mat-label>ประเภทชั้นยศ</mat-label>

@@ -808,14 +808,18 @@ export class AuthSignUpComponent implements OnInit {
         console.log(id, 'id ')
     this.GetSubAgencyCommand(id);
     }
+
     onChangeAffiliation(id: string): void {
         console.log(id, 'id ')
     this.GetAffiliation(id);
     }
+
     onChangePrefix(id: string): void {
         console.log(id, 'id ')
     this.GetPrefix(id);
     }
 
-
+    ChangeSex(event: any):void {
+        console.log('sex', this.signUpForm.value.sex)
+    }
 }
