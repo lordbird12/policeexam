@@ -581,7 +581,9 @@ export class AuthSignUpComponent implements OnInit {
         const formData = new FormData();
         Object.entries(this.signUpForm.value).forEach(
             ([key, value]: any[]) => {
-                formData.append(key, value);
+                if (value !== '' && value !== 'null' && value !== null) {
+                    formData.append(key, value);
+                  }
             }
         );
 
@@ -702,7 +704,9 @@ export class AuthSignUpComponent implements OnInit {
         const formData = new FormData();
         Object.entries(this.signUpForm2.value).forEach(
             ([key, value]: any[]) => {
-                formData.append(key, value);
+                if (value !== '' && value !== 'null' && value !== null) {
+                    formData.append(key, value);
+                  }
             }
         );
 
