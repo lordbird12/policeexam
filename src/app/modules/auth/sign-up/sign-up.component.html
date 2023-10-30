@@ -335,7 +335,7 @@
                                             {{ option.name }}
                                         </mat-option>
                                     </mat-autocomplete> -->
-                                    <mat-select>
+                                    <mat-select formControlName="position_id">
                                         <mat-option *ngFor="let item of positionData"
                                             [value]="item.position_id">{{ item.name }}</mat-option>
                                     </mat-select>

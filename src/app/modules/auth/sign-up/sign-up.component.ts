@@ -561,6 +561,8 @@ export class AuthSignUpComponent implements OnInit {
  * Sign up
  */
     signUp(): void {
+        console.log(this.signUpForm.value)
+        return;
         // Do nothing if the form is invalid
         if (this.signUpForm.invalid) {
             return;
