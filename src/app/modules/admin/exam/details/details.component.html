@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <!-- 
+    <!--
     <div class="count-down-timer">
         <p>Countdown to {{ currentTime }}
             d<span #days></span>
@@ -25,12 +25,12 @@
     <div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
 
         <!-- Header & Cards -->
-        <div class="relative pt-3 pb-6 px-10 sm:p-5 overflow-auto">
+        <div class="relative pt-3 pb-6 sm:p-5 overflow-auto">
 
             <!-- Header -->
             <ng-container *ngFor="let head of dataExams.data;">
                 <div class="flex justify-center w-full">
-                    <div class="bg-primary-800  sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
+                    <div class="  sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
                         <div class="flex flex-row justify-between w-full">
                             <div class="font-bold text-lg text-white dark:text-blue-50 dark:bg-blue-500">
                                 ผู้สอบ : {{ head.member.prefix.sub_name }} {{ head.member.fname }} {{ head.member.lname }} <br />ตำแหน่ง : {{ head.member.position.sub_name }} <br />หน่วยงาน : {{ head.member.division }}
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="flex justify-center w-full">
-                    <div class="bg-primary-100  sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
+                    <div class=" sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
                         <div class="flex flex-row justify-between w-full">
                             <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">
                                 [ {{ head.exam_group.name }} ] {{ head.exam_group.exam.name }} {{ head.exam_group.exam.year }} : รอบที่ {{ head.exam_group.exam.round }} จำนวน {{ head.exam_group.exam.question_qty }} ข้อ
@@ -77,9 +77,9 @@
                                         <div class="flex flex-row">
                                             <div class="form-check" (click)="AnswerClick()">
                                                 <label>
-                                                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white 
-                                                    checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top 
-                                                    bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" [name]="answ.group_subject_question_id" 
+                                                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white
+                                                    checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top
+                                                    bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" [name]="answ.group_subject_question_id"
                                                     [id]="answ.id" [value]="answ.id">
                                                     <ng-container>
                                                         <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{x + 1}}) {{ answ.main_answer.answer }}</p>
@@ -88,7 +88,7 @@
                                                 </label>
                                             </div>
 
-                                     
+
 
                                         </div>
                                     </ng-container>
