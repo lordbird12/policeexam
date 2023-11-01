@@ -151,26 +151,6 @@
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #pickerdate></mat-datepicker>
                                 </mat-form-field>
-                                <!-- <mat-form-field class="fuse-mat-no-subscript w-full px-1">
-                                    <mat-label>วัน</mat-label>
-                                    <mat-select>
-                                        <mat-option *ngFor="let day of dayOptions" [value]="day">{{ day }}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="fuse-mat-no-subscript w-full px-1">
-                                    <mat-label>เดือน</mat-label>
-                                    <mat-select>
-                                        <mat-option *ngFor="let month of monthOptions" [value]="month">{{ month
-                                            }}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="fuse-mat-no-subscript w-full">
-                                    <mat-label>ปีเกิด</mat-label>
-                                    <mat-select>
-                                        <mat-option *ngFor="let year of yearOptions" [value]="year">{{ year
-                                            }}</mat-option>
-                                    </mat-select>
-                                </mat-form-field> -->
                             </div>
 
                             <div class="sm:col-span-2">
@@ -193,20 +173,6 @@
                                     <input [formControlName]="'lname'" matInput />
                                 </mat-form-field>
                             </div>
-
-                            <div class="sm:col-span-4">
-                                <mat-label>เพศสภาพ</mat-label>
-                                <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'"
-                                    [value]="'M'">
-                                    <mat-radio-button [value]="'M'">
-                                        ชาย
-                                    </mat-radio-button>
-                                    <mat-radio-button class="px-4" [value]="'F'">
-                                        หญิง
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-
                             <div class="sm:col-span-2">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
                                     <mat-label>อีเมล</mat-label>
