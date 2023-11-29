@@ -1,0 +1,157 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card bg-blue-500 dark">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <form [formGroup]="form">
+        <div class="flex flex-row space-x-1 p-1 sm:p-10 overscroll-auto">
+            <div class="basis-full">
+                <!-- Course -->
+                <div class="flex flex-col shadow rounded-2xl overflow-hidden bg-card">
+
+                    <div class="flex flex-col divide-y border-t border-b">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                            <!-- Schedule -->
+                            <div
+                                class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
+                                <!-- Section -->
+                                <div class="w-full">
+                                    <div class="text-xl">ข้อมูลส่วนตัว</div>
+                                </div>
+                                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                                    <div class="sm:col-span-4">
+                                        <mat-label>เพศสภาพ</mat-label>
+                                        <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'"
+                                            [value]="'M'">
+                                            <mat-radio-button [value]="'M'">
+                                                ชาย
+                                            </mat-radio-button>
+                                            <mat-radio-button class="px-4" [value]="'F'">
+                                                หญิง
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ประเภทชั้นยศ</mat-label>
+                                            <input [formControlName]="'prefix_type_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-1">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ยศ</mat-label>
+                                            <input [formControlName]="'prefix_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>เลขประจำตัวประชาชน</mat-label>
+
+                                            <input [formControlName]="'member_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ชื่อ</mat-label>
+                                            <input [formControlName]="'fname'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ชื่อสกุล</mat-label>
+                                            <input [formControlName]="'lname'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>อีเมล</mat-label>
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix>
+                                            </mat-icon>
+                                            <input [formControlName]="'email'" matInput />
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>หมายเลขโทรศัพท์มือถือ</mat-label>
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                                            </mat-icon>
+                                            <input [formControlName]="'telephone'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Task distribution -->
+                            <div
+                                class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-1xl overflow-hidden">
+                                <!-- Section -->
+                                <div class="w-full">
+                                    <div class="text-xl">ข้อมูลหน่วยงาน</div>
+                                </div>
+                                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                                    <!-- Name -->
+                                    <div class="sm:col-span-4">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>กองบัญชาการ</mat-label>
+                                            <!-- <mat-select [formControlName]="'agency_command_id'">
+                                                <mat-option *ngFor="let item of acmData"
+                                                    [value]="item.agency_command_id">{{
+                                                    item.name }}</mat-option>
+                                            </mat-select> -->
+                                            <input [formControlName]="'agency_command_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>กองบังคับการ</mat-label>
+                                            <!-- <mat-select [formControlName]="'sub_agency_command_id'">
+                                                <mat-option *ngFor="let item of subagencycommandData"
+                                                    [value]="item.sub_agency_command_id">{{ item.name }}</mat-option>
+                                            </mat-select> -->
+                                            <input [formControlName]="'sub_agency_command_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>กองกำกับการ</mat-label>
+                                            <!-- <mat-select [formControlName]="'affiliation_id'">
+                                                <mat-option *ngFor="let item of affiliationData"
+                                                    [value]="item.affiliation_id">{{ item.name }}</mat-option>
+                                            </mat-select> -->
+                                            <input [formControlName]="'affiliation_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-4">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ตำแหน่งงาน</mat-label>
+                                            <!-- <mat-select formControlName="position_id">
+                                                <mat-option *ngFor="let item of positionData"
+                                                    [value]="item.position_id">{{ item.name }}</mat-option>
+                                            </mat-select> -->
+                                            <input [formControlName]="'position_id'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

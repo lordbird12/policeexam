@@ -88,5 +88,8 @@ export class UserComponent implements OnInit, OnDestroy {
     Reset(): void {
         this._router.navigate(['/exam/password-reset']);
     }
+    Me(): void {
+        this._router.navigate(['/exam/user-detail']);
+    }
 }
 

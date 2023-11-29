@@ -8,6 +8,7 @@ import { ExamCalendarComponent } from './exam-calendar/exam-calendar.component';
 import { ExamHistoryComponent } from './exam-history/exam-history.component';
 import { CorrectAnswersComponent } from './correct-answers/correct-answers.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 // import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 // import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
@@ -73,6 +74,10 @@ export const examRoutes: Route[] = [
                 // resolve  : {
                 //     course: AcademyCourseResolver
                 // }
+            },
+            {
+                path: 'user-detail',
+                component: UserDetailComponent
             }
         ]
     }

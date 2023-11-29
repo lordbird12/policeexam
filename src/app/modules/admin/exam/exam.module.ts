@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExamComponent } from './exam.component';
 import { RouterModule } from '@angular/router';
@@ -35,44 +35,55 @@ import { DialogCorrectAnswerComponent } from './dialog-correct-answer/dialog-cor
 import { RegiterDialogComponent } from './regiter-dialog/regiter-dialog.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
-  declarations: [
-    ExamComponent,
-    ListComponent,
-    DetailsComponent,
-    ExamTodoComponent,
-    ExamCalendarComponent,
-    ExamHistoryComponent,
-    CorrectAnswersComponent,
-    DialogCorrectAnswerComponent,
-    RegiterDialogComponent,
-    ResetPasswordComponent
-  ],
-  imports: [
-    CommonModule,
-    // FormsModule,
-    // ReactiveFormsModule,
-    RouterModule.forChild(examRoutes),
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSidenavModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    FuseFindByKeyPipeModule,
-    SharedModule,
-    MatTabsModule,
-    FuseCardModule,
-    FuseAlertModule,
-    MatProgressSpinnerModule,
-    FullCalendarModule,
+    declarations: [
+        ExamComponent,
+        ListComponent,
+        DetailsComponent,
+        ExamTodoComponent,
+        ExamCalendarComponent,
+        ExamHistoryComponent,
+        CorrectAnswersComponent,
+        DialogCorrectAnswerComponent,
+        RegiterDialogComponent,
+        ResetPasswordComponent,
+        UserDetailComponent
+    ],
+    imports: [
+        CommonModule,
+        // FormsModule,
+        // ReactiveFormsModule,
+        RouterModule.forChild(examRoutes),
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatProgressBarModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        FuseFindByKeyPipeModule,
+        SharedModule,
+        MatTabsModule,
+        FuseCardModule,
+        FuseAlertModule,
+        MatProgressSpinnerModule,
+        FullCalendarModule,
+        MatDatepickerModule,
+        MatRadioModule
 
-  ]
+    ],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
+        { provide: LOCALE_ID, useValue: 'th-TH' },
+    ],
 })
 export class ExamModule { }

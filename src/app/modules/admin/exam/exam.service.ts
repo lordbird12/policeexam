@@ -164,6 +164,14 @@ export class ExamService {
             .pipe(catchError((error: any) => { return of(error.error) }));
     }
 
+    getMe(): Observable<any> {
+        return this._httpClient
+            .get<any>(
+                `${environment.API_URL}/api/me`,
+            )
+            .pipe(catchError((error: any) => { return of(error.error) }));
+    }
+
     getIPAddress() {
         return fetch('https://api.ipify.org/?format=json')
             .then((response) => response.json())
