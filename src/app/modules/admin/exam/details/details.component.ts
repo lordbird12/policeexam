@@ -141,11 +141,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             // key: "19495092933328001550",
             key: memberkey,
             exam_id: exam_id,
-            ip: this.IPClient
+            // ip: this.IPClient
         }
         this.loading();
         this._examServ.checkMemberAuthenkeyExams(body).subscribe((resp: any) => {
-           
+
             if (resp.status == true) {
                 localStorage.setItem("memberKey", resp.data);
                 this.getToDoExams(this.examId);
@@ -181,13 +181,13 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
                 // console.log('dataExamGroup', this.dataExamGroup);
                 // console.log('dataExams', this.dataExams);
-                
+
                 //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
                 this.timer(this.dataExams.data.time_count);
                 // this.timer(this.sesExamTime);
 
                 setTimeout(() => {
-                    this.CheckDataAnswer();       
+                    this.CheckDataAnswer();
                     // console.log('GetMyIP', this.IPClient);
                     // this.getExamRoundTimeCount(this.dataExams.data);
                     setTimeout(() => {
@@ -212,7 +212,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 });
 
                 //return value ที่เป็น id ใน exam_group_subject_answers
-                ArrAnswer.push(chkVal); 
+                ArrAnswer.push(chkVal);
             });
         });
         // console.log("ArrAnswer", ArrAnswer);
@@ -227,7 +227,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }, 100);
     }
 
-    //ใช้ JQuery มา checked by id โดย id คือ หมายเลขคำตอบของข้อสอบ 
+    //ใช้ JQuery มา checked by id โดย id คือ หมายเลขคำตอบของข้อสอบ
     async CheckDataAnswer(): Promise<void> {
         let DataList : any = JSON.parse(localStorage.getItem("AnswerUser"));
 
@@ -264,11 +264,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 });
 
                 //return value ที่เป็น id ใน exam_group_subject_answers
-                ArrAnswer.push(chkVal); 
+                ArrAnswer.push(chkVal);
             });
         });
         // console.log("ArrAnswer", ArrAnswer);
-        
+
         setTimeout(async () => {
             let NotSend: any = this.containsUndefined(ArrAnswer);
             // console.log(NotSend.__zone_symbol__value);
@@ -336,7 +336,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                         // หากส่งคำตอบยังไม่เกินจำนวนครั้งที่กำหนด
                                         // ยิงส่งคำตอบ
                                         await this._examServ.SendAnswerExam(SendAnswer).subscribe(async (resp: any) => {
-                                            if (resp.code == "200") {     
+                                            if (resp.code == "200") {
 
                                                 //เช็คคะแนนว่ามีค่าหรือไม่ score = null ส่งคำตอบแบบไม่แสดงคะแนน
                                                 if(!resp.data.score){
@@ -376,7 +376,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                         if (result.isConfirmed) {
 
                                                             this.openDialogCorrectAnswers(SendAnswer.exam_round_member_id);
-                                                            
+
                                                             // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                                                             //     this.router.navigate(['exam/do-exams', this.examId]);
                                                             // });
@@ -393,7 +393,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                             else {
                                                 Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                                             }
-                                        }, 
+                                        },
                                         (error: any) => {
                                             Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
                                         });
@@ -403,7 +403,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                     Swal.fire('พบข้อผิดพลาด', countResp.message, 'error');
                                 }
 
-                            }, 
+                            },
                             (error: any) => {
                                 Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
                             });
