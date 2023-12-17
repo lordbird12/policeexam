@@ -31,50 +31,6 @@
                                     <div class="text-xl">ข้อมูลส่วนตัว</div>
                                 </div>
                                 <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                                    <div class="sm:col-span-4">
-                                        <mat-label>เพศสภาพ</mat-label>
-                                        <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'"
-                                            [value]="'M'">
-                                            <mat-radio-button [value]="'M'">
-                                                ชาย
-                                            </mat-radio-button>
-                                            <mat-radio-button class="px-4" [value]="'F'">
-                                                หญิง
-                                            </mat-radio-button>
-                                        </mat-radio-group>
-                                    </div>
-                                    <div class="sm:col-span-2">
-                                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                                            <mat-label>ประเภทชั้นยศ</mat-label>
-                                            <input [formControlName]="'prefix_type_id'" matInput />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="sm:col-span-1">
-                                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                                            <mat-label>ยศ</mat-label>
-                                            <input [formControlName]="'prefix_id'" matInput />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="sm:col-span-2">
-                                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                                            <mat-label>เลขประจำตัวประชาชน</mat-label>
-
-                                            <input [formControlName]="'member_id'" matInput />
-                                        </mat-form-field>
-                                    </div>
-
-                                    <div class="sm:col-span-2">
-                                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                                            <mat-label>ชื่อ</mat-label>
-                                            <input [formControlName]="'fname'" matInput />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="sm:col-span-2">
-                                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                                            <mat-label>ชื่อสกุล</mat-label>
-                                            <input [formControlName]="'lname'" matInput />
-                                        </mat-form-field>
-                                    </div>
                                     <div class="sm:col-span-2">
                                         <mat-form-field class="fuse-mat-no-subscript w-full">
                                             <mat-label>อีเมล</mat-label>
@@ -90,6 +46,57 @@
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix>
                                             </mat-icon>
                                             <input [formControlName]="'telephone'" matInput />
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Actions -->
+                                    <div class="flex items-center justify-end sm:col-span-4 md:justify-center">
+                                        <button class="mr-4" mat-flat-button type="button" [color]="'primary'">
+                                            <span > บันทึก</span>
+                                        </button>
+                                        <button mat-stroked-button type="button">ย้อนกลับ</button>
+                                    </div>
+                                    <div class="sm:col-span-4">
+                                        <mat-label>เพศสภาพ</mat-label>
+                                        <mat-radio-group [formControlName]="'sex'" class="flex" [color]="'primary'"
+                                            [value]="'M'">
+                                            <mat-radio-button [value]="'M'" disabled>
+                                                ชาย
+                                            </mat-radio-button>
+                                            <mat-radio-button class="px-4" [value]="'F'" disabled>
+                                                หญิง
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ประเภทชั้นยศ</mat-label>
+                                            <input [formControlName]="'prefix_type_id'" matInput readonly />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ยศ</mat-label>
+                                            <input [formControlName]="'prefix_id'" matInput readonly />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-4">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>เลขประจำตัวประชาชน</mat-label>
+
+                                            <input [formControlName]="'member_id'" matInput readonly />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ชื่อ</mat-label>
+                                            <input [formControlName]="'fname'" matInput readonly />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                                            <mat-label>ชื่อสกุล</mat-label>
+                                            <input [formControlName]="'lname'" matInput readonly />
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -111,7 +118,7 @@
                                                     [value]="item.agency_command_id">{{
                                                     item.name }}</mat-option>
                                             </mat-select> -->
-                                            <input [formControlName]="'agency_command_id'" matInput />
+                                            <input [formControlName]="'agency_command_id'" matInput readonly />
                                         </mat-form-field>
                                     </div>
 
@@ -122,7 +129,7 @@
                                                 <mat-option *ngFor="let item of subagencycommandData"
                                                     [value]="item.sub_agency_command_id">{{ item.name }}</mat-option>
                                             </mat-select> -->
-                                            <input [formControlName]="'sub_agency_command_id'" matInput />
+                                            <input [formControlName]="'sub_agency_command_id'" matInput readonly />
                                         </mat-form-field>
                                     </div>
 
@@ -133,7 +140,7 @@
                                                 <mat-option *ngFor="let item of affiliationData"
                                                     [value]="item.affiliation_id">{{ item.name }}</mat-option>
                                             </mat-select> -->
-                                            <input [formControlName]="'affiliation_id'" matInput />
+                                            <input [formControlName]="'affiliation_id'" matInput readonly />
                                         </mat-form-field>
                                     </div>
                                     <div class="sm:col-span-4">
@@ -143,7 +150,7 @@
                                                 <mat-option *ngFor="let item of positionData"
                                                     [value]="item.position_id">{{ item.name }}</mat-option>
                                             </mat-select> -->
-                                            <input [formControlName]="'position_id'" matInput />
+                                            <input [formControlName]="'position_id'" matInput readonly />
                                         </mat-form-field>
                                     </div>
                                 </div>
