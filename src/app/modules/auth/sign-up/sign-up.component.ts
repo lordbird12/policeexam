@@ -125,8 +125,16 @@ export class AuthSignUpComponent implements OnInit {
         const startYear = currentYear - 60;
         this.yearOptions = Array.from({ length: 61 }, (_, index) => startYear + index + 543); // Add 543 to convert to B.E.
 
-      }
 
+
+    }
+
+    passwordsMatchValidator(formGroup: FormGroup) {
+        const password = formGroup.get('password').value;
+        const confirmPassword = formGroup.get('confirmPassword').value;
+
+        return password === confirmPassword ? null : { passwordsDoNotMatch: true };
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -156,8 +164,11 @@ export class AuthSignUpComponent implements OnInit {
             email: ['', Validators.email],
             telephone: [''],
             password: [''],
+            confirmPassword: ['', Validators.required],
             type: ['police'],
-        });
+        }, { validator: this.passwordsMatchValidator });
+
+
 
         this.signUpForm2 = this._formBuilder.group({
             agency_command_id: [],
@@ -182,7 +193,8 @@ export class AuthSignUpComponent implements OnInit {
             file_citizen: [''],
             address: [''],
             address_of_citizen: [''],
-        });
+            confirmPassword: ['', Validators.required],
+        }, { validator: this.passwordsMatchValidator });
 
         this.GetAgencyCommand();
         this.GetPosition();
@@ -399,10 +411,9 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     changeType(status: number): void {
-        console.log(status)
         this.userTypeSelect = status;
-
-
+        this.signUpForm.reset();
+        this.signUpForm2.reset();
         this._changeDetectorRef.markForCheck();
     }
 
@@ -433,7 +444,7 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     upload(event: Event) {
-        console.log(event);
+
     }
 
     selectFile(event) {
@@ -554,7 +565,6 @@ export class AuthSignUpComponent implements OnInit {
         this._authService.getPrefix(id).subscribe((resp) => {
             this.prefixData = resp.data;
         });
-        console.log(this.prefixData)
     }
 
     /**
@@ -574,7 +584,7 @@ export class AuthSignUpComponent implements OnInit {
                 'YYYY-MM-DD'
             ),
         });
-
+        delete this.signUpForm2.value.confirmPassword;
         // Disable the form
         this.signUpForm.disable();
 
@@ -585,7 +595,7 @@ export class AuthSignUpComponent implements OnInit {
             ([key, value]: any[]) => {
                 if (value !== '' && value !== 'null' && value !== null) {
                     formData.append(key, value);
-                  }
+                }
             }
         );
 
@@ -702,13 +712,13 @@ export class AuthSignUpComponent implements OnInit {
 
         // Hide the alert
         this.showAlert = false;
-
+        delete this.signUpForm2.value.confirmPassword;
         const formData = new FormData();
         Object.entries(this.signUpForm2.value).forEach(
             ([key, value]: any[]) => {
                 if (value !== '' && value !== 'null' && value !== null) {
                     formData.append(key, value);
-                  }
+                }
             }
         );
 
@@ -812,20 +822,20 @@ export class AuthSignUpComponent implements OnInit {
 
     onChangeSubAgencyCommand(id: string): void {
         console.log(id, 'id ')
-    this.GetSubAgencyCommand(id);
+        this.GetSubAgencyCommand(id);
     }
 
     onChangeAffiliation(id: string): void {
         console.log(id, 'id ')
-    this.GetAffiliation(id);
+        this.GetAffiliation(id);
     }
 
     onChangePrefix(id: string): void {
         console.log(id, 'id ')
-    this.GetPrefix(id);
+        this.GetPrefix(id);
     }
 
-    ChangeSex(event: any):void {
+    ChangeSex(event: any): void {
         console.log('sex', this.signUpForm.value.sex)
     }
 }
