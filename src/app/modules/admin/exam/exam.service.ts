@@ -104,6 +104,14 @@ export class ExamService {
             .pipe(catchError(this.handlerError));
     }
 
+    editProfile(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(
+                `${environment.API_URL}/api/update_profile_member`,
+                data,
+            )
+            .pipe(catchError(this.handlerError));
+    }
     //ส่งข้อสอบ
     SendAnswerExam(dataBody: any): Observable<any> {
         return this._httpClient

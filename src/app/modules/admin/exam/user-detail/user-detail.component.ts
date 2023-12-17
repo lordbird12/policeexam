@@ -153,6 +153,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     })
 
     this.form = this._formBuilder.group({
+        id: [],
         agency_command_id: [],
         sub_agency_command_id: [],
         affiliation_id: [],
@@ -171,7 +172,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         email: ['', Validators.email],
         telephone: [''],
         password: [''],
-        type: ['police'],
+        type: [''],
     })
 
   }
@@ -192,8 +193,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             agency_command_id: resp.data.agency_command.name
 
         })
-        console.log('user', resp.data)
-        console.log('data', this.form.value)
+
     })
     // alert(1);
 
@@ -225,26 +225,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ResetPassword(): void {
+  EditProfile(): void {
     // Disable the form
-    this.resetPassword.disable();
-    console.log("save", this.resetPassword.value);
-
-    if (!this.resetPassword.value.password || !this.resetPassword.value.new_password || !this.resetPassword.value.confirm_new_password) {
-      Swal.fire({
-        icon: 'error',
-        title: 'พบข้อผิดพลาด!',
-        text: 'กรุณาระบุรหัสผ่านให้ครบถ้วน!',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#2196f3',
-      });
-      this.resetPassword.enable();
-      return;
-    }
-    else {
-      Swal.fire({
-        title: 'เปลี่ยนรหัสผ่าน',
-        text: "คุณต้องการเปลี่ยนรหัสผ่าน ใช่หรือไม่?",
+    Swal.fire({
+        title: 'บันทึกข้อมูล ',
+        text: "คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -253,11 +238,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         cancelButtonText: 'ไม่'
       }).then((result) => {
         if (result.isConfirmed) {
-          this._examServ.Resetpassword(this.resetPassword.value, this.UserId).subscribe((response) => {
+          this._examServ.editProfile(this.form.value).subscribe((response) => {
             // console.log("RegisterExam",  response.data);
             if (response.status == true) {
               Swal.fire({
-                title: 'เปลี่ยนรหัสผ่านสำเร็จ',
+                title: 'บันทึกข้อมูลสำเร็จ',
                 icon: 'success',
                 showCancelButton: false,
                 confirmButtonText: 'ตกลง',
@@ -283,7 +268,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           return;
         }
       });
-    }
 
   }
 
