@@ -58,7 +58,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
         // this.currentTime = `${this.months[this.targetDate.getMonth()] } ${this.targetDate.getDate()}, ${this.targetDate.getFullYear()}`;
 
-        this.IPClient = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
+        // this.IPClient = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
         this.ExamRound_ExamId = sessionStorage.getItem("ExamRound_ExamId") ? sessionStorage.getItem("ExamRound_ExamId") : '';
     }
 

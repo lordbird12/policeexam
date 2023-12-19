@@ -52,27 +52,29 @@ export class ExamTodoComponent implements OnInit {
 
   doExample(ArrData: any): void {
     //console.log("ArrData", ArrData);
-    let ipAddress: any = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
+    // let ipAddress: any = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
 
-    if (!ipAddress) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'พบข้อผิดพลาด!',
-        text: 'กรุณาลองเข้าใช้งานระบบใหม่!',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#2196f3',
-      });
-      sessionStorage.setItem("ExamRound_ExamId", "");
-    }
-    else {
-      this.rou.navigate(['/exam/do-exams', ArrData.id]);
-      sessionStorage.setItem("ExamRound_ExamId", ArrData.exam_round.exam.id);
-    }
+    // if (!ipAddress) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'พบข้อผิดพลาด!',
+    //     text: 'กรุณาลองเข้าใช้งานระบบใหม่!',
+    //     confirmButtonText: 'OK',
+    //     confirmButtonColor: '#2196f3',
+    //   });
+    //   sessionStorage.setItem("ExamRound_ExamId", "");
+    // }
+    // else {
+    //   this.rou.navigate(['/exam/do-exams', ArrData.id]);
+    //   sessionStorage.setItem("ExamRound_ExamId", ArrData.exam_round.exam.id);
+    // }
+    this.rou.navigate(['/exam/do-exams', ArrData.id]);
+    sessionStorage.setItem("ExamRound_ExamId", ArrData.exam_round.exam.id);
   }
 
   openDialogCorrectAnswers() {
     this._matDialog.open(DialogCorrectAnswerComponent, {
-      disableClose: true,  
+      disableClose: true,
       width: '800px',
       height: '650px',
       data: { exam_round_member_id: 24 }
