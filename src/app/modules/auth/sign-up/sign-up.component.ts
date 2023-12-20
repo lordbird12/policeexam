@@ -411,9 +411,27 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     changeType(status: number): void {
+        console.log(status);
+
         this.userTypeSelect = status;
-        this.signUpForm.reset();
-        this.signUpForm2.reset();
+        if(this.userTypeSelect === 1) {
+             this.signUpForm.reset();
+             this.signUpForm2.reset();
+             this.signUpForm.patchValue({
+                type: 'police'
+             })
+             console.log('police',this.signUpForm.value);
+
+        } else {
+            this.signUpForm.reset();
+            this.signUpForm2.reset();
+            this.signUpForm2.patchValue({
+                type: 'normal'
+             })
+
+             console.log('normal',this.signUpForm2.value);
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 
