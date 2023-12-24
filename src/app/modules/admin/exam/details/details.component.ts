@@ -77,7 +77,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
     }
-
+    timerData: any;
     timer(minute) {
         // let minute = 1;
         let seconds: number = minute * 60;
@@ -86,7 +86,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
         const prefix = minute < 10 ? '0' : '';
 
-        var timer = setInterval(() => {
+        this.timerData = setInterval(() => {
             // console.log(seconds);
             seconds--;
             if (statSec != 0) statSec--;
@@ -102,7 +102,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
             if (seconds == 0) {
                 console.log('finished');
-                clearInterval(timer);
+                clearInterval(this.timerData);
 
                 this.dilogEndTimeAnswer();
             }
@@ -295,7 +295,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                     allowEscapeKey: false,
                     allowOutsideClick: false,
                 }).then(async (result) => {
-
+                    clearInterval(this.timerData);
                     if (result.isConfirmed) {
                         this.checkLoading();
                         this.checkCountSend = {};
