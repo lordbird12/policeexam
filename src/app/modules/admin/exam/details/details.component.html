@@ -68,8 +68,7 @@
 
                                 <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
                                     <ng-container>
-                                        <h1 *ngIf="subques.question" class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                                          {{iy + 1}}. {{ subques.question }}</h1>
+                                        <h1 *ngIf="subques.question" class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white" [innerHTML]="(iy + 1) + ') ' + subques.question"></h1>
                                         <img *ngIf="subques.question_image" src="{{subques.question_image}}" class="mt-3 mb-3 ml-2 w-40 border-solid border-2">
                                     </ng-container>
 
