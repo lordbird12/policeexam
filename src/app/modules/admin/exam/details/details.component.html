@@ -26,14 +26,14 @@
 
         <!-- Header & Cards -->
         <div class="relative pt-3 pb-6 sm:p-5 overflow-auto">
-
+            
             <!-- Header -->
-            <ng-container *ngFor="let head of dataExams.data;">
+            <ng-container *ngIf="dataExams?.data">
                 <div class="flex justify-center w-full">
                     <div class="  sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
                         <div class="flex flex-row justify-between w-full">
-                            <div class="font-bold text-lg text-white dark:text-blue-50 dark:bg-blue-500">
-                                ผู้สอบ : {{ head.member.prefix.sub_name }} {{ head.member.fname }} {{ head.member.lname }} <br />ตำแหน่ง : {{ head.member.position.sub_name }} <br />หน่วยงาน : {{ head.member.division }}
+                            <div class="font-bold text-lg text-black dark:text-blue-50 dark:bg-blue-500">
+                                ผู้สอบ : {{ dataExams.data.member?.prefix?.sub_name }} {{ dataExams.data?.member?.fname }} {{ dataExams.data?.member?.lname }} <br />ตำแหน่ง : {{ dataExams.data.member?.position?.sub_name }} <br />หน่วยงาน : {{ dataExams.data.member?.division }}
                             </div>
 
                         </div>
@@ -45,21 +45,21 @@
                     <div class=" sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-4">
                         <div class="flex flex-row justify-between w-full">
                             <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">
-                                [ {{ head.exam_group.name }} ] {{ head.exam_group.exam.name }} {{ head.exam_group.exam.year }} : รอบที่ {{ head.exam_group.exam.round }} จำนวน {{ head.exam_group.exam.question_qty }} ข้อ
+                                [ {{ dataExams.data.exam_group?.name }} ] {{ dataExams.data.exam_group?.exam?.name }} {{ dataExams.data.exam_group?.exam?.year }} : รอบที่ {{ dataExams.data.exam_group?.exam?.round }} จำนวน {{ dataExams.data.exam_group?.exam?.question_qty }} ข้อ
                             </div>
-                            <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">เวลาสอบ : {{ head.exam_group.exam.exam_time }} นาที</div>
+                            <div class="font-bold text-lg text-blue-800 dark:text-blue-50 dark:bg-blue-500">เวลาสอบ : {{ dataExams.data.exam_group?.exam.exam_time }} นาที</div>
                         </div>
 
                     </div>
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="dataExams.data;">
+            <ng-container *ngIf="dataExamGroupSubject.length > 0">
 
-                <ng-container *ngFor="let gpsub of dataExams.data.exam_group.exam_group_subjects; let ix = index;">
+                <ng-container *ngFor="let gpsub of dataExamGroupSubject; let ix = index;">
 
                     <div class="rounded-lg grid gap-4 ml-10 mr-10 py-4 px-6 md:px-4 shadow text-lg font-bold text-blue-800 bg-primary-100 dark:bg-black dark:bg-opacity-5 mb-2">
-                        วิชา : {{ gpsub.exam_subject.subject.name }}
+                        วิชา : {{ gpsub?.exam_subject?.subject?.name }}
                     </div>
 
                     <ng-container *ngFor="let subques of gpsub.exam_group_subject_questions; let iy = index;">
@@ -67,10 +67,11 @@
                             <li class="mb-4 ml-10 mr-10">
 
                                 <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
-                                    <ng-container>
-                                        <h1 *ngIf="subques.question" class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white" [innerHTML]="(iy + 1) + ') ' + subques.question"></h1>
+                                  
+                                        <!-- <h1 *ngIf="subques.question" class="flex items-center mb-2 text-lg font-semibold text-gray-900 dark:text-white" [innerHTML]="subques.question"></h1> -->
+                                        <h1 *ngIf="subques.question" class="font-semibold" [innerHTML]="(iy + 1) + '.' + subques.question"></h1>
                                         <img *ngIf="subques.question_image" src="{{subques.question_image}}" class="mt-3 mb-3 ml-2 w-40 border-solid border-2">
-                                    </ng-container>
+                                   
 
                                     <ng-container *ngFor="let answ of subques.exam_group_subject_answers; let x = index;">
                                         <div class="flex flex-row">
@@ -82,7 +83,7 @@
                                                     [id]="answ.id" [value]="answ.id">
                                                     <ng-container>
                                                         <p *ngIf="answ.main_answer.type=='Text'" class="mt-1 ml-2">{{x + 1}}) {{ answ.main_answer.answer }}</p>
-                                                        <img *ngIf="answ.main_answer.type=='Image'" src="https://police-exam.dev-asha.com/{{answ.main_answer.answer}}" class="mb-3 ml-2 w-40 border-solid border-2">
+                                                        <img *ngIf="answ.main_answer.type=='Image'" src="{{this.url}}'/'{{answ.main_answer.answer}}" class="mb-3 ml-2 w-40 border-solid border-2">
                                                     </ng-container>
                                                 </label>
                                             </div>

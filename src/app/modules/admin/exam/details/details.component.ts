@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ExamService } from '../exam.service';
@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCorrectAnswerComponent } from '../dialog-correct-answer/dialog-correct-answer.component';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 const token = localStorage.getItem('accessToken') || null;
@@ -29,13 +30,16 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     showAlert: boolean = false;
     regitExamForm: FormGroup;
     DetailForm: FormGroup;
-
-    dataExams: any;
-    dataExamGroup: any;
+    url: string = ''
+    dataExams: any = {
+        data: null, // หรือกำหนดโครงสร้างที่ตรงกับ API
+    };
+    dataExamGroup: any[] = [];
+    dataExamGroupSubject: any[] = [];
     dataEx: any;
     examId: any;
     pointEx = 1;
-
+    test: string = '<p><span style=\"color: black;\">บุคคลตามข้อใดทำตามคำแนะนำวิธีป้องกันโรคระบาดที่ว่า </span></p><p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“กินของร้อน ใช้ช้อนกลาง ล้างมือให้สะอาด” </span></p><p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;สุภาใช้ช้อนกลางตักแกงจืดเข้าปากตัวเอง </span></p><p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;สุภาพชอบดื่มแต่กาแฟเย็นใส่นม </span></p><p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;สุพิศใช้สบู่ฟอกมือทุกครั้งเมื่อกลับถึงบ้าน </span></p><p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;สุพงศ์กินต้มยำที่เพิ่งทำเสร็จแทนอาหารประเภทยำ </span></p>'
     checkCountSend: any;
     display: any;
     @ViewChild('displayTime', { static: true }) displayTime: ElementRef;
@@ -51,11 +55,13 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         private router: Router,
         private _formBuilder: FormBuilder,
         private AcRoute: ActivatedRoute,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private cdr: ChangeDetectorRef
+        
     ) {
         let paramUrl: any = this.AcRoute.snapshot.params;
         this.examId = paramUrl.id ? paramUrl.id : '';
-
+        this.url = environment.API_URL
         // this.currentTime = `${this.months[this.targetDate.getMonth()] } ${this.targetDate.getDate()}, ${this.targetDate.getFullYear()}`;
 
         // this.IPClient = sessionStorage.getItem("GetMyIP") ? sessionStorage.getItem("GetMyIP") : '';
@@ -172,30 +178,34 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
 
     getToDoExams(round_member_id): void {
-        // this.loading();
         this._examServ
             .ListDoExam({ exam_round_member_id: round_member_id })
-            .subscribe((resp: any) => {
-                console.clear();
-                this.dataExams = resp;
-                this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
-                // console.log('dataExamGroup', this.dataExamGroup);
-                // console.log('dataExams', this.dataExams);
-
-                //รับจำนวนเวลาเข้ามาเพื่อ นับถอยหลังเวลสอบ
-                this.timer(this.dataExams.data.time_count);
-                // this.timer(this.sesExamTime);
-
-                setTimeout(() => {
-                    this.CheckDataAnswer();
-                    // console.log('GetMyIP', this.IPClient);
-                    // this.getExamRoundTimeCount(this.dataExams.data);
+            .subscribe(
+                (resp: any) => {
+                    // รับจำนวนเวลาเข้ามาเพื่อนับถอยหลังเวลาสอบ
+                    this.timer(resp.data.time_count);
+                    this.dataExams = resp;
+                    console.log(this.dataExams.data, 'data');
+                    this.dataExamGroup = this.dataExams.data.exam_group.exam_group_subjects;
+                    this.dataExamGroupSubject = this.dataExamGroup; // ใช้ค่าเดียวกัน
                     setTimeout(() => {
-                        Swal.close();
+                        this.CheckDataAnswer();
+                        setTimeout(() => {
+                            Swal.close();
+                        }, 500);
                     }, 500);
-                }, 500);
-            });
+                    this.cdr.detectChanges(); // บังคับอัปเดต
+                },
+                (error) => {
+                    console.error('Error:', error);
+                    // จัดการกับ error ที่เกิดขึ้น
+                    Swal.fire('Error', 'Failed to load exam data', 'error');
+                }
+
+            );
+   
     }
+
 
     //คลิกคำตอบแล้วทำการเก็บค่า ที่ checked ไว้
     async AnswerClick(): Promise<void> {
@@ -229,23 +239,27 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
     //ใช้ JQuery มา checked by id โดย id คือ หมายเลขคำตอบของข้อสอบ
     async CheckDataAnswer(): Promise<void> {
-        let DataList : any = JSON.parse(localStorage.getItem("AnswerUser"));
+        // ดึงข้อมูลจาก localStorage
+        let DataList: any = JSON.parse(localStorage.getItem("AnswerUser"));
 
-        if(DataList.member_Ans.length > 0) {
-            //เช็คข้อสอบชุดเดียวกันหรือไม่
-            if(DataList.round_id == this.examId) {
-                await DataList.member_Ans.forEach(async (item, x) => {
+        // ตรวจสอบว่าข้อมูลไม่เป็น null ก่อนใช้งาน
+        if (DataList && DataList.member_Ans && DataList.member_Ans.length > 0) {
+            // เช็คข้อสอบชุดเดียวกันหรือไม่
+            if (DataList.round_id === this.examId) {
+                // ใช้ for...of แทน forEach เพื่อรอ async/await
+                for (const item of DataList.member_Ans) {
                     $("#" + item).prop("checked", true);
-                });
-            }
-            else {
+                }
+            } else {
                 localStorage.removeItem("AnswerUser");
+
             }
-        }
-        else {
+        } else {
             localStorage.removeItem("AnswerUser");
+
         }
     }
+
 
 
     async AnswerSend(): Promise<void> {
@@ -339,7 +353,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                             if (resp.code == "200") {
 
                                                 //เช็คคะแนนว่ามีค่าหรือไม่ score = null ส่งคำตอบแบบไม่แสดงคะแนน
-                                                if(!resp.data.score){
+                                                if (!resp.data.score) {
                                                     Swal.fire({
                                                         title: 'ส่งคำตอบสำเร็จ',
                                                         text: `ขอบคุณที่ทำข้อสอบ, ขอให้โชคดีในคำตอบนะครับ`,
@@ -394,9 +408,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                                 Swal.fire('พบข้อผิดพลาด', resp.message, 'error');
                                             }
                                         },
-                                        (error: any) => {
-                                            Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
-                                        });
+                                            (error: any) => {
+                                                Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
+                                            });
                                     }
                                 }
                                 else {
@@ -404,9 +418,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                                 }
 
                             },
-                            (error: any) => {
-                                Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
-                            });
+                                (error: any) => {
+                                    Swal.fire('พบข้อผิดพลาด [' + error.code + ']', error.message, 'error');
+                                });
 
                     } else {
                         //ปิดหน้าต่าง

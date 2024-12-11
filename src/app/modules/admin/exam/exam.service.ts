@@ -99,7 +99,6 @@ export class ExamService {
             .post<any>(
                 `${environment.API_URL}/api/member_exam_exam`,
                 dataBody,
-                this.httpOptionsFormdata
             )
             .pipe(catchError(this.handlerError));
     }
